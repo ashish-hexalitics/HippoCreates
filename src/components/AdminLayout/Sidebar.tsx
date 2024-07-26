@@ -1,6 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { icons } from "../../Icons/constant";
+const {
+  HiOutlineDocumentReport,
+  HiOutlineUsers,
+  CiHome,
+  CiSettings,
+  RxDashboard,
+  IoIosLogOut,
+} = icons;
 
 function Sidebar() {
+  const location = useLocation(); // Hook to get current location
+
+  // Function to determine if the link is active
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <div
       style={{ width: "300px" }}
@@ -10,104 +24,72 @@ function Sidebar() {
         <nav className="flex flex-col space-y-2">
           <Link
             to="/admin/dashboard"
-            className="flex items-center p-2 text-[#3f9997] font-medium hover:bg-[#3f9997] hover:text-white rounded-md"
+            className={`flex items-center p-2 ${
+              isActive("/admin/dashboard")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
           >
-            <svg
-              className="w-6 h-6 mr-3"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h18v18H3V3z"
-              />
-            </svg>
+            <RxDashboard style={{ fontSize: "20px", margin: "0 10px" }} />
             Dashboard
           </Link>
           <Link
             to="/admin/users"
-            className="flex items-center p-2 text-[#3f9997] font-medium hover:bg-[#3f9997] hover:text-white rounded-md"
+            className={`flex items-center p-2 ${
+              isActive("/admin/users")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
           >
-            <svg
-              className="w-6 h-6 mr-3"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 20h5V4H2v16h5v-7h10v7zM2 8h20"
-              />
-            </svg>
+            <HiOutlineUsers style={{ fontSize: "20px", margin: "0 10px" }} />
             Users
           </Link>
           <Link
             to="/admin/settings"
-            className="flex items-center p-2 text-[#3f9997] font-medium hover:bg-[#3f9997] hover:text-white rounded-md"
+            className={`flex items-center p-2 ${
+              isActive("/admin/settings")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
           >
-            <svg
-              className="w-6 h-6 mr-3"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 2m6 2v-4a9 9 0 00-18 0v4"
-              />
-            </svg>
+            <CiSettings style={{ fontSize: "20px", margin: "0 10px" }} />
             Settings
           </Link>
           <Link
             to="/admin/reports"
-            className="flex items-center p-2 text-[#3f9997] font-medium hover:bg-[#3f9997] hover:text-white rounded-md"
+            className={`flex items-center p-2 ${
+              isActive("/admin/reports")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
           >
-            <svg
-              className="w-6 h-6 mr-3"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 17v4h6v-4m-6-5V7l3-3 3 3v5m-4 10h4a2 2 0 002-2v-4H9v4a2 2 0 002 2zm2-14v10"
-              />
-            </svg>
+            <HiOutlineDocumentReport
+              style={{ fontSize: "20px", margin: "0 10px" }}
+            />
             Reports
+          </Link>
+          <Link
+            to="/"
+            className={`flex items-center p-2 ${
+              isActive("/")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
+          >
+            <CiHome style={{ fontSize: "20px", margin: "0 10px" }} />
+            Home
           </Link>
         </nav>
         <div className="mt-6">
           <Link
-            to="/logout"
-            className="flex items-center p-2 text-[#3f9997] font-medium hover:bg-[#3f9997] hover:text-white rounded-md"
+            to="/login"
+            className={`flex items-center p-2 ${
+              isActive("/login")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
           >
-            <svg
-              className="w-6 h-6 mr-3"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"
-              />
-            </svg>
+            <IoIosLogOut style={{ fontSize: "20px", margin: "0 10px" }} />
             Logout
           </Link>
         </div>
