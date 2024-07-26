@@ -1,21 +1,21 @@
 // import React from "react";
 import BarChart from "../Chart/BarChart";
 
-const data = {
-  labels: ["Dec 22", "Jan 23", "Feb 23", "Mar 23", "Apr 23"],
-  datasets: [
-    {
-      label: "Income",
-      backgroundColor: "#4CAF50",
-      data: [65000, 76500, 30000, 50000, 90000],
-    },
-    {
-      label: "Spend",
-      backgroundColor: "#FFC107",
-      data: [35000, 20000, 40000, 30000, 50000],
-    },
-  ],
-};
+// const data = {
+//   labels: ["Dec 22", "Jan 23", "Feb 23", "Mar 23", "Apr 23"],
+//   datasets: [
+//     {
+//       label: "Income",
+//       backgroundColor: "#4CAF50",
+//       data: [65000, 76500, 30000, 50000, 90000],
+//     },
+//     {
+//       label: "Spend",
+//       backgroundColor: "#FFC107",
+//       data: [35000, 20000, 40000, 30000, 50000],
+//     },
+//   ],
+// };
 
 function RevenueCard() {
   return (
