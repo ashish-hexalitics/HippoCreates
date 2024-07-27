@@ -1,8 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import business3dYoungWomenStanding from "../assets/images/business-3d-young-women-standing.png";
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../store/slices/userSlice/apiSlice";
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
 
 const Login: React.FC = (): React.ReactElement => {
+  const [user, setUser] = useState<LoginRequest>({
+    email: "",
+    password: "",
+  });
+
+  const [login, { isLoading, isError, data }] = useLoginMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const userCredentials: LoginRequest = user;
+      const response = await login(userCredentials).unwrap();
+      if (response.data) {
+        localStorage.setItem("user", JSON.stringify(response));
+        localStorage.setItem("access_token", response.data.access_token);
+      }
+    } catch (error) {
+      console.error("Failed to login:", error);
+    }
+  };
+
+  console.log("Error:", isError);
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6 dark:bg-[#fbf8f1]">
       <div className="flex w-full max-w-4xl overflow-hidden rounded-lg bg-[#fbf8f1] shadow-lg dark:bg-white">
@@ -28,6 +60,8 @@ const Login: React.FC = (): React.ReactElement => {
                 className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
                 id="exampleInputUsername"
                 placeholder="Username"
+                name="email"
+                onChange={handleChange}
               />
               <label
                 htmlFor="exampleInputUsername"
@@ -42,6 +76,8 @@ const Login: React.FC = (): React.ReactElement => {
                 className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
                 id="exampleInputPassword1"
                 placeholder="Password"
+                onChange={handleChange}
+                name="password"
               />
               <label
                 htmlFor="exampleInputPassword1"
@@ -68,9 +104,10 @@ const Login: React.FC = (): React.ReactElement => {
             </div>
             <button
               type="submit"
+              onClick={handleLogin}
               className="w-full rounded bg-[#55bab9] py-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-dark focus:bg-primary-dark focus:outline-none dark:bg-[#55bab9] dark:hover:bg-primary"
             >
-              Login Now
+              {isLoading ? "Logging in..." : "Login"}
             </button>
             <div className="mt-4 text-center text-gray-500 dark:text-gray-500">
               or login with
