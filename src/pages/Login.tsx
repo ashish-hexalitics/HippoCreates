@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import business3dYoungWomenStanding from "../assets/images/business-3d-young-women-standing.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../store/slices/userSlice/apiSlice";
-
+import { useAppDispatch } from "../store/hooks";
+import { setLoggedInUser } from "../store/slices/userSlice/userSlice";
 interface LoginRequest {
   email: string;
   password: string;
@@ -13,6 +14,9 @@ const Login: React.FC = (): React.ReactElement => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [login, { isLoading, isError, data }] = useLoginMutation();
 
@@ -26,15 +30,17 @@ const Login: React.FC = (): React.ReactElement => {
       const userCredentials: LoginRequest = user;
       const response = await login(userCredentials).unwrap();
       if (response.data) {
-        localStorage.setItem("user", JSON.stringify(response));
+        localStorage.setItem("user", JSON.stringify(response.data));
         localStorage.setItem("access_token", response.data.access_token);
+        navigate("/admin/dashboard");
+        dispatch(setLoggedInUser(response.data.user));
       }
     } catch (error) {
       console.error("Failed to login:", error);
     }
   };
 
-  console.log("Error:", isError);
+  console.log("Error:", isError,data);
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6 dark:bg-[#fbf8f1]">
       <div className="flex w-full max-w-4xl overflow-hidden rounded-lg bg-[#fbf8f1] shadow-lg dark:bg-white">

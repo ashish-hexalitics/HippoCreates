@@ -1,7 +1,12 @@
-// import React from "react";
+import  { useEffect } from "react";
 import RevenueCard from "../components/Common/Cards/RevenueCard";
 import SellingProductCard from "../components/Common/Cards/SellingProductCard";
 import StatCard from "../components/Common/Cards/StatCard";
+import Loading  from "../components/Common/Loader/index";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import type { RootState } from "../store";
+import { useGetUserQuery } from "../store/slices/userSlice/apiSlice";
+import { setLoggedInUser } from "../store/slices/userSlice/userSlice";
 
 const statCardsdata: {
   title: string;
@@ -36,11 +41,31 @@ const statCardsdata: {
 ];
 
 function Dashboard() {
+  const dispatch = useAppDispatch();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const { data, isLoading, isError } = useGetUserQuery(user?.user?._id, {
+    skip: !user?.user?._id,
+  });
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setLoggedInUser(data.user));
+    }
+  }, [data, dispatch]);
+
+  const userState = useAppSelector((state: RootState) => state.userSlice);
+
+  if (isLoading) return <Loading/>;
+  if (isError) return <div>Error loading user data</div>;
+
   return (
     <div className="">
       <div className="mb-4 flex justify-between items-center">
         <div>
-          <h1 className="text-4xl font-bold">Welcome back, Maxie</h1>
+          <h1 className="text-4xl font-bold">
+            Welcome back, {userState.user.name}
+          </h1>
           <p className="text-gray-600">
             Maximize product sales and store management in order to get the best
             results
