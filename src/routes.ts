@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import Report from "./pages/Report";
 import Setting from "./pages/Setting";
 import Users from "./pages/Users";
+import Template from "./pages/Templates";
+import CreateTemplate from "./pages/CreateTemplate";
 
 export const routes = [
   {
@@ -47,4 +49,14 @@ export const adminRoutes = [
     component: Setting,
     breadcrumb: ["admin", "settings"],
   },
+  {
+    path: "templates",
+    component: Template,
+    breadcrumb: ["admin", "templates"],
+  },
+  {
+    path: "/create/template",
+    component: CreateTemplate,
+    breadcrumb: ["admin", "Create Templates"],
+  }
 ];

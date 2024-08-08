@@ -7,6 +7,7 @@ const {
   CiSettings,
   RxDashboard,
   IoIosLogOut,
+  GrTemplate
 } = icons;
 
 function Sidebar() {
@@ -45,15 +46,15 @@ function Sidebar() {
             Users
           </Link>
           <Link
-            to="/admin/settings"
+            to="/admin/templates"
             className={`flex items-center p-2 ${
-              isActive("/admin/settings")
+              isActive("/admin/templates")
                 ? "bg-[#3f9997] text-white"
                 : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
             } font-medium rounded-md`}
           >
-            <CiSettings style={{ fontSize: "20px", margin: "0 10px" }} />
-            Settings
+            <GrTemplate style={{ fontSize: "20px", margin: "0 10px" }} />
+            Templates
           </Link>
           <Link
             to="/admin/reports"
@@ -67,6 +68,17 @@ function Sidebar() {
               style={{ fontSize: "20px", margin: "0 10px" }}
             />
             Reports
+          </Link>
+          <Link
+            to="/admin/settings"
+            className={`flex items-center p-2 ${
+              isActive("/admin/settings")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
+          >
+            <CiSettings style={{ fontSize: "20px", margin: "0 10px" }} />
+            Settings
           </Link>
           <Link
             to="/"

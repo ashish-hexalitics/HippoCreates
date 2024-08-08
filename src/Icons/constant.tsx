@@ -4,6 +4,7 @@ import { HiOutlineUsers } from "react-icons/hi";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { CiSettings } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
+import { GrTemplate } from "react-icons/gr";
 
 
 export const icons = {
@@ -12,5 +13,6 @@ export const icons = {
     HiOutlineUsers:HiOutlineUsers,
     HiOutlineDocumentReport:HiOutlineDocumentReport,
     CiSettings:CiSettings,
-    IoIosLogOut:IoIosLogOut
+    IoIosLogOut:IoIosLogOut,
+    GrTemplate:GrTemplate
 }
