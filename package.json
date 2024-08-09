@@ -12,6 +12,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.6",
     "axios": "^1.7.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "pspdfkit": "^2024.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

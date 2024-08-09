@@ -28,9 +28,7 @@ function MainContent({
       {breadcrumb && <Breadcrumb title={path} breadcrumb={breadcrumb} />}
       {children}
     </div>
-  ) : (
-    ""
-  );
+  ) : children;
 }
 
 export default MainContent;
