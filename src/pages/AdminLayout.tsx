@@ -12,12 +12,12 @@ function AdminLayout() {
       <div style={{ height: "calc(100% - 70px)" }} className="w-screen flex">
         <Sidebar />
         <Routes>
-          {adminRoutes.map(({ path, breadcrumb, component: Component }) => (
+          {adminRoutes.map(({ path, breadcrumb,showBreadcrumb, component: Component }) => (
             <Route
               key={path}
               path={path}
               element={
-                <MainContent path={path} breadcrumb={breadcrumb}>
+                <MainContent path={path} breadcrumb={breadcrumb} showBreadcrumb={showBreadcrumb}>
                   <Component />
                 </MainContent>
               }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Breadcrumb({ title, breadcrumb }: { title: string; breadcrumb: string[] }) {
   return (
-    <nav className="bg-gray-100 rounded-md w-full flex justify-between items-center my-5">
+    <nav className="bg-gray-100 rounded-md w-full flex justify-between items-center my-5 p-4">
       <h2 className="font-bold text-[#3f9997] text-xl uppercase">{breadcrumb[breadcrumb.length-1]}</h2>
       <div>
         <ol className="list-reset flex text-gray-700">

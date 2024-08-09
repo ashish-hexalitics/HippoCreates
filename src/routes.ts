@@ -33,30 +33,36 @@ export const adminRoutes = [
     path: "dashboard",
     component: Dashboard,
     breadcrumb: ["admin", "dashboard"],
+    showBreadcrumb: true,
   },
   {
     path: "users",
     component: Users,
     breadcrumb: ["admin", "users"],
+    showBreadcrumb: true,
   },
   {
     path: "reports",
     component: Report,
     breadcrumb: ["admin", "reports"],
+    showBreadcrumb: true,
   },
   {
     path: "settings",
     component: Setting,
     breadcrumb: ["admin", "settings"],
+    showBreadcrumb: true,
   },
   {
     path: "templates",
     component: Template,
     breadcrumb: ["admin", "templates"],
+    showBreadcrumb: true,
   },
   {
     path: "/create/template",
     component: CreateTemplate,
     breadcrumb: ["admin", "Create Templates"],
-  }
+    showBreadcrumb: false,
+  },
 ];

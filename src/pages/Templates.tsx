@@ -14,7 +14,7 @@ function Template() {
 
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-100 p-4">
       <button
         className="bg-[#3f9997] text-white font-medium rounded-md w-full p-2 mb-6"
         onClick={() => navigate("/admin/create/template")}

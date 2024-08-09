@@ -8,8 +8,10 @@ function Users() {
     setLoading(false);
   }, []);
   return (
+    <div className="p-4">
     <div className="flex flex-col p-4 bg-gray-100 rounded-lg shadow-md">
       {!loading ? <Table /> : <Loader />}
+    </div>
     </div>
   );
 }

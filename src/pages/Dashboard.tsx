@@ -60,7 +60,7 @@ function Dashboard() {
   if (isError) return <div>Error loading user data</div>;
 
   return (
-    <div className="">
+    <div className="p-4">
       <div className="mb-4 flex justify-between items-center">
         <div>
           <h1 className="text-4xl font-bold">
