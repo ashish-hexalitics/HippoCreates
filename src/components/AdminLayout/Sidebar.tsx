@@ -7,7 +7,8 @@ const {
   CiSettings,
   RxDashboard,
   IoIosLogOut,
-  GrTemplate
+  GrTemplate,
+  MdOutlineCategory,
 } = icons;
 
 function Sidebar() {
@@ -44,6 +45,17 @@ function Sidebar() {
           >
             <HiOutlineUsers style={{ fontSize: "20px", margin: "0 10px" }} />
             Users
+          </Link>
+          <Link
+            to="/admin/template-category"
+            className={`flex items-center p-2 ${
+              isActive("/admin/template-category")
+                ? "bg-[#3f9997] text-white"
+                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
+            } font-medium rounded-md`}
+          >
+            <MdOutlineCategory style={{ fontSize: "20px", margin: "0 10px" }} />
+            Template Category
           </Link>
           <Link
             to="/admin/templates"

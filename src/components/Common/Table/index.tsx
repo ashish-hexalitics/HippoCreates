@@ -1,6 +1,6 @@
 // import React from "react";
 // import Loader from "../Loader/index";
-function index() {
+function index({ data }: { data: any[] }) {
   return (
     <div className="overflow-x-auto">
       <div className="inline-block min-w-full">

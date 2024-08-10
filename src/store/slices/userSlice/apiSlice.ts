@@ -1,41 +1,90 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// interface User {
-//   id: string;
-//   name: string;
-//   email: string;
-// }
-
 interface LoginRequest {
   email: string;
   password: string;
 }
 
+enum Orientation {
+  portrait = "portrait",
+  landscape = "landscape",
+}
+enum Size {
+  A4 = "A4",
+  Letter = "Letter",
+  Legal = "Legal",
+  Tabloid = "Tabloid",
+  A3 = "A3",
+  A5 = "A5",
+  Custom = "Custom",
+}
+interface Element {
+  id: number;
+  x: number;
+  y: number;
+  width: number | string;
+  height: number | string;
+  content: string;
+  color: string;
+  fontSize: number;
+  fontWeight: string;
+  padding: number;
+}
+interface TemplateRequest {
+  document: string;
+  orientation: Orientation;
+  size: Size;
+  layer: Element[];
+}
 
-export const userApi = createApi({
+export const userApi:any = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api" }),
   endpoints: (builder) => ({
     login: builder.mutation<any, LoginRequest>({
       query: (credentials) => ({
-        url: "auth/login",
+        url: "/auth/login",
         method: "POST",
         body: credentials,
       }),
     }),
     getUser: builder.query<any, void>({
       query: (userId) => ({
-        url: `users/${userId}`,
+        url: `/users/${userId}`,
         method: "GET",
-        headers:{
-          authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    createTemplates: builder.mutation<any, TemplateRequest>({
+      query: (credentials) => ({
+        url: `/resume/create/template`,
+        method: "POST",
+        body: credentials,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    getTemplates: builder.query<any, void>({
+      query: () => ({
+        url: `/resume/create/template`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       }),
     }),
   }),
 });
 
-export const { useLoginMutation ,useGetUserQuery } = userApi;
+export const {
+  useLoginMutation,
+  useGetUserQuery,
+  useGetTemplatesQuery,
+  useCreateTemplatesMutation,
+} = userApi;
 
 // getUsers: builder.query<User[], void>({
 //   query: () => "users",

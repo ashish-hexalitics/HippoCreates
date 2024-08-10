@@ -1,10 +1,13 @@
 import { useState } from "react";
 import TemplateSideBar from "../components/TemplateLayout/TemplateSideBar";
 import PDFSizeModal from "../components/TemplateLayout/PDFSizeModal"; // Import the modal
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+// import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
 import TopBar from "../components/TemplateLayout/TopBar";
 import RndElement from "../components/TemplateLayout/RndElement";
+import { useCreateTemplatesMutation } from "../store/slices/userSlice/apiSlice";
+import { createTemplatesSlice } from "../store/slices/userSlice/userSlice";
+import { useAppDispatch } from "../store/hooks";
 
 interface Element {
   id: number;
@@ -31,6 +34,11 @@ function CreateTemplate() {
   }>({ x: null, y: null }); // Guide lines state
   const [isPortrait, setIsPortrait] = useState(true); // Orientation state
   const [zoomLevel, setZoomLevel] = useState(1); // Zoom state
+
+  const dispatch = useAppDispatch();
+
+  const [createTemplates] =
+    useCreateTemplatesMutation();
 
   const addElement = () => {
     const newElement = {
@@ -83,23 +91,22 @@ function CreateTemplate() {
     updateElement(id, { width, height });
   };
 
-  const handleSaveTemplate = (size: string) => {
+  const handleSaveTemplate = async (size: string) => {
     const templateElement = document.querySelector("#template-container");
-    if (templateElement) {
-      html2canvas(templateElement).then((canvas) => {
-        const pdf = new jsPDF({
-          orientation: isPortrait ? "portrait" : "landscape",
-          unit: "px",
-          format: size,
-        });
-
-        const imgData = canvas.toDataURL("image/png");
-        const imgWidth = pdf.internal.pageSize.getWidth();
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-        pdf.save("template.pdf");
-      });
+    if(templateElement){
+      const htmlString = templateElement.innerHTML;
+      const payload = {
+        document: htmlString, 
+        orientation: isPortrait ? "portrait" : "landscape",
+        size: size,
+        layer:elements
+      };
+      try {
+        const response = await createTemplates(payload).unwrap();
+        dispatch(createTemplatesSlice(response.resume));
+      } catch (error) {
+        console.error("Error saving template:", error);
+      }
     }
   };
 
@@ -182,16 +189,16 @@ function CreateTemplate() {
           onUpload={handleUpload}
           addShape={addShape}
         />
-        <RndElement 
-         isPortrait={isPortrait}
-         zoomLevel={zoomLevel}
-         elements={elements}
-         handleDrag={handleDrag}
-         handleDragStop={handleDragStop}
-         setSelectedElementId={setSelectedElementId}
-         handleResizeStop={handleResizeStop}
-         handleContentChange={handleContentChange}
-         guideLines={guideLines}
+        <RndElement
+          isPortrait={isPortrait}
+          zoomLevel={zoomLevel}
+          elements={elements}
+          handleDrag={handleDrag}
+          handleDragStop={handleDragStop}
+          setSelectedElementId={setSelectedElementId}
+          handleResizeStop={handleResizeStop}
+          handleContentChange={handleContentChange}
+          guideLines={guideLines}
         />
       </div>
       <TemplateSideBar

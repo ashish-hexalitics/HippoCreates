@@ -15,6 +15,8 @@ import { CiZoomOut } from "react-icons/ci";
 import { MdOutlineZoomInMap } from "react-icons/md";
 import { BsSave2 } from "react-icons/bs";
 import { FaRegWindowMinimize } from "react-icons/fa6";
+import { MdOutlineCategory } from "react-icons/md";
+import { RiApps2AddLine } from "react-icons/ri";
 
 
 
@@ -36,5 +38,7 @@ export const icons = {
     CiZoomOut:CiZoomOut,
     MdOutlineZoomInMap:MdOutlineZoomInMap,
     BsSave2:BsSave2,
-    FaRegWindowMinimize:FaRegWindowMinimize
+    FaRegWindowMinimize:FaRegWindowMinimize,
+    MdOutlineCategory:MdOutlineCategory,
+    RiApps2AddLine:RiApps2AddLine
 }

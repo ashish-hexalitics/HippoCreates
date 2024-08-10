@@ -4,12 +4,16 @@ import type { RootState } from "../..";
 
 interface IState {
   users: string[];
-  user:{}
+  user: {};
+  template: {};
+  templates: { document: string; _id: string; userId: string }[];
 }
 
 const initialState: IState = {
-  users: ["user1", "user2"],
-  user:{}
+  users: [],
+  user: {},
+  template: {},
+  templates: [],
 };
 
 export const createUserSlice = createSlice({
@@ -20,7 +24,7 @@ export const createUserSlice = createSlice({
       return state;
     },
     setLoggedInUser: (state: IState, action: PayloadAction<any>) => {
-      state.user =  action.payload
+      state.user = action.payload;
       return state;
     },
     removeUser: (state: IState) => {
@@ -30,11 +34,25 @@ export const createUserSlice = createSlice({
     updateUser: (state: IState, action: PayloadAction<any>) => {
       return (state.users[action.payload.index] = action.payload.user);
     },
+    getTemplates: (state: IState, action: PayloadAction<any>) => {
+      state.templates = action.payload;
+      return state;
+    },
+    createTemplatesSlice: (state: IState, action: PayloadAction<any>) => {
+      state.template = action.payload;
+      return state;
+    },
   },
 });
 
-export const { getUsers, setLoggedInUser, removeUser, updateUser } =
-  createUserSlice.actions;
+export const {
+  getUsers,
+  setLoggedInUser,
+  removeUser,
+  updateUser,
+  getTemplates,
+  createTemplatesSlice,
+} = createUserSlice.actions;
 
 export const selectUser = (state: RootState) => state.userSlice.users;
 

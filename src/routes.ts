@@ -8,6 +8,7 @@ import Setting from "./pages/Setting";
 import Users from "./pages/Users";
 import Template from "./pages/Templates";
 import CreateTemplate from "./pages/CreateTemplate";
+import Categories from "./pages/Categories";
 
 export const routes = [
   {
@@ -64,5 +65,11 @@ export const adminRoutes = [
     component: CreateTemplate,
     breadcrumb: ["admin", "Create Templates"],
     showBreadcrumb: false,
+  },
+  {
+    path: "/template-category",
+    component: Categories,
+    breadcrumb: ["admin", "Template Categories"],
+    showBreadcrumb: true,
   },
 ];
