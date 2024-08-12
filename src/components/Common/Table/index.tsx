@@ -1,46 +1,77 @@
-// import React from "react";
-// import Loader from "../Loader/index";
-function index({ data }: { data: any[] }) {
+import  { useState } from 'react';
+import Loading from "../Loader/index";
+import Pagination from './Pagination';
+
+interface IColumns {
+  name: string;
+  Header: string;
+}
+
+interface ITableProps {
+  data: any[];
+  columns: IColumns[];
+  loading: boolean;
+  rowsPerPage?: number; // Optional prop to control rows per page
+}
+
+function Table({ data, columns, loading, rowsPerPage = 5 }: ITableProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const currentData = data.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
   return (
-    <div className="overflow-x-auto">
-      <div className="inline-block min-w-full">
-        <div className="overflow-hidden border border-gray-200 rounded-lg">
-          <table className="min-w-full text-center text-sm font-light">
-            <thead className="bg-[#3f9997] text-white uppercase text-xs font-semibold tracking-wider">
-              <tr>
-                <th scope="col" className="px-6 py-4">
-                  #
-                </th>
-                <th scope="col" className="px-6 py-4">
-                  First
-                </th>
-                <th scope="col" className="px-6 py-4">
-                  Last
-                </th>
-                <th scope="col" className="px-6 py-4">
-                  Handle
-                </th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700">
-              <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-200">
-                <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                <td className="whitespace-nowrap px-6 py-4">Mark</td>
-                <td className="whitespace-nowrap px-6 py-4">Otto</td>
-                <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-              </tr>
-              <tr className="bg-gray-50 border-b transition duration-300 ease-in-out hover:bg-gray-200">
-                <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                <td className="whitespace-nowrap px-6 py-4">Jacob</td>
-                <td className="whitespace-nowrap px-6 py-4">Thornton</td>
-                <td className="whitespace-nowrap px-6 py-4">@fat</td>
-              </tr>
-            </tbody>
-          </table>
+    <>
+      <div className="flex flex-col overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div className="overflow-hidden border border-gray-200 rounded-lg">
+            <table className="min-w-full text-left text-sm font-light text-surface dark:text-white">
+              <thead className="bg-[#3f9997] text-white uppercase text-xs font-semibold tracking-wider">
+                <tr>
+                  {columns.map((column: IColumns, key: number) => (
+                    <th key={key} scope="col" className="px-6 py-4 whitespace-nowrap">
+                      {column.Header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="text-gray-700">
+                {loading && (
+                  <tr>
+                    <td colSpan={columns.length} className="px-6 py-4">
+                      <Loading />
+                    </td>
+                  </tr>
+                )}
+                {Array.isArray(currentData) &&
+                  !loading &&
+                  currentData.map((row: any, key: number) => (
+                    <tr
+                      key={key}
+                      className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-200"
+                    >
+                      {columns.map((column: IColumns, colKey: number) => (
+                        <td key={colKey} className="px-6 py-4 whitespace-nowrap">
+                          {row[column.name]}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+    </>
   );
 }
 
-export default index;
+export default Table;

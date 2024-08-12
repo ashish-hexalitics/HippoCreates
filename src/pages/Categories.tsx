@@ -1,15 +1,21 @@
 import { useEffect } from "react";
 import Table from "../components/Common/Table";
-import Loading  from "../components/Common/Loader/index";
 import { icons } from "../Icons/constant";
 const { RiApps2AddLine } = icons;
 import { useGetCategoriesQuery } from "../store/slices/categorySlice/apiSlice";
 import { getCategories } from "../store/slices/categorySlice/categorySlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
+const columns = [
+  {
+    name: "name",
+    Header: "Category Name",
+  },
+];
+
 function CategoriesApp() {
   const dispatch = useAppDispatch();
-  const categoryState = useAppSelector((state) => state.categorySlice);
+  const { categories } = useAppSelector((state) => state.categorySlice);
   const { data, isLoading, isError } = useGetCategoriesQuery();
 
   useEffect(() => {
@@ -17,10 +23,9 @@ function CategoriesApp() {
       dispatch(getCategories(data.categories));
     }
   }, [data, dispatch]);
-  
-  if (isLoading) return <Loading />;
+
   if (isError) return <div>Error loading user data</div>;
-  
+
   return (
     <div className="p-4">
       <div className="flex flex-col p-6 bg-gray-100 rounded-lg shadow-md">
@@ -32,7 +37,7 @@ function CategoriesApp() {
             <RiApps2AddLine className="me-2" /> Add Category
           </button>
         </div>
-        <Table data={categoryState} />
+        <Table data={categories} columns={columns} loading={isLoading} />
       </div>
     </div>
   );

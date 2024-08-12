@@ -37,8 +37,11 @@ interface TemplateRequest {
   size: Size;
   layer: Element[];
 }
+interface UserInfoRequest {
+  userId: string;
+}
 
-export const userApi:any = createApi({
+export const userApi: any = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithInterceptor,
   endpoints: (builder) => ({
@@ -52,6 +55,34 @@ export const userApi:any = createApi({
     getUser: builder.query<any, void>({
       query: (userId) => ({
         url: `/users/${userId}`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    getUserInfo: builder.query<any, void>({
+      query: (userId) => ({
+        url: `/users/info/${userId}`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    updateUserInfo: builder.mutation<any, UserInfoRequest>({
+      query: (credentials) => ({
+        url: `/users/info/${credentials.userId}`,
+        method: "PUT",
+        body: credentials,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    getUsers: builder.query<any, void>({
+      query: () => ({
+        url: `/users`,
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -83,8 +114,11 @@ export const userApi:any = createApi({
 export const {
   useLoginMutation,
   useGetUserQuery,
+  useGetUsersQuery,
   useGetTemplatesQuery,
   useCreateTemplatesMutation,
+  useGetUserInfoQuery,
+  useUpdateUserInfoMutation,
 } = userApi;
 
 // getUsers: builder.query<User[], void>({

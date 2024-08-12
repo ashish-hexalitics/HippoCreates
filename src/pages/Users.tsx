@@ -1,17 +1,38 @@
 // import React from "react";
-import { useState,useEffect } from "react";
+import { useEffect } from "react";
 import Table from "../components/Common/Table";
-import Loader from "../components/Common/Loader";
+import { useGetUsersQuery } from "../store/slices/userSlice/apiSlice";
+import { getUsers } from "../store/slices/userSlice/userSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+const columns = [
+  {
+    name: "name",
+    Header: "Name",
+  },
+  {
+    name: "email",
+    Header: "Email",
+  }
+];
+
 function Users() {
-  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const { users } = useAppSelector((state) => state.userSlice);
+  const { data, isLoading, isError } = useGetUsersQuery();
+
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    if (data && data.users) {
+      dispatch(getUsers(data.users));
+    }
+  }, [data, dispatch]);
+
+  if (isError) return <div>Error loading user data</div>;
+
   return (
     <div className="p-4">
-    <div className="flex flex-col p-4 bg-gray-100 rounded-lg shadow-md">
-      {!loading ? <Table /> : <Loader />}
-    </div>
+      <div className="flex flex-col p-4 bg-gray-100 rounded-lg shadow-md">
+        <Table data={users} columns={columns} loading={isLoading} />
+      </div>
     </div>
   );
 }

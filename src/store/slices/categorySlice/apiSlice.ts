@@ -9,8 +9,6 @@ interface IGetCategories {
   data: ICreateCategory[];
 }
 
-const token:string | null = localStorage.getItem("access_token")
-
 export const categoryApi:any = createApi({
   reducerPath: "categoryApi",
   baseQuery: baseQueryWithInterceptor,
@@ -20,7 +18,7 @@ export const categoryApi:any = createApi({
         url: "/template-category",
         method: "GET",
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       }),
     }),
@@ -30,7 +28,7 @@ export const categoryApi:any = createApi({
         body: credentials,
         method: "POST",
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       }),
     }),
