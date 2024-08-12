@@ -33,7 +33,8 @@ const Login: React.FC = (): React.ReactElement => {
         localStorage.setItem("user", JSON.stringify(response.data));
         localStorage.setItem("access_token", response.data.access_token);
         navigate("/admin/dashboard");
-        dispatch(setLoggedInUser(response.data.user));
+        console.log(response.data)
+        dispatch(setLoggedInUser(response.data));
       }
     } catch (error) {
       console.error("Failed to login:", error);

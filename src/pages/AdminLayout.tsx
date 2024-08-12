@@ -3,7 +3,7 @@ import Header from "../components/AdminLayout/Header";
 import MainContent from "../components/AdminLayout/MainContent";
 import Sidebar from "../components/AdminLayout/Sidebar";
 import { Route, Routes } from "react-router-dom";
-import { adminRoutes } from "../routes";
+import { adminRoutes } from "../routes/routes";
 
 function AdminLayout() {
   return (

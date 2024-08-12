@@ -6,7 +6,7 @@ import Loading  from "../components/Common/Loader/index";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import type { RootState } from "../store";
 import { useGetUserQuery } from "../store/slices/userSlice/apiSlice";
-import { setLoggedInUser } from "../store/slices/userSlice/userSlice";
+import { getLoggedInUser } from "../store/slices/userSlice/userSlice";
 
 const statCardsdata: {
   title: string;
@@ -50,7 +50,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (data) {
-      dispatch(setLoggedInUser(data.user));
+      dispatch(getLoggedInUser(data.user));
     }
   }, [data, dispatch]);
 
@@ -58,7 +58,6 @@ function Dashboard() {
 
   if (isLoading) return <Loading/>;
   if (isError) return <div>Error loading user data</div>;
-
   return (
     <div className="p-4">
       <div className="mb-4 flex justify-between items-center">

@@ -7,6 +7,7 @@ interface IState {
   user: {};
   template: {};
   templates: { document: string; _id: string; userId: string }[];
+  accessToken: null | string;
 }
 
 const initialState: IState = {
@@ -14,6 +15,7 @@ const initialState: IState = {
   user: {},
   template: {},
   templates: [],
+  accessToken: null,
 };
 
 export const createUserSlice = createSlice({
@@ -24,12 +26,20 @@ export const createUserSlice = createSlice({
       return state;
     },
     setLoggedInUser: (state: IState, action: PayloadAction<any>) => {
+      state.user = action.payload.user;
+      state.accessToken = action.payload.access_token;
+      return state;
+    },
+    getLoggedInUser: (state: IState, action: PayloadAction<any>) => {
       state.user = action.payload;
       return state;
     },
-    removeUser: (state: IState) => {
-      state.users.pop();
-      return state;
+    logout: (state) => {
+      state.user = {};
+      state.accessToken = null;
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      window.location.href = '/login'
     },
     updateUser: (state: IState, action: PayloadAction<any>) => {
       return (state.users[action.payload.index] = action.payload.user);
@@ -48,7 +58,8 @@ export const createUserSlice = createSlice({
 export const {
   getUsers,
   setLoggedInUser,
-  removeUser,
+  getLoggedInUser,
+  logout,
   updateUser,
   getTemplates,
   createTemplatesSlice,

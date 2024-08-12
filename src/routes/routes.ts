@@ -1,20 +1,30 @@
-import AdminLayout from "./pages/AdminLayout";
-import Dashboard from "./pages/Dashboard";
-import HomePage from "./pages/HomePage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Report from "./pages/Report";
-import Setting from "./pages/Setting";
-import Users from "./pages/Users";
-import Template from "./pages/Templates";
-import CreateTemplate from "./pages/CreateTemplate";
-import Categories from "./pages/Categories";
+import Dashboard from "../pages/Dashboard";
+import HomePage from "../pages/HomePage";
+import Login from "../pages/Login";
+import AdminLayout from "../pages/AdminLayout";
+import Register from "../pages/Register";
+import Report from "../pages/Report";
+import Setting from "../pages/Setting";
+import Users from "../pages/Users";
+import Template from "../pages/Templates";
+import CreateTemplate from "../pages/CreateTemplate";
+import Categories from "../pages/Categories";
 
-export const routes = [
+export const publicRoutes = [
   {
     path: "/",
     component: HomePage,
   },
+];
+
+export const protectedRoutes = [
+  {
+    path: "/admin/*",
+    component: AdminLayout,
+  },
+];
+
+export const authRoutes = [
   {
     path: "/login",
     component: Login,
@@ -22,10 +32,6 @@ export const routes = [
   {
     path: "/register",
     component: Register,
-  },
-  {
-    path: "/admin/*",
-    component: AdminLayout,
   },
 ];
 

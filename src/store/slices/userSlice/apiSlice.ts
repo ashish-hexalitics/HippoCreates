@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithInterceptor } from "../../baseQuery";
 
 interface LoginRequest {
   email: string;
@@ -39,7 +40,7 @@ interface TemplateRequest {
 
 export const userApi:any = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api" }),
+  baseQuery: baseQueryWithInterceptor,
   endpoints: (builder) => ({
     login: builder.mutation<any, LoginRequest>({
       query: (credentials) => ({

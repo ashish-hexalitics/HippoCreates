@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithInterceptor } from "../../baseQuery";
 
 interface ICreateCategory {
   name: string;
@@ -8,16 +9,18 @@ interface IGetCategories {
   data: ICreateCategory[];
 }
 
+const token:string | null = localStorage.getItem("access_token")
+
 export const categoryApi:any = createApi({
   reducerPath: "categoryApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api" }),
+  baseQuery: baseQueryWithInterceptor,
   endpoints: (builder) => ({
     getCategories: builder.query<IGetCategories, void>({
       query: () => ({
         url: "/template-category",
         method: "GET",
         headers: {
-          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          authorization: `Bearer ${token}`,
         },
       }),
     }),
@@ -27,7 +30,7 @@ export const categoryApi:any = createApi({
         body: credentials,
         method: "POST",
         headers: {
-          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          authorization: `Bearer ${token}`,
         },
       }),
     }),

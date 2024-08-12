@@ -10,11 +10,12 @@ const {
   GrTemplate,
   MdOutlineCategory,
 } = icons;
+import { logout } from "../../store/slices/userSlice/userSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 function Sidebar() {
   const location = useLocation(); // Hook to get current location
-
-  // Function to determine if the link is active
+  const dispatch = useAppDispatch();
   const isActive = (path: string) => location.pathname === path;
 
   return (
@@ -105,17 +106,13 @@ function Sidebar() {
           </Link>
         </nav>
         <div className="mt-6">
-          <Link
-            to="/login"
-            className={`flex items-center p-2 ${
-              isActive("/login")
-                ? "bg-[#3f9997] text-white"
-                : "text-[#3f9997] hover:bg-[#3f9997] hover:text-white"
-            } font-medium rounded-md`}
+          <button
+            onClick={() => dispatch(logout())}
+            className={`flex items-center p-2 w-full text-[#3f9997] hover:bg-[#3f9997] hover:text-white font-medium rounded-md`}
           >
             <IoIosLogOut style={{ fontSize: "20px", margin: "0 10px" }} />
             Logout
-          </Link>
+          </button>
         </div>
       </div>
     </div>
