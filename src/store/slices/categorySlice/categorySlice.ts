@@ -7,7 +7,7 @@ interface ICreateCategory {
 
 interface IState {
   categories: ICreateCategory[];
-  category: {};
+  category: ICreateCategory | {};
 }
 
 const initialState: IState = {
@@ -23,13 +23,14 @@ const categorySlice = createSlice({
       state.categories = action.payload;
       return state;
     },
-    createCategory: (state: IState, action: PayloadAction<any>) => {
+    addCategory: (state: IState, action: PayloadAction<any>) => {
+      state.categories.push(action.payload);
       state.category = action.payload;
       return state;
     },
   },
 });
 
-export const { getCategories, createCategory } = categorySlice.actions;
+export const { getCategories, addCategory } = categorySlice.actions;
 
 export default categorySlice.reducer;

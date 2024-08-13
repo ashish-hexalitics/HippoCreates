@@ -22,7 +22,7 @@ export const categoryApi:any = createApi({
         },
       }),
     }),
-    createCategories: builder.mutation<any, ICreateCategory>({
+    createCategories: builder.mutation<void, ICreateCategory>({
       query: (credentials) => ({
         url: "/template-category",
         body: credentials,

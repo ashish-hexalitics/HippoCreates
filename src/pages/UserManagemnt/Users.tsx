@@ -1,9 +1,9 @@
 // import React from "react";
 import { useEffect } from "react";
-import Table from "../components/Common/Table";
-import { useGetUsersQuery } from "../store/slices/userSlice/apiSlice";
-import { getUsers } from "../store/slices/userSlice/userSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import Table from "../../components/Common/Table";
+import { useGetUsersQuery } from "../../store/slices/userSlice/apiSlice";
+import { getUsers } from "../../store/slices/userSlice/userSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 const columns = [
   {
     name: "name",

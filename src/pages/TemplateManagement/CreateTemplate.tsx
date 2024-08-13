@@ -1,13 +1,13 @@
 import { useState } from "react";
-import TemplateSideBar from "../components/TemplateLayout/TemplateSideBar";
-import PDFSizeModal from "../components/TemplateLayout/PDFSizeModal"; // Import the modal
+import TemplateSideBar from "../../components/TemplateLayout/TemplateSideBar";
+import PDFSizeModal from "../../components/TemplateLayout/PDFSizeModal"; // Import the modal
 // import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
-import TopBar from "../components/TemplateLayout/TopBar";
-import RndElement from "../components/TemplateLayout/RndElement";
-import { useCreateTemplatesMutation } from "../store/slices/userSlice/apiSlice";
-import { createTemplatesSlice } from "../store/slices/userSlice/userSlice";
-import { useAppDispatch } from "../store/hooks";
+import TopBar from "../../components/TemplateLayout/TopBar";
+import RndElement from "../../components/TemplateLayout/RndElement";
+import { useCreateTemplatesMutation } from "../../store/slices/userSlice/apiSlice";
+import { createTemplatesSlice } from "../../store/slices/userSlice/userSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 interface Element {
   id: number;

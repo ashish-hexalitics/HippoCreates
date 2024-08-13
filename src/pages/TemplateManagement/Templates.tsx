@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetTemplatesQuery } from "../store/slices/userSlice/apiSlice";
-import { getTemplates } from "../store/slices/userSlice/userSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import type { RootState } from "../store";
-import Loading from "../components/Common/Loader/index";
+import { useGetTemplatesQuery } from "../../store/slices/userSlice/apiSlice";
+import { getTemplates } from "../../store/slices/userSlice/userSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import type { RootState } from "../../store";
+import Loading from "../../components/Common/Loader/index";
 
 function Template() {
   const navigate = useNavigate();

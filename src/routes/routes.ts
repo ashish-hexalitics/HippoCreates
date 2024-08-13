@@ -1,14 +1,14 @@
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/DashboardManagement/Dashboard";
 import HomePage from "../pages/HomePage";
-import Login from "../pages/Login";
-import AdminLayout from "../pages/AdminLayout";
-import Register from "../pages/Register";
+import Login from "../pages/AuthManagement/Login";
+import AdminLayout from "../pages/AdminManagement/AdminLayout";
+import Register from "../pages/AuthManagement/Register";
 import Report from "../pages/Report";
-import Setting from "../pages/Setting";
-import Users from "../pages/Users";
-import Template from "../pages/Templates";
-import CreateTemplate from "../pages/CreateTemplate";
-import Categories from "../pages/Categories";
+import Setting from "../pages/SettingManagemnt/Setting";
+import Users from "../pages/UserManagemnt/Users";
+import Template from "../pages/TemplateManagement/Templates";
+import CreateTemplate from "../pages/TemplateManagement/CreateTemplate";
+import Categories from "../pages/CategoryManagement/Categories";
 
 export const publicRoutes = [
   {

@@ -1,12 +1,12 @@
 import  { useEffect } from "react";
-import RevenueCard from "../components/Common/Cards/RevenueCard";
-import SellingProductCard from "../components/Common/Cards/SellingProductCard";
-import StatCard from "../components/Common/Cards/StatCard";
-import Loading  from "../components/Common/Loader/index";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import type { RootState } from "../store";
-import { useGetUserQuery } from "../store/slices/userSlice/apiSlice";
-import { getLoggedInUser } from "../store/slices/userSlice/userSlice";
+import RevenueCard from "../../components/Common/Cards/RevenueCard";
+import SellingProductCard from "../../components/Common/Cards/SellingProductCard";
+import StatCard from "../../components/Common/Cards/StatCard";
+import Loading  from "../../components/Common/Loader/index";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import type { RootState } from "../../store";
+import { useGetUserQuery } from "../../store/slices/userSlice/apiSlice";
+import { getLoggedInUser } from "../../store/slices/userSlice/userSlice";
 
 const statCardsdata: {
   title: string;
