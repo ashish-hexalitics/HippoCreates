@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Rnd } from "react-rnd";
-const a4Portrait = { width: 794, height: 1123 };
-const a4Landscape = { width: 1123, height: 794 };
+import { pixelsToCm } from "./constant";
+const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
+const a4Landscape = { width: pixelsToCm(1123), height: pixelsToCm(794) };
 
 interface Element {
   id: number;
@@ -10,6 +12,7 @@ interface Element {
   height: number | string;
   content: string;
   color: string;
+  backgroundColor: string;
   fontSize: number;
   fontWeight: string;
   padding: number;
@@ -17,6 +20,11 @@ interface Element {
   borderStroke?: string;
   boxShadow?: string;
   imagePreview?: string;
+  borderColor?: string;
+  borderWidth?: number;
+  borderEnabled?: boolean;
+  strockColor?: string;
+  strockHeight?: number | string;
 }
 
 interface IRNDElement {
@@ -29,12 +37,14 @@ interface IRNDElement {
   handleResizeStop: (id: number, x: number, y: number) => void;
   handleContentChange: (e: React.FormEvent<HTMLDivElement>, id: number) => void;
   guideLines: React.ComponentState;
+  setElements: React.ComponentState;
 }
 
 function RndElement({
   isPortrait,
   zoomLevel,
   elements,
+  setElements,
   handleDrag,
   handleDragStop,
   setSelectedElementId,
@@ -42,6 +52,50 @@ function RndElement({
   handleContentChange,
   guideLines,
 }: IRNDElement) {
+
+  const [contextMenu, setContextMenu] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    elementId: number | null;
+  }>({ visible: false, x: 0, y: 0, elementId: null });
+
+  const handleContextMenu = (e: React.MouseEvent, id: number) => {
+    e.preventDefault();
+    setContextMenu({
+      visible: true,
+      x: e.clientX,
+      y: e.clientY,
+      elementId: id,
+    });
+  };
+
+  const bringToFront = () => {
+    if (contextMenu.elementId !== null) {
+      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
+      const newElements = [...elements];
+      const [element] = newElements.splice(index, 1);
+      newElements.push(element);
+      setElements(newElements);
+    }
+    setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
+  };
+
+  const sendToBack = () => {
+    if (contextMenu.elementId !== null) {
+      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
+      const newElements = [...elements];
+      const [element] = newElements.splice(index, 1);
+      newElements.unshift(element);
+      setElements(newElements);
+    }
+    setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
+  };
+
+  const closeContextMenu = () => {
+    setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
+  };
+
   return (
     <div
       id="template-container"
@@ -55,8 +109,10 @@ function RndElement({
         }px`,
         margin: "auto",
         transformOrigin: "top left",
-        transform: `scale(${zoomLevel})`,
+        transform: `transalate(-50%,-50%) scale(${zoomLevel})`,
       }}
+      onClick={closeContextMenu}
+
     >
       {elements.map((el) => (
         <Rnd
@@ -71,6 +127,7 @@ function RndElement({
           onResizeStop={(e, direction, ref, delta, position) =>
             handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight)
           }
+          onContextMenu={(e) => handleContextMenu(e, el.id)}
           onClick={() => setSelectedElementId(el.id)}
           bounds="parent"
         >
@@ -86,9 +143,14 @@ function RndElement({
             {el.content === "rectangle" && (
               <div
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: el.color,
+                  width: el.width,
+                  height: el.height,
+                  backgroundColor: el.backgroundColor,
+                  borderRadius: el.borderRadius,
+                  border: el.borderWidth
+                    ? `${el.borderWidth}px solid ${el.borderColor}`
+                    : "",
+                  boxShadow: el.boxShadow,
                 }}
                 className="border"
               ></div>
@@ -96,20 +158,23 @@ function RndElement({
             {el.content === "circle" && (
               <div
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "50%",
-                  backgroundColor: el.color,
+                  width: el.width,
+                  height: el.height,
+                  borderRadius: el.borderRadius || "50%",
+                  backgroundColor: el.backgroundColor || "#f2f2f2",
+                  borderWidth: `${el.borderWidth}px` || "2px",
+                  borderColor: el.borderColor || "blue",
+                  borderStyle: "solid",
+                  boxShadow: el.boxShadow,
                 }}
-                className="border"
               ></div>
             )}
             {el.content === "line" && (
               <div
                 style={{
-                  width: "100%",
-                  height: "2px",
-                  backgroundColor: el.color,
+                  width: el.width,
+                  height: el.strockHeight || "2px",
+                  backgroundColor: el.strockColor || "#000",
                 }}
               ></div>
             )}
@@ -125,19 +190,41 @@ function RndElement({
             {el.content.startsWith("data:image/") && (
               <div
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: el.width,
+                  height: el.height,
                   backgroundImage: `url(${el.content})`,
                   backgroundSize: "cover",
-                  borderRadius: el.borderRadius || 0,
-                  border: el.borderStroke || "none",
-                  boxShadow: el.boxShadow || "none",
+                  borderRadius: el.borderRadius,
+                  border: el.borderWidth
+                    ? `${el.borderWidth}px solid ${el.borderColor}`
+                    : "",
+                  boxShadow: el.boxShadow,
                 }}
               ></div>
             )}
           </div>
         </Rnd>
       ))}
+      {contextMenu.visible && (
+        <div
+          style={{
+            position: "absolute",
+            top: contextMenu.y,
+            left: contextMenu.x,
+            transform:`translate(-50%,-50%)`,
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            zIndex: 999,
+          }}
+        >
+          <div onClick={bringToFront} className="p-2 cursor-pointer hover:bg-gray-200">
+            Bring to Front
+          </div>
+          <div onClick={sendToBack} className="p-2 cursor-pointer hover:bg-gray-200">
+            Send to Back
+          </div>
+        </div>
+      )}
       {/* Guide lines */}
       {guideLines.x !== null && (
         <div

@@ -73,7 +73,9 @@ function CategoriesApp() {
     e.preventDefault();
     if (!isEdit) {
       const newCategory = await createCategories(categoryData).unwrap();
-      dispatch(addCategory(newCategory));
+      dispatch(addCategory(newCategory.category));
+      setIsEdit(false)
+      setCategoryData({name:""})
     } else {
       const updatedCategory = await updateCategoryApi(categoryData).unwrap();
       dispatch(updateCategory(updatedCategory.category));

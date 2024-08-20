@@ -67,7 +67,7 @@ export const adminRoutes = [
     showBreadcrumb: true,
   },
   {
-    path: "/create/template",
+    path: "/create/template/:categoryId",
     component: CreateTemplate,
     breadcrumb: ["admin", "Create Templates"],
     showBreadcrumb: false,

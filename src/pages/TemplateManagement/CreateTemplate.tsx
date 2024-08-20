@@ -8,6 +8,7 @@ import RndElement from "../../components/TemplateLayout/RndElement";
 import { useCreateTemplatesMutation } from "../../store/slices/userSlice/apiSlice";
 import { createTemplatesSlice } from "../../store/slices/userSlice/userSlice";
 import { useAppDispatch } from "../../store/hooks";
+import { useParams } from "react-router-dom";
 
 interface Element {
   id: number;
@@ -17,12 +18,18 @@ interface Element {
   height: number | string;
   content: string;
   color: string;
+  backgroundColor: string;
+  borderRadius: number;
   fontSize: number;
   fontWeight: string;
   padding: number;
+  borderEnabled?: boolean;
+  strockColor?: string;
+  strockHeight?: number | string;
 }
 
 function CreateTemplate() {
+ const params =  useParams()
   const [elements, setElements] = useState<Element[]>([]);
   const [selectedElementId, setSelectedElementId] = useState<number | null>(
     null
@@ -99,7 +106,8 @@ function CreateTemplate() {
         document: htmlString, 
         orientation: isPortrait ? "portrait" : "landscape",
         size: size,
-        layer:elements
+        layer:elements,
+        categoryId:params.categoryId 
       };
       try {
         const response = await createTemplates(payload).unwrap();
@@ -189,6 +197,8 @@ function CreateTemplate() {
           onUpload={handleUpload}
           addShape={addShape}
         />
+        <div className="py-10">
+
         <RndElement
           isPortrait={isPortrait}
           zoomLevel={zoomLevel}
@@ -199,7 +209,9 @@ function CreateTemplate() {
           handleResizeStop={handleResizeStop}
           handleContentChange={handleContentChange}
           guideLines={guideLines}
+          setElements={setElements} 
         />
+        </div>
       </div>
       <TemplateSideBar
         element={selectedElement}

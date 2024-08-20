@@ -12,6 +12,7 @@ const {
   BsSave2,
   RiCheckboxBlankLine,
   FaRegWindowMinimize,
+  FaArrowsToEye,
 } = icons;
 
 interface ITopBar {
@@ -146,13 +147,19 @@ function TopBar({
       </div>
       <div className="flex justify-end">
         <button
+          // onClick={() => setIsModalOpen(true)}
+          className="text-white rounded-md hover:bg-gray-600 transition py-2 px-4"
+        >
+          <FaArrowsToEye style={{ fontSize: "20px", margin: "0 10px" }} />
+        </button>
+        <button
           onClick={toggleOrientation}
           className="text-white rounded-md hover:bg-gray-600 transition py-2 px-4"
         >
           {isPortrait ? <IoTabletLandscapeSharp /> : <IoTabletPortraitSharp />}
         </button>
         <button
-          onClick={() => setIsModalOpen(true)} // Open the modal
+          onClick={() => setIsModalOpen(true)}
           className="ml-4 py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
         >
           <BsSave2 style={{ fontSize: "20px", margin: "0 10px" }} />

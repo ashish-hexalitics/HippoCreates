@@ -66,7 +66,6 @@ function Setting() {
                   <option>Light</option>
                   <option>Dark</option>
                 </select>
-                {/* <TESelect data={data} className="border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400" /> */}
               </div>
               <div>
                 <label
