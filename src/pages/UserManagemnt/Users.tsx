@@ -8,11 +8,18 @@ const columns = [
   {
     name: "name",
     Header: "Name",
+    colName: "Default",
   },
   {
     name: "email",
     Header: "Email",
-  }
+    colName: "Default",
+  },
+  {
+    name: "isEmailVerified",
+    Header: "verified Email",
+    colName: "Status",
+  },
 ];
 
 function Users() {
@@ -31,7 +38,11 @@ function Users() {
   return (
     <div className="p-4">
       <div className="flex flex-col p-4 bg-gray-100 rounded-lg shadow-md">
-        <Table data={users} columns={columns} loading={isLoading} />
+        <Table
+          data={users}
+          columns={columns}
+          loading={isLoading}
+        />
       </div>
     </div>
   );

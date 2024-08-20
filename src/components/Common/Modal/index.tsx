@@ -24,7 +24,7 @@ const Modal: React.FC<IModalProps> = ({
         onClick={onClose}
       />
       <div
-        className={`fixed inset-y-0 right-0 max-w-full w-full sm:w-1/3 bg-gray-100 shadow-xl transform transition-transform ${
+        className={`fixed z-10 inset-y-0 right-0 max-w-full w-full sm:w-1/3 bg-gray-100 shadow-xl transform transition-transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

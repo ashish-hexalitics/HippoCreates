@@ -17,6 +17,11 @@ import { BsSave2 } from "react-icons/bs";
 import { FaRegWindowMinimize } from "react-icons/fa6";
 import { MdOutlineCategory } from "react-icons/md";
 import { RiApps2AddLine } from "react-icons/ri";
+import { MdOutlineEdit } from "react-icons/md";
+import { AiOutlineDelete } from "react-icons/ai";
+import { BsCopy } from "react-icons/bs";
+import { MdOutlineMarkEmailRead } from "react-icons/md";
+import { MdOutlineMarkEmailUnread } from "react-icons/md";
 
 
 
@@ -40,5 +45,10 @@ export const icons = {
     BsSave2:BsSave2,
     FaRegWindowMinimize:FaRegWindowMinimize,
     MdOutlineCategory:MdOutlineCategory,
-    RiApps2AddLine:RiApps2AddLine
+    RiApps2AddLine:RiApps2AddLine,
+    MdOutlineEdit:MdOutlineEdit,
+    AiOutlineDelete:AiOutlineDelete,
+    BsCopy:BsCopy,
+    MdOutlineMarkEmailRead:MdOutlineMarkEmailRead,
+    MdOutlineMarkEmailUnread:MdOutlineMarkEmailUnread
 }

@@ -5,10 +5,16 @@ const { RiApps2AddLine } = icons;
 import {
   useGetCategoriesQuery,
   useCreateCategoriesMutation,
+  useUpdateCategoryApiMutation,
+  useDeleteCategoryApiMutation,
+  useCloneCategoryApiMutation,
 } from "../../store/slices/categorySlice/apiSlice";
 import {
   addCategory,
   getCategories,
+  updateCategory,
+  deleteCategory,
+  cloneCategory,
 } from "../../store/slices/categorySlice/categorySlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import AppModal from "../../components/Common/Modal";
@@ -17,6 +23,12 @@ const columns = [
   {
     name: "name",
     Header: "Category Name",
+    colName: "Default",
+  },
+  {
+    Header: "Actions",
+    Actions: ["UPDATE", "DELETE"],
+    colName: "Actions",
   },
 ];
 
@@ -29,10 +41,14 @@ function CategoriesApp() {
   const { categories } = useAppSelector((state) => state.categorySlice);
   const { data, isLoading, isError } = useGetCategoriesQuery();
   const [createCategories] = useCreateCategoriesMutation();
+  const [updateCategoryApi] = useUpdateCategoryApiMutation();
+  const [deleteCategoryApi] = useDeleteCategoryApiMutation();
+  const [cloneCategoryApi] = useCloneCategoryApiMutation();
 
   const [categoryData, setCategoryData] = useState<ICategory>({
     name: "",
   });
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   useEffect(() => {
     if (data && data.categories) {
@@ -55,9 +71,29 @@ function CategoriesApp() {
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
-    const newCategory = await createCategories(categoryData).unwrap();
-    dispatch(addCategory(newCategory));
+    if (!isEdit) {
+      const newCategory = await createCategories(categoryData).unwrap();
+      dispatch(addCategory(newCategory));
+    } else {
+      const updatedCategory = await updateCategoryApi(categoryData).unwrap();
+      dispatch(updateCategory(updatedCategory.category));
+    }
     toggleModal();
+  };
+  const handleDelete = async (data: any) => {
+    await deleteCategoryApi(data._id).unwrap();
+    dispatch(deleteCategory(data._id));
+  };
+
+  const handleUpdate = (data: any) => {
+    setCategoryData(data);
+    toggleModal();
+    setIsEdit(true);
+  };
+
+  const handleClone = async (data: any) => {
+    const clonedCategory = await cloneCategoryApi(data._id).unwrap();
+    dispatch(cloneCategory(clonedCategory.category));
   };
 
   return (
@@ -74,7 +110,14 @@ function CategoriesApp() {
             <RiApps2AddLine className="me-2" /> Add Category
           </button>
         </div>
-        <Table data={categories} columns={columns} loading={isLoading} />
+        <Table
+          data={categories}
+          columns={columns}
+          loading={isLoading}
+          handleUpdate={handleUpdate}
+          handleClone={handleClone}
+          handleDelete={handleDelete}
+        />
       </div>
       <AppModal
         isOpen={isModalOpen}
@@ -91,7 +134,7 @@ function CategoriesApp() {
                   name={name}
                   value={value}
                   onChange={handleInputChange}
-                  className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-transparent focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
+                  className="peer block w-full rounded border-0 bg-white  px-4 py-3 text-gray-700 placeholder-transparent  focus:outline-none  dark:text-gray dark:placeholder-gray-400"
                   placeholder={label}
                 />
                 <label
