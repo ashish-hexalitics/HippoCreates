@@ -15,18 +15,7 @@ const {
   FaArrowsToEye,
 } = icons;
 
-interface ITopBar {
-  addElement: () => void;
-  toggleOrientation: () => void;
-  zoomIn: () => void;
-  zoomOut: () => void;
-  resetZoom: () => void;
-  zoomLevel: number;
-  setIsModalOpen: React.ComponentState;
-  isPortrait: React.ComponentState;
-  onUpload: (file: File) => void;
-  addShape: (shape: string) => void;
-}
+import { ITopBar } from "../../dto/templateStyle.dto";
 
 function TopBar({
   addElement,
@@ -59,7 +48,7 @@ function TopBar({
     <div className="grid grid-cols-3 bg-gray-700 px-4 py-2">
       <div>
         <button
-          onClick={addElement}
+          onClick={() => addElement && addElement({ name: "", value: "Text" })}
           className="py-2 bg-primary text-white rounded-md hover:bg-gray-600 transition"
         >
           <CgFormatText style={{ fontSize: "20px", margin: "0 10px" }} />

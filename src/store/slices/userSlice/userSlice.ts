@@ -73,6 +73,10 @@ export const createUserSlice = createSlice({
       state.template = action.payload;
       return state;
     },
+    getTemplate: (state: IState, action: PayloadAction<any>) => {
+      state.template = action.payload;
+      return state;
+    },
   },
 });
 
@@ -83,6 +87,7 @@ export const {
   logout,
   updateUser,
   getTemplates,
+  getTemplate,
   createTemplatesSlice,
   getUserInfo,
 } = createUserSlice.actions;

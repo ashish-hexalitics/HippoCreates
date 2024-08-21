@@ -77,7 +77,7 @@ function CategoriesApp() {
       setIsEdit(false)
       setCategoryData({name:""})
     } else {
-      const updatedCategory = await updateCategoryApi(categoryData).unwrap();
+      const updatedCategory = await updateCategoryApi({categoryData}).unwrap();
       dispatch(updateCategory(updatedCategory.category));
     }
     toggleModal();

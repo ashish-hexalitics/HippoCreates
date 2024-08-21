@@ -4,41 +4,7 @@ import { pixelsToCm } from "./constant";
 const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 const a4Landscape = { width: pixelsToCm(1123), height: pixelsToCm(794) };
 
-interface Element {
-  id: number;
-  x: number;
-  y: number;
-  width: number | string;
-  height: number | string;
-  content: string;
-  color: string;
-  backgroundColor: string;
-  fontSize: number;
-  fontWeight: string;
-  padding: number;
-  borderRadius?: number;
-  borderStroke?: string;
-  boxShadow?: string;
-  imagePreview?: string;
-  borderColor?: string;
-  borderWidth?: number;
-  borderEnabled?: boolean;
-  strockColor?: string;
-  strockHeight?: number | string;
-}
-
-interface IRNDElement {
-  isPortrait: React.ComponentState;
-  elements: Element[];
-  zoomLevel: number;
-  handleDrag: (x: number, y: number) => void;
-  handleDragStop: (id: number, x: number, y: number) => void;
-  setSelectedElementId: React.ComponentState;
-  handleResizeStop: (id: number, x: number, y: number) => void;
-  handleContentChange: (e: React.FormEvent<HTMLDivElement>, id: number) => void;
-  guideLines: React.ComponentState;
-  setElements: React.ComponentState;
-}
+import { IRNDElement } from "../../dto/element.dto";
 
 function RndElement({
   isPortrait,
@@ -49,10 +15,9 @@ function RndElement({
   handleDragStop,
   setSelectedElementId,
   handleResizeStop,
-  handleContentChange,
+  // handleContentChange,
   guideLines,
 }: IRNDElement) {
-
   const [contextMenu, setContextMenu] = useState<{
     visible: boolean;
     x: number;
@@ -95,7 +60,7 @@ function RndElement({
   const closeContextMenu = () => {
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
-
+  // console.log(elements)
   return (
     <div
       id="template-container"
@@ -112,27 +77,31 @@ function RndElement({
         transform: `transalate(-50%,-50%) scale(${zoomLevel})`,
       }}
       onClick={closeContextMenu}
-
     >
       {elements.map((el) => (
         <Rnd
           key={el.id}
           size={{ width: el.width, height: el.height }}
           position={{ x: el.x, y: el.y }}
-          onDrag={(e, d) => handleDrag(d.x, d.y)}
+          onDrag={(e, d) => {
+            console.log(e);
+            handleDrag(d.x, d.y);
+          }}
           onDragStop={(e, d) => {
+            console.log(e);
             handleDragStop(el.id, d.x, d.y);
             setSelectedElementId(el.id);
           }}
-          onResizeStop={(e, direction, ref, delta, position) =>
-            handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight)
-          }
-          onContextMenu={(e) => handleContextMenu(e, el.id)}
+          onResizeStop={(e, direction, ref, delta, position) => {
+            console.log(e, direction, ref, delta, position);
+            handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
+          }}
+          onContextMenu={(e: any) => handleContextMenu(e, el.id)}
           onClick={() => setSelectedElementId(el.id)}
           bounds="parent"
         >
           <div
-            className="cursor-pointer hover:outline-dotted hover:outline-blue-400"
+            className="cursor-pointer hover:outline-dotted hover:outline-blue-400 relative"
             style={{
               color: el.color,
               fontSize: `${el.fontSize}px`,
@@ -184,7 +153,11 @@ function RndElement({
               !el.content.startsWith("data:image/") && (
                 <div
                   contentEditable={!el.content.startsWith("data:image/")}
-                  dangerouslySetInnerHTML={{ __html: el.content }}
+                  dangerouslySetInnerHTML={{
+                    __html: el.name
+                      ? `${el.name} : ${el.value}`
+                      : `${el.value}` || "",
+                  }}
                 />
               )}
             {el.content.startsWith("data:image/") && (
@@ -211,16 +184,22 @@ function RndElement({
             position: "absolute",
             top: contextMenu.y,
             left: contextMenu.x,
-            transform:`translate(-50%,-50%)`,
+            transform: `translate(-50%,-50%)`,
             backgroundColor: "white",
             border: "1px solid #ccc",
             zIndex: 999,
           }}
         >
-          <div onClick={bringToFront} className="p-2 cursor-pointer hover:bg-gray-200">
+          <div
+            onClick={bringToFront}
+            className="p-2 cursor-pointer hover:bg-gray-200"
+          >
             Bring to Front
           </div>
-          <div onClick={sendToBack} className="p-2 cursor-pointer hover:bg-gray-200">
+          <div
+            onClick={sendToBack}
+            className="p-2 cursor-pointer hover:bg-gray-200"
+          >
             Send to Back
           </div>
         </div>

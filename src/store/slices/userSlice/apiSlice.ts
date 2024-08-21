@@ -101,7 +101,16 @@ export const userApi: any = createApi({
     }),
     getTemplates: builder.query<any, void>({
       query: () => ({
-        url: `/resume/create/template`,
+        url: `/resume/get/templates`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    getTemplate: builder.query<any, void>({
+      query: (templateId) => ({
+        url: `/resume/get/template/${templateId}`,
         method: "GET",
         headers: {
           authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -119,6 +128,7 @@ export const {
   useCreateTemplatesMutation,
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
+  useGetTemplateQuery
 } = userApi;
 
 // getUsers: builder.query<User[], void>({

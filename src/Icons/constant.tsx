@@ -23,6 +23,7 @@ import { BsCopy } from "react-icons/bs";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { FaArrowsToEye } from "react-icons/fa6";
+import { IoAddCircleOutline } from "react-icons/io5";
 
 
 
@@ -52,5 +53,6 @@ export const icons = {
     BsCopy:BsCopy,
     MdOutlineMarkEmailRead:MdOutlineMarkEmailRead,
     MdOutlineMarkEmailUnread:MdOutlineMarkEmailUnread,
-    FaArrowsToEye:FaArrowsToEye
+    FaArrowsToEye:FaArrowsToEye,
+    IoAddCircleOutline:IoAddCircleOutline
 }

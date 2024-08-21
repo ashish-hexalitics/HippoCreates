@@ -7,7 +7,7 @@ import Report from "../pages/Report";
 import Setting from "../pages/SettingManagemnt/Setting";
 import Users from "../pages/UserManagemnt/Users";
 import Template from "../pages/TemplateManagement/Templates";
-import CreateTemplate from "../pages/TemplateManagement/CreateTemplate";
+import ConfigureTemplate from "../pages/TemplateManagement/ConfigureTemplate";
 import Categories from "../pages/CategoryManagement/Categories";
 
 export const publicRoutes = [
@@ -68,7 +68,13 @@ export const adminRoutes = [
   },
   {
     path: "/create/template/:categoryId",
-    component: CreateTemplate,
+    component: ConfigureTemplate,
+    breadcrumb: ["admin", "Create Templates"],
+    showBreadcrumb: false,
+  },
+  {
+    path: "/edit/template/:categoryId/:templateId",
+    component: ConfigureTemplate,
     breadcrumb: ["admin", "Create Templates"],
     showBreadcrumb: false,
   },

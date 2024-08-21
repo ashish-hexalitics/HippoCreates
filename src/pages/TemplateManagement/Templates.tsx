@@ -31,16 +31,16 @@ function Template() {
     }
   }, [data, dispatch]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     console.log(name, value);
-    setCategoryData((prevData) => ({ ...prevData, [name]: value }));
+    setCategoryData((prevData: any) => ({ ...prevData, [name]: value }));
   };
 
-  const handleUpdate = (data: any) => {
-    setCategoryData(data);
-    toggleModal();
-  };
+  // const handleUpdate = (data: any) => {
+  //   setCategoryData(data);
+  //   toggleModal();
+  // };
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -87,7 +87,7 @@ function Template() {
                   position: "relative",
                   padding: "10px",
                   height: "300px",
-                  overflowY: "auto", 
+                  overflowY: "auto",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -98,8 +98,15 @@ function Template() {
                 <h2 className="text-xl font-semibold text-primary mb-2">
                   {template?.name}
                 </h2>
-                <button className="w-full py-2 px-4 bg-[#55bab9] text-white hover:bg-white hover:text-[#55bab9] border-t border-b border-[#55bab9] transition">
-                  Select Template
+                <button
+                  onClick={() => {
+                    navigate(
+                      `/admin/edit/template/${template.categoryId}/${template._id}`
+                    );
+                  }}
+                  className="w-full py-2 px-4 bg-[#55bab9] text-white hover:bg-white hover:text-[#55bab9] border-t border-b border-[#55bab9] transition"
+                >
+                  Edit Template
                 </button>
               </div>
             </div>
