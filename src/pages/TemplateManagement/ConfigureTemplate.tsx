@@ -1,20 +1,30 @@
 import { useState, useEffect } from "react";
-import { useGetTemplateQuery } from "../../store/slices/userSlice/apiSlice";
-import { getTemplate } from "../../store/slices/userSlice/userSlice";
+import {
+  useGetTemplateQuery,
+  useUpdateTemplateMutation,
+} from "../../store/slices/userSlice/apiSlice";
+import { getTemplateSlice } from "../../store/slices/userSlice/userSlice";
 import TemplateSideBar from "../../components/TemplateLayout/TemplateSideBar";
 import PDFSizeModal from "../../components/TemplateLayout/PDFSizeModal";
 import TopBar from "../../components/TemplateLayout/TopBar";
 import RndElement from "../../components/TemplateLayout/RndElement";
 import { useCreateTemplatesMutation } from "../../store/slices/userSlice/apiSlice";
-import { createTemplatesSlice } from "../../store/slices/userSlice/userSlice";
+import {
+  createTemplatesSlice,
+  updateTemplateSlice,
+} from "../../store/slices/userSlice/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
+import ViewModal from "../../components/Common/Modal/ViewModal";
+import TemplateView from "../../components/TemplateLayout/TemplateView"
 
 function ConfigureTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { template } = useAppSelector((state: RootState) => state.userSlice);
   const [elements, setElements] = useState<Element[]>([
     {
@@ -102,10 +112,15 @@ function ConfigureTemplate() {
   });
   const [isPortrait, setIsPortrait] = useState(true);
   const [zoomLevel, setZoomLevel] = useState(1); // Zoom state
+  const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const { data} = useGetTemplateQuery(params?.templateId)
+  const { data } = useGetTemplateQuery(params?.templateId, {
+    skip: !params?.templateId,
+  });
+  const [createTemplates] = useCreateTemplatesMutation();
+  const [updateTemplate] = useUpdateTemplateMutation();
 
   useEffect(() => {
     if (params?.templateId) {
@@ -114,15 +129,11 @@ function ConfigureTemplate() {
   }, [params?.templateId]);
 
   useEffect(() => {
-    if(data && data?.template){
-      dispatch(getTemplate(data?.template))
-      setElements(data?.template?.layer)
+    if (params?.templateId && data && data?.template) {
+      dispatch(getTemplateSlice(data?.template));
+      setElements(data?.template?.layer);
     }
-  }, [data?.template])
-
-
-
-  const [createTemplates] = useCreateTemplatesMutation();
+  }, [data?.template]);
 
   const addElement = (el: { name: string; value: string }) => {
     const newElement = {
@@ -143,6 +154,7 @@ function ConfigureTemplate() {
   };
 
   const updateElement = (id: number, data: Partial<Element>) => {
+    // console.log(data)
     setElements(elements.map((el) => (el.id === id ? { ...el, ...data } : el)));
   };
 
@@ -186,10 +198,20 @@ function ConfigureTemplate() {
         categoryId: params.categoryId,
       };
       try {
-        const response = await createTemplates(payload).unwrap();
-        dispatch(createTemplatesSlice(response.resume));
+        if (isEdit) {
+          const response = await updateTemplate({
+            ...payload,
+            templateId: template._id,
+          }).unwrap();
+          dispatch(updateTemplateSlice(response.template));
+        } else {
+          const response = await createTemplates(payload).unwrap();
+          dispatch(createTemplatesSlice(response.template));
+        }
       } catch (error) {
         console.error("Error saving template:", error);
+      } finally {
+        navigate(-1);
       }
     }
   };
@@ -219,7 +241,7 @@ function ConfigureTemplate() {
     id: number
   ) => {
     const newContent = (e.target as HTMLDivElement).innerText;
-    updateElement(id, { content: newContent });
+    updateElement(id, { content: "Text", value: newContent });
   };
 
   const handleUpload = (file: File) => {
@@ -260,28 +282,41 @@ function ConfigureTemplate() {
     setSelectedElementId(newElement.id);
   };
 
-  const selectedElement = elements && Array.isArray(elements) && elements.find((el) => el.id === selectedElementId);
+  const handleAction = () => {};
+  const selectedElement =
+    elements && Array.isArray(elements)
+      ? elements.find((el) => el.id === selectedElementId)
+      : undefined;
+
   return (
     <div className="h-full w-full bg-gray-100 flex relative">
-      <div style={{ width: "calc(100% - 300px)" }} className="overflow-scroll">
-        <TopBar
-          isPortrait={isPortrait}
-          toggleOrientation={toggleOrientation}
-          zoomLevel={zoomLevel}
-          resetZoom={resetZoom}
-          zoomIn={zoomIn}
-          zoomOut={zoomOut}
-          addElement={addElement}
-          setIsModalOpen={setIsModalOpen}
-          onUpload={handleUpload}
-          addShape={addShape}
-        />
+      <div
+        style={{ width: "calc(100% - 300px)", height: "100%" }}
+        className="relative"
+      >
+        <div style={{ height: "60px" }}>
+          <TopBar
+            isPortrait={isPortrait}
+            toggleOrientation={toggleOrientation}
+            zoomLevel={zoomLevel}
+            resetZoom={resetZoom}
+            zoomIn={zoomIn}
+            zoomOut={zoomOut}
+            addElement={addElement}
+            setIsModalOpen={setIsModalOpen}
+            onUpload={handleUpload}
+            addShape={addShape}
+            setIsViewModalOpen={setIsViewModalOpen}
+          />
+        </div>
         <div
-          className="py-10 relative h-full"
+          className="py-10 relative overflow-y-scroll"
           style={{
             backgroundImage: "radial-gradient(#3d3d3d 1px, transparent 0)",
             backgroundSize: "20px 20px",
             backgroundPosition: "-19px -19px",
+            height: "calc(100% - 120px)",
+            perspective: "3000px",
           }}
         >
           <RndElement
@@ -296,18 +331,21 @@ function ConfigureTemplate() {
             guideLines={guideLines}
             setElements={setElements}
           />
-          {/* Zoom Slider */}
-          <div className="absolute bottom-0 left-0 w-full p-4 bg-gray-200 flex justify-center">
-            <input
-              type="range"
-              min="0.1"
-              max="3"
-              step="0.1"
-              value={zoomLevel}
-              onChange={handleZoomChange}
-              className="w-3/4"
-            />
-          </div>
+        </div>
+        {/* Zoom Slider */}
+        <div
+          style={{ height: "60px" }}
+          className="absolute bottom-0 left-0 w-full p-4 bg-gray-200 flex justify-center"
+        >
+          <input
+            type="range"
+            min="0.1"
+            max="3"
+            step="0.1"
+            value={zoomLevel}
+            onChange={handleZoomChange}
+            className="w-3/4"
+          />
         </div>
       </div>
       <TemplateSideBar
@@ -322,6 +360,16 @@ function ConfigureTemplate() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveTemplate}
       />
+      <ViewModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        handleAction={handleAction}
+        title="View Template"
+      >
+        <TemplateView
+          template={template}
+        />
+      </ViewModal>
     </div>
   );
 }

@@ -1,26 +1,39 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetTemplatesQuery } from "../../store/slices/userSlice/apiSlice";
+import {
+  useGetTemplatesQuery,
+  useDeleteTemplateMutation,
+} from "../../store/slices/userSlice/apiSlice";
 import { useGetCategoriesQuery } from "../../store/slices/categorySlice/apiSlice";
-import { getTemplates } from "../../store/slices/userSlice/userSlice";
+import {
+  getTemplates,
+  deleteTemplateSlice,
+} from "../../store/slices/userSlice/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import type { RootState } from "../../store";
 import Loading from "../../components/Common/Loader/index";
 import AppModal from "../../components/Common/Modal";
-
+import DeleteModal from "../../components/Common/Modal/DeleteModal";
+import TemplateGrid from "../../components/TemplateLayout/TemplateGrid";
 function Template() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [deleteTemplate] = useDeleteTemplateMutation();
 
   const { data, isLoading, isError } = useGetTemplatesQuery();
   const { data: categories } = useGetCategoriesQuery();
 
   const { templates } = useAppSelector((state: RootState) => state.userSlice);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(
+    null
+  );
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [categoryData, setCategoryData] = useState<any>({
     categoryId: "",
   });
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -31,21 +44,38 @@ function Template() {
     }
   }, [data, dispatch]);
 
+  useEffect(() => {
+    if (templates) {
+      dispatch(getTemplates(templates));
+    }
+  }, [templates]);
+
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setCategoryData((prevData: any) => ({ ...prevData, [name]: value }));
   };
-
-  // const handleUpdate = (data: any) => {
-  //   setCategoryData(data);
-  //   toggleModal();
-  // };
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     navigate(`/admin/create/template/${categoryData.categoryId}`);
     toggleModal();
+  };
+
+  const handleDelete = (templateId: string) => {
+    setSelectedTemplateId(templateId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (selectedTemplateId) {
+      try {
+        await deleteTemplate(selectedTemplateId);
+        dispatch(deleteTemplateSlice(selectedTemplateId));
+        setIsDeleteModalOpen(false);
+      } catch (error) {
+        console.error("Failed to delete the template: ", error);
+      }
+    }
   };
 
   if (isLoading) return <Loading />;
@@ -63,55 +93,21 @@ function Template() {
         <button
           className="bg-[#3f9997] text-white font-medium rounded-md p-2 mb-6"
           onClick={() => toggleModal()}
-          // navigate("/admin/create/template")
         >
           Create Your Template
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {templates.map((template: any) => {
-          // Replace all occurrences of contenteditable="true" with contentEditable="false"
-          const sanitizedDocument = template.document.replace(
-            /contenteditable\s*=\s*["]?true["]?/gi,
-            "contentEditable='false'"
-          );
-
-          return (
-            <div
-              key={template?._id}
-              className="bg-white shadow-md rounded-lg overflow-hidden border-[#ddd] border-2"
-            >
-              <div
-                dangerouslySetInnerHTML={{ __html: sanitizedDocument }}
-                style={{
-                  position: "relative",
-                  padding: "10px",
-                  height: "300px",
-                  overflowY: "auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#f9f9f9",
-                }}
+      <div className="flex flex-wrap">
+        {Array.isArray(templates) &&
+          templates.map((template: any) => {
+            return (
+              <TemplateGrid
+                key={template?._id}
+                template={template}
+                handleDelete={handleDelete}
               />
-              <div className="p-0">
-                <h2 className="text-xl font-semibold text-primary mb-2">
-                  {template?.name}
-                </h2>
-                <button
-                  onClick={() => {
-                    navigate(
-                      `/admin/edit/template/${template.categoryId}/${template._id}`
-                    );
-                  }}
-                  className="w-full py-2 px-4 bg-[#55bab9] text-white hover:bg-white hover:text-[#55bab9] border-t border-b border-[#55bab9] transition"
-                >
-                  Edit Template
-                </button>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
       <AppModal
         isOpen={isModalOpen}
@@ -132,14 +128,21 @@ function Template() {
             name="categoryId"
             className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
           >
-            {categories.categories.map((item: any, key: any) => (
-              <option key={key} value={item._id}>
-                {item.name}
-              </option>
-            ))}
+            {categories &&
+              Array.isArray(categories.categories) &&
+              categories.categories.map((item: any, key: any) => (
+                <option key={key} value={item._id}>
+                  {item.name}
+                </option>
+              ))}
           </select>
         </div>
       </AppModal>
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 }

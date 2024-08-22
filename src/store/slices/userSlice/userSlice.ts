@@ -71,11 +71,20 @@ export const createUserSlice = createSlice({
     },
     createTemplatesSlice: (state: IState, action: PayloadAction<any>) => {
       state.template = action.payload;
+      state.templates = [...state.templates, action.payload];
       return state;
     },
-    getTemplate: (state: IState, action: PayloadAction<any>) => {
+    getTemplateSlice: (state: IState, action: PayloadAction<any>) => {
       state.template = action.payload;
       return state;
+    },
+    updateTemplateSlice: (state: IState, action: PayloadAction<any>) => {
+      return (state.template = action.payload);
+    },
+    deleteTemplateSlice: (state: IState, action: PayloadAction<any>) => {
+      state.templates = state.templates.filter(
+        (template) => template._id !== action.payload
+      );
     },
   },
 });
@@ -87,9 +96,11 @@ export const {
   logout,
   updateUser,
   getTemplates,
-  getTemplate,
+  getTemplateSlice,
   createTemplatesSlice,
   getUserInfo,
+  updateTemplateSlice,
+  deleteTemplateSlice
 } = createUserSlice.actions;
 
 export const selectUser = (state: RootState) => state.userSlice.users;

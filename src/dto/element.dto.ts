@@ -21,6 +21,7 @@ export interface Element {
     strockHeight?: number | string;
     name?: string;
     value?: string;
+    imageUrl?: string;
   }
 
   export interface IRNDElement {

@@ -117,6 +117,25 @@ export const userApi: any = createApi({
         },
       }),
     }),
+    updateTemplate: builder.mutation<any, Partial<any>>({
+      query: (credentials) => ({
+        url: `/resume/update/template/${credentials.templateId}`,
+        method: "PUT",
+        body: credentials,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    deleteTemplate: builder.mutation<any, void>({
+      query: (templateId) => ({
+        url: `/resume/delete/template/${templateId}`,
+        method: "DELETE",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -128,34 +147,8 @@ export const {
   useCreateTemplatesMutation,
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
-  useGetTemplateQuery
+  useGetTemplateQuery,
+  useUpdateTemplateMutation,
+  useDeleteTemplateMutation
 } = userApi;
 
-// getUsers: builder.query<User[], void>({
-//   query: () => "users",
-// }),
-// addUser: builder.mutation<User, Partial<User>>({
-//   query: (newUser) => ({
-//     url: "users",
-//     method: "POST",
-//     body: newUser,
-//   }),
-// }),
-// updateUser: builder.mutation<User, { id: string; user: Partial<User> }>({
-//   query: ({ id, ...updatedUser }) => ({
-//     url: `users/${id}`,
-//     method: "PUT",
-//     body: updatedUser,
-//   }),
-// }),
-// deleteUser: builder.mutation<{ success: boolean; id: string }, string>({
-//   query: (id) => ({
-//     url: `users/${id}`,
-//     method: "DELETE",
-//   }),
-// }),
-
-// useGetUsersQuery,
-// useAddUserMutation,
-// useUpdateUserMutation,
-// useDeleteUserMutation,

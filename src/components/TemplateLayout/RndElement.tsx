@@ -15,7 +15,7 @@ function RndElement({
   handleDragStop,
   setSelectedElementId,
   handleResizeStop,
-  // handleContentChange,
+  handleContentChange,
   guideLines,
 }: IRNDElement) {
   const [contextMenu, setContextMenu] = useState<{
@@ -60,7 +60,7 @@ function RndElement({
   const closeContextMenu = () => {
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
-  // console.log(elements)
+
   return (
     <div
       id="template-container"
@@ -107,6 +107,7 @@ function RndElement({
               fontSize: `${el.fontSize}px`,
               fontWeight: el.fontWeight,
               padding: `${el.padding}px`,
+              transform: `scale(${zoomLevel})`,
             }}
           >
             {el.content === "rectangle" && (
@@ -120,6 +121,7 @@ function RndElement({
                     ? `${el.borderWidth}px solid ${el.borderColor}`
                     : "",
                   boxShadow: el.boxShadow,
+                  transform: `scale(${zoomLevel})`,
                 }}
                 className="border"
               ></div>
@@ -135,6 +137,7 @@ function RndElement({
                   borderColor: el.borderColor || "blue",
                   borderStyle: "solid",
                   boxShadow: el.boxShadow,
+                  transform: `scale(${zoomLevel})`,
                 }}
               ></div>
             )}
@@ -144,22 +147,62 @@ function RndElement({
                   width: el.width,
                   height: el.strockHeight || "2px",
                   backgroundColor: el.strockColor || "#000",
+                  transform: `scale(${zoomLevel})`,
                 }}
               ></div>
             )}
-            {el.content !== "rectangle" &&
-              el.content !== "circle" &&
-              el.content !== "line" &&
-              !el.content.startsWith("data:image/") && (
-                <div
-                  contentEditable={!el.content.startsWith("data:image/")}
-                  dangerouslySetInnerHTML={{
-                    __html: el.name
-                      ? `${el.name} : ${el.value}`
-                      : `${el.value}` || "",
-                  }}
-                />
-              )}
+            {el.content == "Text" && !el.content.startsWith("data:image/") && (
+              <>
+                {el.name ? (
+                  <div
+                    className="flex flex-wrap"
+                    style={{
+                      transform: `scale(${zoomLevel})`,
+                    }}
+                  >
+                    <span>{el.name} : </span>
+                    <div
+                      contentEditable={!el.content.startsWith("data:image/")}
+                      onBlur={(e) =>
+                        handleContentChange && handleContentChange(e, el.id)
+                      }
+                      style={{
+                        transform: `scale(${zoomLevel})`,
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: `${el.value}` || "",
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    contentEditable={!el.content.startsWith("data:image/")}
+                    onBlur={(e) =>
+                      handleContentChange && handleContentChange(e, el.id)
+                    }
+                    style={{
+                      transform: `scale(${zoomLevel})`,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: el.name
+                        ? `${el.name} : ${el.value}`
+                        : `${el.value}` || "",
+                    }}
+                  />
+                )}
+              </>
+              // <div
+              //   contentEditable={!el.content.startsWith("data:image/")}
+              //   onBlur={(e) =>
+              //     handleContentChange && handleContentChange(e, el.id)
+              //   }
+              //   dangerouslySetInnerHTML={{
+              //     __html: el.name
+              //       ? `${el.name} : ${el.value}`
+              //       : `${el.value}` || "",
+              //   }}
+              // />
+            )}
             {el.content.startsWith("data:image/") && (
               <div
                 style={{
@@ -172,6 +215,7 @@ function RndElement({
                     ? `${el.borderWidth}px solid ${el.borderColor}`
                     : "",
                   boxShadow: el.boxShadow,
+                  transform: `scale(${zoomLevel})`,
                 }}
               ></div>
             )}

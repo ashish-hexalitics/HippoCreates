@@ -13,7 +13,7 @@ import { IoTabletPortraitSharp } from "react-icons/io5";
 import { CiZoomIn } from "react-icons/ci";
 import { CiZoomOut } from "react-icons/ci";
 import { MdOutlineZoomInMap } from "react-icons/md";
-import { BsSave2 } from "react-icons/bs";
+import { BsEye, BsSave2 } from "react-icons/bs";
 import { FaRegWindowMinimize } from "react-icons/fa6";
 import { MdOutlineCategory } from "react-icons/md";
 import { RiApps2AddLine } from "react-icons/ri";
@@ -24,7 +24,6 @@ import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { FaArrowsToEye } from "react-icons/fa6";
 import { IoAddCircleOutline } from "react-icons/io5";
-
 
 
 export const icons = {
@@ -54,5 +53,6 @@ export const icons = {
     MdOutlineMarkEmailRead:MdOutlineMarkEmailRead,
     MdOutlineMarkEmailUnread:MdOutlineMarkEmailUnread,
     FaArrowsToEye:FaArrowsToEye,
+    BsEye:BsEye,
     IoAddCircleOutline:IoAddCircleOutline
 }

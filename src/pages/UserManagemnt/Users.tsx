@@ -16,6 +16,11 @@ const columns = [
     colName: "Default",
   },
   {
+    name: "roleName",
+    Header: "Role Name",
+    colName: "Default",
+  },
+  {
     name: "isEmailVerified",
     Header: "verified Email",
     colName: "Status",
@@ -29,7 +34,10 @@ function Users() {
 
   useEffect(() => {
     if (data && data.users) {
-      dispatch(getUsers(data.users));
+    const users =  data.users.map((user: { role: { name: any; }; })=>{
+       return {...user,roleName:user.role.name}
+      })
+      dispatch(getUsers(users));
     }
   }, [data, dispatch]);
 

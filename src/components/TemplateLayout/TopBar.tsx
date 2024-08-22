@@ -15,7 +15,7 @@ const {
   FaArrowsToEye,
 } = icons;
 
-import { ITopBar } from "../../dto/templateStyle.dto";
+import { ITopBar } from "../../dto/TemplateStyle.dto";
 
 function TopBar({
   addElement,
@@ -28,6 +28,7 @@ function TopBar({
   setIsModalOpen,
   onUpload,
   addShape,
+  setIsViewModalOpen
 }: ITopBar) {
   const [showShapeDropdown, setShowShapeDropdown] = useState(false);
   const [selectedShape, setSelectedShape] = useState<string | null>(null);
@@ -45,7 +46,7 @@ function TopBar({
   };
 
   return (
-    <div className="grid grid-cols-3 bg-gray-700 px-4 py-2">
+    <div className="grid grid-cols-3 bg-gray-700 px-4 py-2 h-full">
       <div>
         <button
           onClick={() => addElement && addElement({ name: "", value: "Text" })}
@@ -136,7 +137,7 @@ function TopBar({
       </div>
       <div className="flex justify-end">
         <button
-          // onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsViewModalOpen(true)}
           className="text-white rounded-md hover:bg-gray-600 transition py-2 px-4"
         >
           <FaArrowsToEye style={{ fontSize: "20px", margin: "0 10px" }} />

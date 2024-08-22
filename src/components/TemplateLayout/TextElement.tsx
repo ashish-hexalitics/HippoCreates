@@ -43,11 +43,11 @@ function TextElement({
   const renderTextCustomization = () => (
     <>
       <div className="mb-4">
-        <label className="block text-black mb-2">Content:</label>
+        <label className="block text-black mb-2">Value:</label>
         <input
           type="text"
           value={element.value}
-          onChange={(e) => handleInputChange("content", e.target.value)}
+          onChange={(e) => handleInputChange("value", e.target.value)}
           className="w-full border rounded px-2 py-1"
         />
       </div>
