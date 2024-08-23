@@ -9,8 +9,8 @@ function CTASection() {
           <h2 className="font-extrabold text-gray-700 text-6xl mt-28 animate-[fade-in-down_1s_ease-in-out]">
             Get Started
           </h2>
-          <p className="text-lg mt-4">
-            Ready to take the first step towards better well-being? Sign up
+          <p className="mt-3 text-gray-700 text-lg font-medium font-sans ">
+          Ready to take the first step towards better well-being? Sign up
             today and start your journey with us.
           </p>
         </div>

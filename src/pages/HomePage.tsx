@@ -1,4 +1,4 @@
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import Header from "../components/Landing/Header";
 import Testimonials from "../components/Landing/Testimonials";
 import Footer from "../components/Landing/Footer";
@@ -6,29 +6,43 @@ import Offer from "../components/Landing/Offer";
 import CTASection from "../components/Landing/CTASection";
 import Mission from "../components/Landing/Mission";
 import GetStart from "../components/Landing/GetStart";
-// import { useAppSelector, useAppDispatch } from "../store/hooks";
-// import {
-//   addUsers,
-//   removeUser,
-//   updateUser,
-//   getUsers,
-// } from "../store/slices/userSlice";
-// import type { RootState } from "../store";
 
 function Home() {
-  // const userState = useAppSelector((state: RootState) => state.userSlice);
-  // const dispatch = useAppDispatch();
+  let animateCircleFragment = document.createDocumentFragment();
 
-  // useEffect(() => {
-  // dispatch(getUsers())
-  // }, [userState?.users])
+  function animateCircle(event: MouseEvent) {
+    let circleDivElem: HTMLElement = document.createElement("div");
+    circleDivElem.classList.add("circle");
+
+    animateCircleFragment.appendChild(circleDivElem);
+    document.body.appendChild(animateCircleFragment);
+
+    circleDivElem.style.left = event.clientX + "px";
+    circleDivElem.style.top = event.clientY + "px";
+
+    setTimeout(() => {
+      circleDivElem.style.transform = "scale(2)";
+      circleDivElem.style.opacity = "0";
+    }, 50);
+
+    setTimeout(() => {
+      circleDivElem.remove();
+    }, 800);
+  }
+
+  useEffect(() => {
+    document.addEventListener("mousemove", animateCircle);
+    return () => {
+      document.removeEventListener("mousemove", animateCircle);
+    };
+  }, []);
 
   return (
-    <div className="dark:bg-[#fbf8f1] font-sans">
+    <div className="dark:bg-[#fbf8f1] font-sans relative">
       <Header />
       <GetStart />
-      <Mission />
       <Offer />
+      <Mission />
       <Testimonials />
       <CTASection />
       <Footer />

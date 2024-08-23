@@ -1,5 +1,8 @@
 import Dashboard from "../pages/DashboardManagement/Dashboard";
 import HomePage from "../pages/HomePage";
+import AskExperiencePage from "../pages/AskExperiencePage";
+import IntroduceStepsPage from "../pages/IntroduceStepsPage";
+import CooseResumePage from "../pages/CooseResumePage";
 import Login from "../pages/AuthManagement/Login";
 import AdminLayout from "../pages/AdminManagement/AdminLayout";
 import Register from "../pages/AuthManagement/Register";
@@ -9,11 +12,22 @@ import Users from "../pages/UserManagemnt/Users";
 import Template from "../pages/TemplateManagement/Templates";
 import ConfigureTemplate from "../pages/TemplateManagement/ConfigureTemplate";
 import Categories from "../pages/CategoryManagement/Categories";
-
 export const publicRoutes = [
   {
     path: "/",
     component: HomePage,
+  },
+  {
+    path: "/steps",
+    component: IntroduceStepsPage,
+  },
+  {
+    path: "/ask-experience",
+    component: AskExperiencePage,
+  },
+  {
+    path: "/choose-resume",
+    component: CooseResumePage,
   },
 ];
 

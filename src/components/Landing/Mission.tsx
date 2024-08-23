@@ -9,9 +9,12 @@ function Mission() {
             Our Mission
           </h2>
 
-          <p className="text-5xl text-center font-medium">
-            Our mission is to provide comprehensive well-being services that are
-            easily accessible and highly effective.
+          <p className="text-2xl font-sans text-gray-700  text-center font-medium">
+            Our mission is to empower individuals by providing intuitive tools
+            that make crafting professional, standout resumes simple and
+            accessible. We aim to help users unlock their potential by
+            showcasing their skills and experience in the most impactful way,
+            helping them to confidently pursue their career goals.
           </p>
         </div>
       </section>

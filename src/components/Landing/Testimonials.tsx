@@ -8,13 +8,12 @@ function Testimonials() {
         <h2 className="font-extrabold text-gray-700 text-6xl mt-28 animate-[fade-in-down_1s_ease-in-out]">
           Testimonials
         </h2>
-        <p className="text-lg mt-4">
-          See what our happy customers have to say about us. Our services have
+        <p className="mt-3 text-gray-700 text-lg font-medium font-sans ">
+          See what our happy customers have to say about us.<br/> Our services have
           transformed lives for the better.
         </p>
       </div>
       <div className="flex justify-center space-x-8 p-8">
-        {/* <!-- Testimonial 1 --> */}
         <div className="max-w-sm bg-white shadow-lg rounded-lg p-6">
           <p className="text-gray-800 text-lg mb-4">
             "InkDesk has refined my client communication and scheduling process
@@ -29,29 +28,6 @@ function Testimonials() {
             />
             <div className="ml-4">
               <p className="text-gray-900 font-semibold">Katrina Elena</p>
-              <div className="flex space-x-2">
-                <span className="text-blue-500">@inkdesk</span>
-                <span className="text-pink-500">@instagram</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* <!-- Testimonial 2 --> */}
-        <div className="max-w-sm bg-white shadow-lg rounded-lg p-6">
-          <p className="text-gray-800 text-lg mb-4">
-            "Now I can focus my time more on the clients in my chair instead of
-            wasting my time with unintuitive software and separate messaging
-            platforms."
-          </p>
-          <div className="flex items-center mt-4">
-            <img
-              className="w-10 h-10 rounded-full"
-              src="https://via.placeholder.com/40"
-              alt="Mike Jones"
-            />
-            <div className="ml-4">
-              <p className="text-gray-900 font-semibold">Mike Jones</p>
               <div className="flex space-x-2">
                 <span className="text-blue-500">@inkdesk</span>
                 <span className="text-pink-500">@instagram</span>

@@ -203,22 +203,32 @@ function RndElement({
               //   }}
               // />
             )}
-            {el.content.startsWith("data:image/") && (
-              <div
-                style={{
-                  width: el.width,
-                  height: el.height,
-                  backgroundImage: `url(${el.content})`,
-                  backgroundSize: "cover",
-                  borderRadius: el.borderRadius,
-                  border: el.borderWidth
-                    ? `${el.borderWidth}px solid ${el.borderColor}`
-                    : "",
-                  boxShadow: el.boxShadow,
-                  transform: `scale(${zoomLevel})`,
-                }}
-              ></div>
-            )}
+            {el.content.startsWith("data:image/") ? (
+              <picture>
+                <source
+                  type="image/avif"
+                  srcSet={`${el.content} 1x, ${el.content} 2x, ${el.content} 3x`}
+                />
+                <source
+                  type="image/webp"
+                  srcSet={`${el.content} 1x, ${el.content} 2x, ${el.content} 3x`}
+                />
+                <img
+                  src={el.content}
+                  alt="resizable content"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: el.borderRadius,
+                    border: el.borderWidth
+                      ? `${el.borderWidth}px solid ${el.borderColor}`
+                      : "",
+                    boxShadow: el.boxShadow,
+                  }}
+                />
+              </picture>
+            ) : null}
           </div>
         </Rnd>
       ))}

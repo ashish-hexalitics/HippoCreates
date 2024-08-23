@@ -2,12 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-html,body{
-    width: 100%;
-    height: 100%;
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.circle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #66bfbf;
+  border-radius: 50%;
+  opacity: 0.8;
+  box-shadow: 0 0 15px rgba(102, 191, 191, 0.7),
+    0 0 30px rgba(102, 191, 191, 0.5);
+  transform: scale(1);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  pointer-events: none;
+}
+
+#borderBottomEffect {
+  border-bottom: 5px solid rgba(102, 191, 191, 0.7);
+  border-radius: 50%;
+  transform: scale(1);
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(85, 186, 185, 0.5);
+  transform: scale(0);
+  animation: ripple-animation 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* resize */
+.resizeable-element.selected .react-resizable-handle {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border: 2px solid #3498db; /* Blue border similar to your image */
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+}
+
+.react-resizable-handle-sw {
+  bottom: -6px;
+  left: -6px;
+  cursor: sw-resize;
+}
+
+.react-resizable-handle-se {
+  bottom: -6px;
+  right: -6px;
+  cursor: se-resize;
+}
+
+.react-resizable-handle-nw {
+  top: -6px;
+  left: -6px;
+  cursor: nw-resize;
+}
+
+.react-resizable-handle-ne {
+  top: -6px;
+  right: -6px;
+  cursor: ne-resize;
+}
+
+.react-resizable-handle-w,
+.react-resizable-handle-e,
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+  width: 8px;
+  height: 24px;
+  background-color: white;
+  border-radius: 4px;
+  border: 2px solid #3498db;
+}
+
+.react-resizable-handle-w {
+  left: -6px;
+  top: calc(50% - 12px);
+  cursor: w-resize;
+}
+
+.react-resizable-handle-e {
+  right: -6px;
+  top: calc(50% - 12px);
+  cursor: e-resize;
+}
+
+.react-resizable-handle-n {
+  top: -6px;
+  left: calc(50% - 12px);
+  cursor: n-resize;
+}
+
+.react-resizable-handle-s {
+  bottom: -6px;
+  left: calc(50% - 12px);
+  cursor: s-resize;
 }

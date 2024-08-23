@@ -24,6 +24,10 @@ import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { FaArrowsToEye } from "react-icons/fa6";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { FaRegFileAlt } from "react-icons/fa";
+import { TfiPencil } from "react-icons/tfi";
+import { HiOutlineDesktopComputer } from "react-icons/hi";
+import { IoBriefcaseOutline } from "react-icons/io5";
 
 
 export const icons = {
@@ -54,5 +58,9 @@ export const icons = {
     MdOutlineMarkEmailUnread:MdOutlineMarkEmailUnread,
     FaArrowsToEye:FaArrowsToEye,
     BsEye:BsEye,
-    IoAddCircleOutline:IoAddCircleOutline
+    IoAddCircleOutline:IoAddCircleOutline,
+    FaRegFileAlt:FaRegFileAlt,
+    TfiPencil:TfiPencil,
+    HiOutlineDesktopComputer:HiOutlineDesktopComputer,
+    IoBriefcaseOutline:IoBriefcaseOutline
 }
