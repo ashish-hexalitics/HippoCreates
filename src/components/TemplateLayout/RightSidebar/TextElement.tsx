@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { icons } from "../../Icons/constant";
+import { icons } from "../../../Icons/constant";
 const { IoAddCircleOutline } = icons;
 const defaultSamples: { name: string; value: string }[] = [
   {
@@ -24,7 +24,7 @@ const defaultSamples: { name: string; value: string }[] = [
   },
 ];
 
-import { TemplateStyle } from "../../dto/TemplateStyle.dto";
+import { TemplateStyle } from "../../../dto/templateStyle.dto";
 
 function TextElement({
   element,

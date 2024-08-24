@@ -28,7 +28,13 @@ import { FaRegFileAlt } from "react-icons/fa";
 import { TfiPencil } from "react-icons/tfi";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { IoBriefcaseOutline } from "react-icons/io5";
-
+import { LuBringToFront } from "react-icons/lu";
+import { LuSendToBack } from "react-icons/lu";
+import { GrCut } from "react-icons/gr";
+import { GoPaste } from "react-icons/go";
+import { IoDuplicateOutline } from "react-icons/io5";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { CiLock } from "react-icons/ci";
 
 export const icons = {
     CiHome:CiHome,
@@ -62,5 +68,12 @@ export const icons = {
     FaRegFileAlt:FaRegFileAlt,
     TfiPencil:TfiPencil,
     HiOutlineDesktopComputer:HiOutlineDesktopComputer,
-    IoBriefcaseOutline:IoBriefcaseOutline
+    IoBriefcaseOutline:IoBriefcaseOutline,
+    LuBringToFront:LuBringToFront,
+    LuSendToBack:LuSendToBack,
+    GrCut:GrCut,
+    GoPaste:GoPaste,
+    IoDuplicateOutline:IoDuplicateOutline,
+    MdOutlineDeleteOutline:MdOutlineDeleteOutline,
+    CiLock:CiLock,
 }

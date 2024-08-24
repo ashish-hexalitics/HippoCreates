@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { Rnd } from "react-rnd";
 import { pixelsToCm } from "./constant";
+
 const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 const a4Landscape = { width: pixelsToCm(1123), height: pixelsToCm(794) };
-
 import { IRNDElement } from "../../dto/element.dto";
 
+import Shaps from "./Shaps/index";
+import Texts from "./Text/Text";
+import Images from "./Images/Image";
+import RightClickedHandle from "./ElementHandlers/RightClickedHandle";
+import ResizeHandler from "./ElementHandlers/ResizeHandler";
 function RndElement({
   isPortrait,
   zoomLevel,
@@ -17,6 +22,7 @@ function RndElement({
   handleResizeStop,
   handleContentChange,
   guideLines,
+  selectedElement,
 }: IRNDElement) {
   const [contextMenu, setContextMenu] = useState<{
     visible: boolean;
@@ -27,34 +33,18 @@ function RndElement({
 
   const handleContextMenu = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
+
+    // Get the bounding box of the clicked element
+    const clickedElement = elements.find((el) => el.id === id);
+    const elementX = clickedElement?.x || 0;
+    const elementY = clickedElement?.y || 0;
+
     setContextMenu({
       visible: true,
-      x: e.clientX,
-      y: e.clientY,
+      x: elementX + e.nativeEvent.offsetX,
+      y: elementY + e.nativeEvent.offsetY,
       elementId: id,
     });
-  };
-
-  const bringToFront = () => {
-    if (contextMenu.elementId !== null) {
-      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
-      const newElements = [...elements];
-      const [element] = newElements.splice(index, 1);
-      newElements.push(element);
-      setElements(newElements);
-    }
-    setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
-  };
-
-  const sendToBack = () => {
-    if (contextMenu.elementId !== null) {
-      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
-      const newElements = [...elements];
-      const [element] = newElements.splice(index, 1);
-      newElements.unshift(element);
-      setElements(newElements);
-    }
-    setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
 
   const closeContextMenu = () => {
@@ -76,7 +66,12 @@ function RndElement({
         transformOrigin: "top left",
         transform: `transalate(-50%,-50%) scale(${zoomLevel})`,
       }}
-      onClick={closeContextMenu}
+      // onClick={closeContextMenu}
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedElementId(null); 
+        closeContextMenu();
+      }}
     >
       {elements.map((el) => (
         <Rnd
@@ -84,181 +79,82 @@ function RndElement({
           size={{ width: el.width, height: el.height }}
           position={{ x: el.x, y: el.y }}
           onDrag={(e, d) => {
-            console.log(e);
             handleDrag(d.x, d.y);
           }}
           onDragStop={(e, d) => {
-            console.log(e);
             handleDragStop(el.id, d.x, d.y);
             setSelectedElementId(el.id);
           }}
+          onResize={(e, direction, ref, delta, position) => {
+            handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
+          }}
           onResizeStop={(e, direction, ref, delta, position) => {
-            console.log(e, direction, ref, delta, position);
             handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
           }}
           onContextMenu={(e: any) => handleContextMenu(e, el.id)}
-          onClick={() => setSelectedElementId(el.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedElementId(el.id);
+          }}
           bounds="parent"
         >
           <div
-            className="cursor-pointer hover:outline-dotted hover:outline-blue-400 relative"
+            // className="cursor-pointer relative resizeable-element selected react-resizable-handle"
+            className={`cursor-pointer relative resizeable-element ${
+              selectedElement && el.id === selectedElement.id ? "selected" : ""
+            }`}
+            // hover:outline-dotted hover:outline-blue-400
             style={{
               color: el.color,
               fontSize: `${el.fontSize}px`,
               fontWeight: el.fontWeight,
               padding: `${el.padding}px`,
               transform: `scale(${zoomLevel})`,
+              position: "relative",
             }}
           >
-            {el.content === "rectangle" && (
-              <div
-                style={{
-                  width: el.width,
-                  height: el.height,
-                  backgroundColor: el.backgroundColor,
-                  borderRadius: el.borderRadius,
-                  border: el.borderWidth
-                    ? `${el.borderWidth}px solid ${el.borderColor}`
-                    : "",
-                  boxShadow: el.boxShadow,
-                  transform: `scale(${zoomLevel})`,
-                }}
-                className="border"
-              ></div>
-            )}
-            {el.content === "circle" && (
-              <div
-                style={{
-                  width: el.width,
-                  height: el.height,
-                  borderRadius: el.borderRadius || "50%",
-                  backgroundColor: el.backgroundColor || "#f2f2f2",
-                  borderWidth: `${el.borderWidth}px` || "2px",
-                  borderColor: el.borderColor || "blue",
-                  borderStyle: "solid",
-                  boxShadow: el.boxShadow,
-                  transform: `scale(${zoomLevel})`,
-                }}
-              ></div>
-            )}
-            {el.content === "line" && (
-              <div
-                style={{
-                  width: el.width,
-                  height: el.strockHeight || "2px",
-                  backgroundColor: el.strockColor || "#000",
-                  transform: `scale(${zoomLevel})`,
-                }}
-              ></div>
-            )}
+            {selectedElement &&
+              el.content === selectedElement.content &&
+              el.id === selectedElement.id && (
+                <ResizeHandler content={el.content} />
+              )}
+
+            {el.content === "rectangle" ||
+            el.content === "circle" ||
+            el.content === "line" ? (
+              <Shaps shap={el.content} element={el} zoomLevel={zoomLevel} />
+            ) : null}
+
             {el.content == "Text" && !el.content.startsWith("data:image/") && (
-              <>
-                {el.name ? (
-                  <div
-                    className="flex flex-wrap"
-                    style={{
-                      transform: `scale(${zoomLevel})`,
-                    }}
-                  >
-                    <span>{el.name} : </span>
-                    <div
-                      contentEditable={!el.content.startsWith("data:image/")}
-                      onBlur={(e) =>
-                        handleContentChange && handleContentChange(e, el.id)
-                      }
-                      style={{
-                        transform: `scale(${zoomLevel})`,
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: `${el.value}` || "",
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div
-                    contentEditable={!el.content.startsWith("data:image/")}
-                    onBlur={(e) =>
-                      handleContentChange && handleContentChange(e, el.id)
-                    }
-                    style={{
-                      transform: `scale(${zoomLevel})`,
-                    }}
-                    dangerouslySetInnerHTML={{
-                      __html: el.name
-                        ? `${el.name} : ${el.value}`
-                        : `${el.value}` || "",
-                    }}
-                  />
-                )}
-              </>
-              // <div
-              //   contentEditable={!el.content.startsWith("data:image/")}
-              //   onBlur={(e) =>
-              //     handleContentChange && handleContentChange(e, el.id)
-              //   }
-              //   dangerouslySetInnerHTML={{
-              //     __html: el.name
-              //       ? `${el.name} : ${el.value}`
-              //       : `${el.value}` || "",
-              //   }}
-              // />
+              <Texts
+                text={el.content}
+                element={el}
+                zoomLevel={zoomLevel}
+                handleContentChange={handleContentChange}
+              />
             )}
             {el.content.startsWith("data:image/") ? (
-              <picture>
-                <source
-                  type="image/avif"
-                  srcSet={`${el.content} 1x, ${el.content} 2x, ${el.content} 3x`}
-                />
-                <source
-                  type="image/webp"
-                  srcSet={`${el.content} 1x, ${el.content} 2x, ${el.content} 3x`}
-                />
-                <img
-                  src={el.content}
-                  alt="resizable content"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: el.borderRadius,
-                    border: el.borderWidth
-                      ? `${el.borderWidth}px solid ${el.borderColor}`
-                      : "",
-                    boxShadow: el.boxShadow,
-                  }}
-                />
-              </picture>
+              <Images element={el} />
             ) : null}
           </div>
         </Rnd>
       ))}
-      {contextMenu.visible && (
-        <div
-          style={{
-            position: "absolute",
-            top: contextMenu.y,
-            left: contextMenu.x,
-            transform: `translate(-50%,-50%)`,
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            zIndex: 999,
-          }}
-        >
-          <div
-            onClick={bringToFront}
-            className="p-2 cursor-pointer hover:bg-gray-200"
-          >
-            Bring to Front
-          </div>
-          <div
-            onClick={sendToBack}
-            className="p-2 cursor-pointer hover:bg-gray-200"
-          >
-            Send to Back
-          </div>
-        </div>
-      )}
-      {/* Guide lines */}
+      <RightClickedHandle
+        contextMenu={contextMenu}
+        setContextMenu={setContextMenu}
+        elements={elements}
+        setElements={setElements}
+      />
+      <GuideLines guideLines={guideLines} />
+    </div>
+  );
+}
+
+export default RndElement;
+
+const GuideLines = ({ guideLines }: { guideLines: React.ComponentState }) => {
+  return (
+    <>
       {guideLines.x !== null && (
         <div
           className="absolute bg-blue-500"
@@ -283,8 +179,6 @@ function RndElement({
           }}
         />
       )}
-    </div>
+    </>
   );
-}
-
-export default RndElement;
+};

@@ -4,9 +4,9 @@ import {
   useUpdateTemplateMutation,
 } from "../../store/slices/userSlice/apiSlice";
 import { getTemplateSlice } from "../../store/slices/userSlice/userSlice";
-import TemplateSideBar from "../../components/TemplateLayout/TemplateSideBar";
+import TemplateSideBar from "../../components/TemplateLayout/RightSidebar/TemplateSideBar";
 import PDFSizeModal from "../../components/TemplateLayout/PDFSizeModal";
-import TopBar from "../../components/TemplateLayout/TopBar";
+import TopBar from "../../components/TemplateLayout/TopMenu/TopBar";
 import RndElement from "../../components/TemplateLayout/RndElement";
 import { useCreateTemplatesMutation } from "../../store/slices/userSlice/apiSlice";
 import {
@@ -259,6 +259,7 @@ function ConfigureTemplate() {
             handleContentChange={handleContentChange}
             guideLines={guideLines}
             setElements={setElements}
+            selectedElement={selectedElement}
           />
         </div>
         {/* Zoom Slider */}

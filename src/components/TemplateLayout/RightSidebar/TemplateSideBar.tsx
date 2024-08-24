@@ -3,11 +3,11 @@ import React from "react";
 import {
   TemplateStyle,
   TemplateSideBarProps,
-} from "../../dto/TemplateStyle.dto";
+} from "../../../dto/templateStyle.dto";
 
 import TextElement from "./TextElement";
 import ImageElement from "./ImageElement";
-import RectangleElement from "./RectangleElement";
+import RectangleElement from "../RectangleElement";
 import LineElement from "./LineElement";
 import CircleElement from "./CircleElement";
 

@@ -38,4 +38,5 @@ export interface Element {
     ) => void;
     guideLines: React.ComponentState;
     setElements: React.ComponentState;
+    selectedElement?:Element
   }
