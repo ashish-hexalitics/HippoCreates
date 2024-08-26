@@ -18,7 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
 import ViewModal from "../../components/Common/Modal/ViewModal";
-import TemplateView from "../../components/TemplateLayout/TemplateView"
+import TemplateView from "../../components/TemplateLayout/TemplateView";
 
 function ConfigureTemplate() {
   const params = useParams();
@@ -194,6 +194,22 @@ function ConfigureTemplate() {
     reader.readAsDataURL(file);
   };
 
+  const openThirdPartyUpload = (imageSrc: string) => {
+    const newElement = {
+      id: Date.now(),
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+      content: imageSrc as string,
+      color: "#000000",
+      fontSize: 16,
+      fontWeight: "normal",
+      padding: 0,
+    };
+    setElements([...elements, newElement]);
+    setSelectedElementId(newElement.id);
+  };
   const addShape = (shape: string) => {
     const newElement = {
       id: Date.now(),
@@ -236,6 +252,7 @@ function ConfigureTemplate() {
             onUpload={handleUpload}
             addShape={addShape}
             setIsViewModalOpen={setIsViewModalOpen}
+            openThirdPartyUpload={openThirdPartyUpload}
           />
         </div>
         <div
@@ -296,9 +313,7 @@ function ConfigureTemplate() {
         handleAction={handleAction}
         title="View Template"
       >
-        <TemplateView
-          template={template}
-        />
+        <TemplateView template={template} />
       </ViewModal>
     </div>
   );

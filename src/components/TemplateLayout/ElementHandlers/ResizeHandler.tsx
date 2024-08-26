@@ -26,7 +26,7 @@ function ResizeHandler({ content }: { content: string }) {
 
     case "rectangle":
     case "circle":
-      return resizeElement
+      return resizeElement;
 
     default:
       return renderResize(content);
@@ -36,7 +36,10 @@ function ResizeHandler({ content }: { content: string }) {
 export default ResizeHandler;
 
 const renderResize = (content: string) => {
-  if (content.startsWith("data:image/")) {
+  if (
+    content.startsWith("data:image/") ||
+    content.startsWith("https://images.pexels.com")
+  ) {
     return resizeElement;
   } else {
     return null;

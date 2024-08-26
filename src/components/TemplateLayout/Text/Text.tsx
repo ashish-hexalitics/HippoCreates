@@ -22,7 +22,10 @@ function Text({ element, zoomLevel, handleContentChange }: TextProps) {
         >
           <span>{element.name} : </span>
           <div
-            contentEditable={!element.content.startsWith("data:image/")}
+            contentEditable={
+              !element.content.startsWith("data:image/") &&
+              !element.content.startsWith("https://images.pexels.com")
+            }
             onBlur={(e) =>
               handleContentChange && handleContentChange(e, element.id)
             }
@@ -36,7 +39,10 @@ function Text({ element, zoomLevel, handleContentChange }: TextProps) {
         </div>
       ) : (
         <div
-          contentEditable={!element.content.startsWith("data:image/")}
+          contentEditable={
+            !element.content.startsWith("data:image/") &&
+            !element.content.startsWith("https://images.pexels.com")
+          }
           onBlur={(e) =>
             handleContentChange && handleContentChange(e, element.id)
           }

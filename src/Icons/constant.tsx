@@ -35,6 +35,9 @@ import { GoPaste } from "react-icons/go";
 import { IoDuplicateOutline } from "react-icons/io5";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
+import { FaUnsplash } from "react-icons/fa";
+import { PiUploadFill } from "react-icons/pi";
+import { SiPexels } from "react-icons/si";
 
 export const icons = {
     CiHome:CiHome,
@@ -76,4 +79,7 @@ export const icons = {
     IoDuplicateOutline:IoDuplicateOutline,
     MdOutlineDeleteOutline:MdOutlineDeleteOutline,
     CiLock:CiLock,
+    FaUnsplash:FaUnsplash,
+    PiUploadFill:PiUploadFill,
+    SiPexels:SiPexels
 }

@@ -36,10 +36,12 @@ function ImageElement({
         <label className="block text-black mb-2">Image Preview:</label>
         <div className="border rounded p-2 mb-2">
           <img
-            src={element.imageUrl}
+            src={element.content}
             alt="Preview"
             style={{
               width: "100%",
+              height:200,
+              objectFit:'cover',
               borderRadius: `${element.borderRadius}px`,
               border: `${element.borderWidth}px solid ${element.borderColor}`,
               boxShadow: element.boxShadow,

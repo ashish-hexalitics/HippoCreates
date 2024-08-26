@@ -14,7 +14,7 @@ import CircleElement from "./CircleElement";
 const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   element,
   onChange,
-  addElement
+  addElement,
 }) => {
   if (!element)
     return <div className="p-4">Select an element to customize.</div>;
@@ -31,12 +31,20 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
       style={{ width: "300px", height: "100%" }}
       className="flex flex-col bg-white p-4 shadow-lg overflow-y-scroll"
     >
-      {element.content.startsWith("data:image/") && (
-        <ImageElement element={element} handleInputChange={handleInputChange} />
-      )}
+      {element.content.startsWith("data:image/") ||
+        (element.content.startsWith("https://images.pexels.com") && (
+          <ImageElement
+            element={element}
+            handleInputChange={handleInputChange}
+          />
+        ))}
 
       {element.content.startsWith("Text") && (
-        <TextElement element={element} handleInputChange={handleInputChange} addElement={addElement} />
+        <TextElement
+          element={element}
+          handleInputChange={handleInputChange}
+          addElement={addElement}
+        />
       )}
       {element.content.startsWith("rectangle") && (
         <RectangleElement

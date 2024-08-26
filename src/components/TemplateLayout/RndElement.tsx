@@ -51,6 +51,7 @@ function RndElement({
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
 
+  console.log(elements);
   return (
     <div
       id="template-container"
@@ -69,7 +70,7 @@ function RndElement({
       // onClick={closeContextMenu}
       onClick={(e) => {
         e.stopPropagation();
-        setSelectedElementId(null); 
+        setSelectedElementId(null);
         closeContextMenu();
       }}
     >
@@ -125,15 +126,18 @@ function RndElement({
               <Shaps shap={el.content} element={el} zoomLevel={zoomLevel} />
             ) : null}
 
-            {el.content == "Text" && !el.content.startsWith("data:image/") && (
-              <Texts
-                text={el.content}
-                element={el}
-                zoomLevel={zoomLevel}
-                handleContentChange={handleContentChange}
-              />
-            )}
-            {el.content.startsWith("data:image/") ? (
+            {el.content == "Text" &&
+              !el.content.startsWith("data:image/") &&
+              !el.content.startsWith("https://images.pexels.com") && (
+                <Texts
+                  text={el.content}
+                  element={el}
+                  zoomLevel={zoomLevel}
+                  handleContentChange={handleContentChange}
+                />
+              )}
+            {el.content.startsWith("data:image/") ||
+            el.content.startsWith("https://images.pexels.com") ? (
               <Images element={el} />
             ) : null}
           </div>

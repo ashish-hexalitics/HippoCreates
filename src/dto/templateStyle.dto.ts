@@ -28,6 +28,7 @@ export interface TemplateSideBarProps {
 
 export interface ITopBar {
   addElement?: (el: { name: string; value: string }) => void;
+  openThirdPartyUpload: (imageSrc: string) => void;
   toggleOrientation: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
