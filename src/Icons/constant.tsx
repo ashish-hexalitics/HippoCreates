@@ -38,6 +38,7 @@ import { CiLock } from "react-icons/ci";
 import { FaUnsplash } from "react-icons/fa";
 import { PiUploadFill } from "react-icons/pi";
 import { SiPexels } from "react-icons/si";
+import { SiIconify } from "react-icons/si";
 
 export const icons = {
     CiHome:CiHome,
@@ -81,5 +82,6 @@ export const icons = {
     CiLock:CiLock,
     FaUnsplash:FaUnsplash,
     PiUploadFill:PiUploadFill,
-    SiPexels:SiPexels
+    SiPexels:SiPexels,
+    SiIconify:SiIconify
 }

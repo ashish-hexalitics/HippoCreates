@@ -51,7 +51,6 @@ function RndElement({
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
 
-  console.log(elements);
   return (
     <div
       id="template-container"
@@ -106,7 +105,7 @@ function RndElement({
             }`}
             // hover:outline-dotted hover:outline-blue-400
             style={{
-              color: el.color,
+              // color: el.color,
               fontSize: `${el.fontSize}px`,
               fontWeight: el.fontWeight,
               padding: `${el.padding}px`,

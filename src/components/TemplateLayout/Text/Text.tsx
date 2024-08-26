@@ -1,6 +1,6 @@
 import React from "react";
-import { Element } from "../../../dto/element.dto";
-
+import { Element,Textvarient } from "../../../dto/element.dto";
+import TextElement from "./TextElement";
 interface TextProps {
   element: Element;
   zoomLevel: number;
@@ -18,6 +18,8 @@ function Text({ element, zoomLevel, handleContentChange }: TextProps) {
           className="flex flex-wrap"
           style={{
             transform: `scale(${zoomLevel})`,
+            color:
+              element.textVarient === Textvarient.Link ? "blue" : element.color,
           }}
         >
           <span>{element.name} : </span>
@@ -38,22 +40,10 @@ function Text({ element, zoomLevel, handleContentChange }: TextProps) {
           />
         </div>
       ) : (
-        <div
-          contentEditable={
-            !element.content.startsWith("data:image/") &&
-            !element.content.startsWith("https://images.pexels.com")
-          }
-          onBlur={(e) =>
-            handleContentChange && handleContentChange(e, element.id)
-          }
-          style={{
-            transform: `scale(${zoomLevel})`,
-          }}
-          dangerouslySetInnerHTML={{
-            __html: element.name
-              ? `${element.name} : ${element.value}`
-              : `${element.value}` || "",
-          }}
+        <TextElement
+          element={element}
+          zoomLevel={zoomLevel}
+          handleContentChange={handleContentChange}
         />
       )}
     </>

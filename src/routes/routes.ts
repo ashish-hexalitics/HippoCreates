@@ -12,6 +12,8 @@ import Users from "../pages/UserManagemnt/Users";
 import Template from "../pages/TemplateManagement/Templates";
 import ConfigureTemplate from "../pages/TemplateManagement/ConfigureTemplate";
 import Categories from "../pages/CategoryManagement/Categories";
+import UseTempalte from "../pages/TemplateManagement/UseTempalte";
+
 export const publicRoutes = [
   {
     path: "/",
@@ -28,6 +30,10 @@ export const publicRoutes = [
   {
     path: "/choose-resume",
     component: CooseResumePage,
+  },
+  {
+    path: "/view/template/:categoryId/:templateId",
+    component: UseTempalte,
   },
 ];
 

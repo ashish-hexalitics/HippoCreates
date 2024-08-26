@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { icons } from "../../../Icons/constant";
-const { GrGallery, FaUnsplash, SiPexels, PiUploadFill } = icons;
+const { GrGallery, FaUnsplash, SiPexels, PiUploadFill, SiIconify } = icons;
 import UnsplashSearch from "./UnsplashSearch";
 import PexelsSearch from "./PexelsSearch";
+import IconifySearch from "./IconifySearch";
 
 function GalleryTools({
   handleFileChange,
-  openThirdPartyUpload
+  openThirdPartyUpload,
 }: {
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   openThirdPartyUpload: (imageSrc: string) => void;
@@ -65,6 +66,14 @@ function GalleryTools({
                   <SiPexels className="me-2" /> Pexels
                 </span>
               </button>
+              <button
+                onClick={() => setTabId("icons")}
+                className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer"
+              >
+                <span className="text-gray-600 flex items-center">
+                  <SiIconify className="me-2" /> Icons
+                </span>
+              </button>
             </div>
             <div className="border-l border-gray-200 p-4 w-[70%]">
               {tabId === "upload" && (
@@ -75,7 +84,10 @@ function GalleryTools({
               {tabId === "unsplash" && <UnsplashSearch />}
               {tabId === "pexels" && (
                 <PexelsSearch onImageSelect={openThirdPartyUpload} />
-              )}{" "}
+              )}
+              {tabId === "icons" && (
+                <IconifySearch onIconSelect={openThirdPartyUpload} />
+              )}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { icons } from "../../../Icons/constant";
 
 const { CgFormatText } = icons;
@@ -22,7 +22,7 @@ function TextTools({
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSelect = (tag: string) => {
-    addElement({ name: "", value: tag });
+    addElement({ name: "", value: "Text", textVarient: tag });
     setShowDropdown(false);
   };
 
@@ -32,8 +32,8 @@ function TextTools({
         onClick={() => setShowDropdown(!showDropdown)}
         className="p-2 bg-primary text-white rounded-md hover:bg-gray-600 transition flex flex-col justify-center items-center"
       >
-        <CgFormatText style={{ fontSize: "20px"}} />
-        <span  style={{fontSize:'10px'}}>Add Text</span>
+        <CgFormatText style={{ fontSize: "20px" }} />
+        <span style={{ fontSize: "10px" }}>Add Text</span>
       </button>
 
       {showDropdown && (

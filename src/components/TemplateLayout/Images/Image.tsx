@@ -25,9 +25,9 @@ function Image({ element }: RectangleProps) {
           height: "100%",
           objectFit: "cover",
           borderRadius: element.borderRadius,
-          border: element.borderWidth
+          border: element.borderWidth && element.borderEnabled 
             ? `${element.borderWidth}px solid ${element.borderColor}`
-            : "",
+            : "none",
           boxShadow: element.boxShadow,
         }}
         className="react-resizable-handle-w react-resizable-handle-e react-resizable-handle-n eact-resizable-handle-s react-resizable-handle-nw react-resizable-handle-ne react-resizable-handle-se react-resizable-handle-sw "

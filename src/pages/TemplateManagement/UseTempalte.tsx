@@ -20,7 +20,7 @@ import type { RootState } from "../../store";
 import ViewModal from "../../components/Common/Modal/ViewModal";
 import TemplateView from "../../components/TemplateLayout/TemplateView";
 
-function ConfigureTemplate() {
+function UseTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -64,11 +64,7 @@ function ConfigureTemplate() {
     }
   }, [data?.template]);
 
-  const addElement = (el: {
-    name: string;
-    value: string;
-    textVarient?: string;
-  }) => {
+  const addElement = (el: { name: string; value: string }) => {
     const newElement = {
       id: Date.now(),
       x: 0,
@@ -323,4 +319,4 @@ function ConfigureTemplate() {
   );
 }
 
-export default ConfigureTemplate;
+export default UseTemplate;

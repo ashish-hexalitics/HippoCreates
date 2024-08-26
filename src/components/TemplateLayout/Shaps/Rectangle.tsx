@@ -15,9 +15,9 @@ function Rectangle({ element, zoomLevel }: RectangleProps) {
         height: element.height,
         backgroundColor: element.backgroundColor,
         borderRadius: element.borderRadius,
-        border: element.borderWidth
+        border: element.borderWidth && element.borderEnabled
           ? `${element.borderWidth}px solid ${element.borderColor}`
-          : "",
+          : "none",
         boxShadow: element.boxShadow,
         transform: `scale(${zoomLevel})`,
       }}
@@ -26,15 +26,3 @@ function Rectangle({ element, zoomLevel }: RectangleProps) {
 }
 
 export default Rectangle;
-// {element && (
-//   <>
-//     <div className="react-resizable-handle react-resizable-handle-se"></div>
-//     <div className="react-resizable-handle react-resizable-handle-sw"></div>
-//     <div className="react-resizable-handle react-resizable-handle-nw"></div>
-//     <div className="react-resizable-handle react-resizable-handle-ne"></div>
-//     <div className="react-resizable-handle react-resizable-handle-n"></div>
-//     <div className="react-resizable-handle react-resizable-handle-s"></div>
-//     <div className="react-resizable-handle react-resizable-handle-e"></div>
-//     <div className="react-resizable-handle react-resizable-handle-w"></div>
-//   </>
-// )}
