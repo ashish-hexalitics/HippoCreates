@@ -40,7 +40,12 @@ interface TemplateRequest {
 interface UserInfoRequest {
   userId: string;
 }
-
+interface RegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+  role: string; 
+}
 export const userApi: any = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithInterceptor,
@@ -48,6 +53,13 @@ export const userApi: any = createApi({
     login: builder.mutation<any, LoginRequest>({
       query: (credentials) => ({
         url: "/auth/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+    register: builder.mutation<any, RegisterRequest>({
+      query: (credentials) => ({
+        url: "/auth/register",
         method: "POST",
         body: credentials,
       }),
@@ -141,6 +153,7 @@ export const userApi: any = createApi({
 
 export const {
   useLoginMutation,
+  useRegisterMutation,
   useGetUserQuery,
   useGetUsersQuery,
   useGetTemplatesQuery,
@@ -149,6 +162,5 @@ export const {
   useUpdateUserInfoMutation,
   useGetTemplateQuery,
   useUpdateTemplateMutation,
-  useDeleteTemplateMutation
+  useDeleteTemplateMutation,
 } = userApi;
-

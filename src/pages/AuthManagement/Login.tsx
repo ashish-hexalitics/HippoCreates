@@ -32,8 +32,12 @@ const Login: React.FC = (): React.ReactElement => {
       if (response.data) {
         localStorage.setItem("user", JSON.stringify(response.data));
         localStorage.setItem("access_token", response.data.access_token);
-        navigate("/admin/dashboard");
-        console.log(response.data)
+        localStorage.setItem("role", response.data.user.role);
+        if (response.data.user.role === "utilizer") {
+          navigate("/step");
+        } else {
+          navigate(`/${response.data.user.role}/dashboard`);
+        }
         dispatch(setLoggedInUser(response.data));
       }
     } catch (error) {
@@ -41,7 +45,7 @@ const Login: React.FC = (): React.ReactElement => {
     }
   };
 
-  console.log("Error:", isError,data);
+  console.log("Error:", isError, data);
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6 dark:bg-[#fbf8f1]">
       <div className="flex w-full max-w-4xl overflow-hidden rounded-lg bg-[#fbf8f1] shadow-lg dark:bg-white">

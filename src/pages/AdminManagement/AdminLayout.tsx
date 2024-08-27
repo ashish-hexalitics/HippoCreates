@@ -3,7 +3,7 @@ import Header from "../../components/AdminLayout/Header";
 import MainContent from "../../components/AdminLayout/MainContent";
 import Sidebar from "../../components/AdminLayout/Sidebar";
 import { Route, Routes } from "react-router-dom";
-import { adminRoutes } from "../../routes/routes";
+import { adminRoutes, utilizerRoutes } from "../../routes/routes";
 
 function AdminLayout() {
   return (
@@ -12,17 +12,40 @@ function AdminLayout() {
       <div style={{ height: "calc(100% - 70px)" }} className="w-screen flex">
         <Sidebar />
         <Routes>
-          {adminRoutes.map(({ path, breadcrumb,showBreadcrumb, component: Component }) => (
-            <Route
-              key={path}
-              path={path}
-              element={
-                <MainContent path={path} breadcrumb={breadcrumb} showBreadcrumb={showBreadcrumb}>
-                  <Component />
-                </MainContent>
-              }
-            />
-          ))}
+          {adminRoutes.map(
+            ({ path, breadcrumb, showBreadcrumb, component: Component }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <MainContent
+                    path={path}
+                    breadcrumb={breadcrumb}
+                    showBreadcrumb={showBreadcrumb}
+                  >
+                    <Component />
+                  </MainContent>
+                }
+              />
+            )
+          )}
+          {utilizerRoutes.map(
+            ({ path, breadcrumb, showBreadcrumb, component: Component }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <MainContent
+                    path={path}
+                    breadcrumb={breadcrumb}
+                    showBreadcrumb={showBreadcrumb}
+                  >
+                    <Component />
+                  </MainContent>
+                }
+              />
+            )
+          )}
         </Routes>
       </div>
     </div>

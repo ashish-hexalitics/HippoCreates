@@ -41,7 +41,7 @@ export const protectedRoutes = [
   {
     path: "/admin/*",
     component: AdminLayout,
-  },
+  }
 ];
 
 export const authRoutes = [
@@ -104,4 +104,13 @@ export const adminRoutes = [
     breadcrumb: ["admin", "Template Categories"],
     showBreadcrumb: true,
   },
+];
+
+export const utilizerRoutes = [
+  {
+    path: "dashboard",
+    component: Dashboard,
+    breadcrumb: ["utilizer", "dashboard"],
+    showBreadcrumb: true,
+  }
 ];

@@ -40,6 +40,9 @@ import { PiUploadFill } from "react-icons/pi";
 import { SiPexels } from "react-icons/si";
 import { SiIconify } from "react-icons/si";
 import { RxCross1 } from "react-icons/rx";
+import { FaCheck } from "react-icons/fa6";
+import { CiCircleAlert } from "react-icons/ci";
+import { LuBadgeAlert } from "react-icons/lu";
 
 export const icons = {
     CiHome:CiHome,
@@ -85,5 +88,8 @@ export const icons = {
     PiUploadFill:PiUploadFill,
     SiPexels:SiPexels,
     SiIconify:SiIconify,
-    RxCross1:RxCross1
+    RxCross1:RxCross1,
+    FaCheck:FaCheck,
+    CiCircleAlert:CiCircleAlert,
+    LuBadgeAlert:LuBadgeAlert
 }

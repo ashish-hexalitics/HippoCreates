@@ -51,6 +51,13 @@ function RndElement({
   const closeContextMenu = () => {
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
+  const handleImageCrop = (id: number, croppedImage: string) => {
+    setElements(prevElements =>
+      prevElements.map(el =>
+        el.id === id ? { ...el, content: croppedImage } : el
+      )
+    );
+  };
 
   return (
     <div
@@ -139,7 +146,7 @@ function RndElement({
               )}
             {el.content.startsWith("data:image/") ||
             el.content.startsWith("https://images.pexels.com") ? (
-              <Images element={el} />
+              <Images element={el}  />
             ) : null}
             {el.content.startsWith("iconify~") ? (
               <Icons element={el} />

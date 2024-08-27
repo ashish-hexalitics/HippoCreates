@@ -1,28 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import business3dYoungWomenStanding from "../../assets/images/business-3d-young-women-standing.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../../store/slices/userSlice/apiSlice";
+import toast, { Toaster } from 'react-hot-toast';
+
+interface RegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+  role: string;
+}
 
 const Register: React.FC = (): React.ReactElement => {
+  const [user, setUser] = useState<RegisterRequest>({
+    email: "",
+    password: "",
+    name: "",
+    role: "utilizer",
+  });
+  const navigate = useNavigate();
+  const notify = (message: string) => toast(message);
+
+  const [register, { isLoading, isError, data }] = useRegisterMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const userCredentials: RegisterRequest = user;
+      const response = await register(userCredentials).unwrap();
+      if (response.user) {
+        !isError && navigate("/login");
+        notify(data.message);
+      }
+    } catch (error) {
+      console.log(error)
+      notify(error.data.message);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6 dark:bg-[#fbf8f1]">
       <div className="flex w-full max-w-4xl overflow-hidden rounded-lg bg-[#fbf8f1] shadow-lg dark:bg-white">
         <div className="w-full p-8 sm:p-12 lg:w-1/2">
-          <h2 className="mb-4 text-2xl font-bold text-center text-gray dark:text-gray">
+          <h2 className="mb-4 text-2xl font-bold text-left text-gray dark:text-gray">
             Register
           </h2>
-          <p className="mb-6 text-center text-gray-600 dark:text-gray-600">
-            How to get started? Lorem ipsum dolor at?
-          </p>
+          <Toaster/>
           <form>
             <div className="relative mb-6">
               <input
                 type="email"
                 className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
-                id="exampleInputUsername"
+                id="exampleInputEmail"
                 placeholder="Email"
+                name="email"
+                onChange={handleChange}
               />
               <label
-                htmlFor="exampleInputUsername"
+                htmlFor="exampleInputEmail"
                 className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
               >
                 Email
@@ -32,29 +71,62 @@ const Register: React.FC = (): React.ReactElement => {
               <input
                 type="text"
                 className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
-                id="exampleInputUsername"
-                placeholder="Username"
+                id="exampleInputFullName"
+                placeholder="Enter Full Name"
+                onChange={handleChange}
+                name="name"
               />
               <label
-                htmlFor="exampleInputUsername"
+                htmlFor="exampleInputFullName"
                 className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
               >
-                Username
+                Full Name
               </label>
             </div>
             <div className="relative mb-6">
               <input
                 type="password"
                 className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
-                id="exampleInputPassword1"
+                id="exampleInputPassword"
                 placeholder="Password"
+                onChange={handleChange}
+                name="password"
               />
               <label
-                htmlFor="exampleInputPassword1"
+                htmlFor="exampleInputPassword"
                 className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
               >
                 Password
               </label>
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-600 dark:text-gray-500">
+                Why Are You Here ?.
+              </label>
+              <div className="flex flex-col space-y-4 mt-2">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    name="role"
+                    value={"designer"}
+                    checked={user.role === "designer"}
+                    onChange={handleChange}
+                  />
+                  <span className="ml-2">To Design The Template</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    name="role"
+                    value={"utilizer"}
+                    checked={user.role === "utilizer"}
+                    onChange={handleChange}
+                  />
+                  <span className="ml-2">To Utilize The Template</span>
+                </label>
+              </div>
             </div>
             <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center">
@@ -74,6 +146,7 @@ const Register: React.FC = (): React.ReactElement => {
             </div>
             <button
               type="submit"
+              onClick={handleRegister}
               className="w-full rounded bg-[#55bab9] py-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-dark focus:bg-primary-dark focus:outline-none dark:bg-[#55bab9] dark:hover:bg-primary"
             >
               Register Now
