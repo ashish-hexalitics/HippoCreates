@@ -1,25 +1,6 @@
 import React from "react";
+import { TemplateStyle } from "../../../dto/templateStyle.dto";
 
-interface TemplateStyle {
-  fontWeight?: string;
-  fontSize?: number;
-  color?: string;
-  backgroundColor?: string;
-  x: number;
-  y: number;
-  content: string;
-  padding?: number;
-  borderRadius?: number;
-  borderColor?: string;
-  strockColor?: string;
-  borderWidth?: number;
-  boxShadow?: string;
-  imageUrl?: string;
-  width?: number | string;
-  height?: number | string;
-  strockHeight?: number | string;
-  borderEnabled?: boolean;
-}
 function RectangleElement({
   element,
   handleInputChange,
@@ -32,7 +13,7 @@ function RectangleElement({
 }) {
   return (
     <>
-      <h3 className="text-black font-bold mb-4">Rectangle Customization</h3>
+      <h3 className="text-gray-800 font-bold mb-4 font-sans">Rectangle Customization</h3>
 
       <div className="mb-4">
         <label className="block text-black mb-2">Content:</label>

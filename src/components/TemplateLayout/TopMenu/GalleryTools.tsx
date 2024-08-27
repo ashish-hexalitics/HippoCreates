@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { icons } from "../../../Icons/constant";
-const { GrGallery, FaUnsplash, SiPexels, PiUploadFill, SiIconify } = icons;
+const { GrGallery, RxCross1, FaUnsplash, SiPexels, PiUploadFill, SiIconify } =
+  icons;
 import UnsplashSearch from "./UnsplashSearch";
 import PexelsSearch from "./PexelsSearch";
 import IconifySearch from "./IconifySearch";
@@ -30,8 +31,9 @@ function GalleryTools({
 
       {showDropdown && (
         <div className="absolute bg-white text-black rounded-lg shadow-lg mt-2 z-10 w-[600px]">
-          <div className="p-4 flex items-center">
+          <div className="p-4 flex items-center justify-between">
             <span className="font-bold text-lg text-gray-700">Library</span>
+            <RxCross1 onClick={toggleDropdown} />
           </div>
           <div className="p-4 flex space-x-4">
             <div className="space-y-2 w-[30%]">

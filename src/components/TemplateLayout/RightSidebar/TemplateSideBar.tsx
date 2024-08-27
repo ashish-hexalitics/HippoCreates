@@ -7,14 +7,16 @@ import {
 
 import TextElement from "./TextElement";
 import ImageElement from "./ImageElement";
-import RectangleElement from "../RectangleElement";
+import RectangleElement from "./RectangleElement";
 import LineElement from "./LineElement";
 import CircleElement from "./CircleElement";
+import IconElement from "./IconElement";
 
 const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   element,
   onChange,
   addElement,
+  openThirdPartyUpload
 }) => {
   if (!element)
     return <div className="p-4">Select an element to customize.</div>;
@@ -38,7 +40,6 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
             handleInputChange={handleInputChange}
           />
         ))}
-
       {element.content.startsWith("Text") && (
         <TextElement
           element={element}
@@ -60,6 +61,9 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
       )}
       {element.content.startsWith("line") && (
         <LineElement element={element} handleInputChange={handleInputChange} />
+      )}
+      {element.content.startsWith("iconify~") && openThirdPartyUpload && (
+        <IconElement element={element} handleInputChange={handleInputChange} openThirdPartyUpload={openThirdPartyUpload} />
       )}
     </div>
   );

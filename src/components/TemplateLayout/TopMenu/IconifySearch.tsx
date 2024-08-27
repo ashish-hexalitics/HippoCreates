@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Icon } from "@iconify-icon/react";
 
 interface IconifyInfo {
   samples: string[];
@@ -63,7 +64,7 @@ function IconifySearch({ onIconSelect }: any) {
         />
         <button
           type="submit"
-          className="p-2 bg-primary text-white rounded-r-md"
+          className="p-2 bg-primary text-gray-600 rounded-r-md"
         >
           Search
         </button>
@@ -72,22 +73,21 @@ function IconifySearch({ onIconSelect }: any) {
       {loading && <div>Loading...</div>}
 
       <div
-        className="icon-list grid grid-cols-4 gap-4 overflow-y-scroll"
+        className="icon-list grid grid-cols-12 gap-2 items-center justify-center overflow-y-scroll"
         style={{ maxHeight: "400px" }}
       >
         {icons.length > 0 &&
           icons.map((icon, key) => {
             // const iconSet = icons[key];
             return (
-              <div key={key} className="mb-6 p-4 border rounded-md">
-                <div className="flex flex-wrap space-x-2 mt-2">
-                  <img
-                    key={key}
-                    src={`https://api.iconify.design/${icon}.svg`}
-                    alt={icon}
-                    className="w-12 h-12"
-                  />
-                </div>
+              <div
+                key={key}
+                className="border rounded-md"
+                onClick={() =>
+                  onIconSelect(`iconify~${icon}`)
+                }
+              >
+                <Icon icon={icon}  />
               </div>
             );
           })}

@@ -9,6 +9,7 @@ import { IRNDElement } from "../../dto/element.dto";
 import Shaps from "./Shaps/index";
 import Texts from "./Text/Text";
 import Images from "./Images/Image";
+import Icons from "./Icons/Icon";
 import RightClickedHandle from "./ElementHandlers/RightClickedHandle";
 import ResizeHandler from "./ElementHandlers/ResizeHandler";
 function RndElement({
@@ -127,7 +128,8 @@ function RndElement({
 
             {el.content == "Text" &&
               !el.content.startsWith("data:image/") &&
-              !el.content.startsWith("https://images.pexels.com") && (
+              !el.content.startsWith("https://images.pexels.com") &&
+              !el.content.startsWith("iconify~") && (
                 <Texts
                   text={el.content}
                   element={el}
@@ -138,6 +140,9 @@ function RndElement({
             {el.content.startsWith("data:image/") ||
             el.content.startsWith("https://images.pexels.com") ? (
               <Images element={el} />
+            ) : null}
+            {el.content.startsWith("iconify~") ? (
+              <Icons element={el} />
             ) : null}
           </div>
         </Rnd>

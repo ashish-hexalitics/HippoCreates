@@ -30,7 +30,7 @@ function LineElement({
   }) {
   return (
     <>
-    <h3 className="text-black font-bold mb-4">Line Customization</h3>
+    <h3 className="text-gray-800 font-bold mb-4 font-sans">Line Customization</h3>
 
     <div className="mb-4">
       <label className="block text-black mb-2">Content:</label>

@@ -1,23 +1,6 @@
-interface TemplateStyle {
-  fontWeight?: string;
-  fontSize?: number;
-  color?: string;
-  backgroundColor?: string;
-  x: number;
-  y: number;
-  content: string;
-  padding?: number;
-  borderRadius?: number;
-  borderColor?: string;
-  strockColor?: string;
-  borderWidth?: number;
-  boxShadow?: string;
-  imageUrl?: string;
-  width?: number | string;
-  height?: number | string;
-  strockHeight?: number | string;
-  borderEnabled?: boolean;
-}
+import { TemplateStyle } from "../../../dto/templateStyle.dto";
+import { filterStyles, shadowStyles } from "../constant";
+
 function ImageElement({
   element,
   handleInputChange,
@@ -28,23 +11,29 @@ function ImageElement({
   ) => void;
   element: TemplateStyle;
 }) {
+  const selectedFilter: string = filterStyles[element.filter] || "none";
+
   return (
     <>
-      <h3 className="text-black font-bold mb-4">Image Customization</h3>
+      <h3 className="text-gray-800 font-bold mb-4 font-sans">
+        Image Customization
+      </h3>
 
       <div className="mb-4">
         <label className="block text-black mb-2">Image Preview:</label>
-        <div className="border rounded p-2 mb-2">
+        <div className="border rounded p-2 mb-2 flex items-center justify-center">
           <img
             src={element.content}
             alt="Preview"
             style={{
-              width: "100%",
-              height:200,
-              objectFit:'cover',
+              width: "auto",
+              height: 100,
+              objectFit: "cover",
               borderRadius: `${element.borderRadius}px`,
               border: `${element.borderWidth}px solid ${element.borderColor}`,
               boxShadow: element.boxShadow,
+              opacity: Number(element.opacity) / 100 || 1,
+              filter: selectedFilter,
             }}
           />
         </div>
@@ -92,6 +81,86 @@ function ImageElement({
           value={element.boxShadow || ""}
           onChange={(e) => handleInputChange("boxShadow", e.target.value)}
           className="w-full border rounded px-2 py-1"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-black mb-2">Opacity:</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={element.opacity || 100}
+          onChange={(e) =>
+            handleInputChange("opacity", parseInt(e.target.value))
+          }
+          className="w-full rounded-md"
+          style={{
+            accentColor: "#3f9997",
+            WebkitAppearance: "none",
+            background: "#ddd",
+          }}
+        />
+        <span>{element.opacity || 100} %</span>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-black mb-2">Shadow:</label>
+        <div className="flex justify-between">
+          {Object.keys(shadowStyles).map((key:string) => {
+            return (
+              <button
+                key={key}
+                className={`p-2 border rounded ${
+                  element.boxShadow===shadowStyles[key] ? "bg-[#3f9997] text-white" : ""
+                }`}
+                onClick={() =>
+                  handleInputChange("boxShadow", shadowStyles[key])
+                }
+              >
+                {key}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-black mb-2">Filter:</label>
+        <div className="flex flex-wrap">
+          {Object.keys(filterStyles).map((filter) => (
+            <button
+              key={filter}
+              className={`p-2 m-1 border rounded ${
+                element.filter === filter ? "bg-[#3f9997] text-white" : ""
+              }`}
+              onClick={() => handleInputChange("filter", filter)}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-black mb-2">Blur:</label>
+        <input
+          type="number"
+          value={element.blur || 0}
+          onChange={(e) => handleInputChange("blur", parseInt(e.target.value))}
+          className="w-full border rounded px-2 py-1"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-black mb-2">Overlay:</label>
+        <input
+          type="checkbox"
+          checked={element.overlay || false}
+          onChange={(e) =>
+            handleInputChange("overlay", e.target.checked ? 1 : 0)
+          }
+          className="border rounded"
         />
       </div>
     </>

@@ -69,6 +69,8 @@ body {
   border: 2px solid #3498db;
   position: absolute;
   z-index: 9;
+  width: 100%;
+  height: 100%;
 }
 
 .react-resizable-handle-sw {
@@ -142,4 +144,37 @@ body {
   cursor: s-resize;
   width: 20px;
   height: 10px;
+}
+
+/* icon resize */
+
+.icon-resizable-handle {
+  display: block;
+  border:5px solid #3498db;
+  position: absolute;
+  z-index: 9;
+  border-radius: 50%;
+}
+.icon-resizable-handle-sw {
+  bottom: -6px;
+  left: -6px;
+  cursor: sw-resize;
+}
+
+.icon-resizable-handle-se {
+  bottom: -6px;
+  right: -6px;
+  cursor: se-resize;
+}
+
+.icon-resizable-handle-nw {
+  top: -6px;
+  left: -6px;
+  cursor: nw-resize;
+}
+
+.icon-resizable-handle-ne {
+  top: -6px;
+  right: -6px;
+  cursor: ne-resize;
 }

@@ -18,12 +18,17 @@ export interface TemplateStyle {
   strockHeight?: number | string;
   borderEnabled?: boolean;
   value?: string;
+  opacity?: number;
+  filter?: string;
+  overlay?: boolean;
+  blur?: number;
 }
 
 export interface TemplateSideBarProps {
   element: TemplateStyle | undefined;
   onChange: (data: Partial<TemplateStyle>) => void;
   addElement?: (el: { name: string; value: string }) => void;
+  openThirdPartyUpload?: (value: string) => void;
 }
 
 export interface ITopBar {

@@ -34,6 +34,10 @@ export interface Element {
   name?: string;
   value?: string;
   imageUrl?: string;
+  opacity?: number;
+  filter?: string;
+  overlay?: boolean;
+  blur?: number;
 }
 
 export interface IRNDElement {

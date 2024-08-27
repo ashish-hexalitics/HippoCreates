@@ -305,6 +305,7 @@ function ConfigureTemplate() {
         onChange={(data) =>
           selectedElementId && updateElement(selectedElementId, data)
         }
+        openThirdPartyUpload={openThirdPartyUpload}
       />
       <PDFSizeModal
         isOpen={isModalOpen}
