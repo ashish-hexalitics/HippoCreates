@@ -13,8 +13,15 @@ import Template from "../pages/TemplateManagement/Templates";
 import ConfigureTemplate from "../pages/TemplateManagement/ConfigureTemplate";
 import Categories from "../pages/CategoryManagement/Categories";
 import UseTempalte from "../pages/TemplateManagement/UseTempalte";
+import BuildResumeLayout from "../pages/BuildResumeManagement/BuildResumeLayout";
+import ContactPage from "../pages/BuildResumeManagement/ContactPage";
+import ExperiencePage from "../pages/BuildResumeManagement/ExperiencePage";
+import SkillsPage from "../pages/BuildResumeManagement/SkillsPage";
+import SummaryPage from "../pages/BuildResumeManagement/SummaryPage";
+import AdditonalDetailsPage from "../pages/BuildResumeManagement/AdditonalDetailsPage";
+import Educationpage from "../pages/BuildResumeManagement/EducationPage";
 
-export const publicRoutes = [
+export const publicRoutes = [ // these routes are accessable without auth
   {
     path: "/",
     component: HomePage,
@@ -37,14 +44,18 @@ export const publicRoutes = [
   },
 ];
 
-export const protectedRoutes = [
+export const protectedRoutes = [ // these routes are accessable with auth or layout for diffrent roles
   {
     path: "/admin/*",
     component: AdminLayout,
-  }
+  },
+  {
+    path: "/build-resume/*",
+    component: BuildResumeLayout,
+  },
 ];
 
-export const authRoutes = [
+export const authRoutes = [ // these routes are accessable without auth but not accessable with auth
   {
     path: "/login",
     component: Login,
@@ -55,7 +66,7 @@ export const authRoutes = [
   },
 ];
 
-export const adminRoutes = [
+export const adminRoutes = [ // these routes are accessable with auth or child routes of admin/*  routes
   {
     path: "dashboard",
     component: Dashboard,
@@ -106,11 +117,29 @@ export const adminRoutes = [
   },
 ];
 
-export const utilizerRoutes = [
+export const utilizerRoutes = [ // these routes are accessable with auth or child routes of build-resume/*  routes
   {
-    path: "dashboard",
-    component: Dashboard,
-    breadcrumb: ["utilizer", "dashboard"],
-    showBreadcrumb: true,
-  }
+    path: "contact",
+    component: ContactPage,
+  },
+  {
+    path: "experience",
+    component: ExperiencePage,
+  },
+  {
+    path: "education",
+    component: Educationpage,
+  },
+  {
+    path: "skills",
+    component: SkillsPage,
+  },
+  {
+    path: "summary",
+    component: SummaryPage,
+  },
+  {
+    path: "additional-details",
+    component: AdditonalDetailsPage,
+  },
 ];

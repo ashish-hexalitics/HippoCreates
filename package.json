@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.2.6",
     "axios": "^1.7.2",
     "canvas": "^2.11.2",
+    "formik": "^2.4.6",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "pspdfkit": "^2024.4.0",
@@ -25,7 +26,8 @@
     "react-rnd": "^10.4.12",
     "react-router-dom": "^6.24.1",
     "tw-elements-react": "^1.0.0-alpha-end",
-    "unsplash-js": "^7.0.19"
+    "unsplash-js": "^7.0.19",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@iconify-icon/react": "^2.1.0",

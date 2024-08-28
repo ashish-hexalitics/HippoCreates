@@ -16,16 +16,18 @@ function ChooseResumePage() {
   const { templates } = useAppSelector((state: RootState) => state.userSlice);
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
   const [templateData, setTemplateData] = useState<any>(null);
+  const [showLoginButton, setShowLoginButton] = useState<boolean>(false);
 
-  const { data, isLoading, isError } = useGetTemplatesQuery();
+  const { data } = useGetTemplatesQuery();
 
   useEffect(() => {
     if (data && data?.templates) {
       dispatch(getTemplates(data.templates));
+      setShowLoginButton(false);
     }
   }, [data, dispatch]);
 
-  const handleChooseTemplate = (data:any) => {
+  const handleChooseTemplate = (data: any) => {
     // console.log(`Template chosen: ${id}`);
     setTemplateData(data);
     setIsViewModalOpen(true);
@@ -33,7 +35,7 @@ function ChooseResumePage() {
 
   return (
     <div className="dark:bg-[#fbf8f1] font-sans relative min-h-screen">
-      <Header />
+      <Header showLoginButton={showLoginButton} />
 
       <div className="p-6">
         {/* Search Bar */}

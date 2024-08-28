@@ -7,7 +7,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { GrTemplate } from "react-icons/gr";
 import { CgFormatText } from "react-icons/cg";
 import { GrGallery } from "react-icons/gr";
-import { RiCheckboxBlankCircleLine,RiCheckboxBlankLine } from "react-icons/ri";
+import { RiCheckboxBlankCircleLine, RiCheckboxBlankLine } from "react-icons/ri";
 import { IoTabletLandscapeSharp } from "react-icons/io5";
 import { IoTabletPortraitSharp } from "react-icons/io5";
 import { CiZoomIn } from "react-icons/ci";
@@ -43,53 +43,67 @@ import { RxCross1 } from "react-icons/rx";
 import { FaCheck } from "react-icons/fa6";
 import { CiCircleAlert } from "react-icons/ci";
 import { LuBadgeAlert } from "react-icons/lu";
+import { IoIosContact } from "react-icons/io";
+import { FaBookReader } from "react-icons/fa";
+import { GrUserExpert } from "react-icons/gr";
+import { GiSkills } from "react-icons/gi";
+import { GrDocumentUser } from "react-icons/gr";
+import { TfiWrite } from "react-icons/tfi";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export const icons = {
-    CiHome:CiHome,
-    RxDashboard:RxDashboard,
-    HiOutlineUsers:HiOutlineUsers,
-    HiOutlineDocumentReport:HiOutlineDocumentReport,
-    CiSettings:CiSettings,
-    IoIosLogOut:IoIosLogOut,
-    GrTemplate:GrTemplate,
-    CgFormatText:CgFormatText,
-    GrGallery:GrGallery,
-    RiCheckboxBlankCircleLine:RiCheckboxBlankCircleLine,
-    RiCheckboxBlankLine:RiCheckboxBlankLine,
-    IoTabletLandscapeSharp:IoTabletLandscapeSharp,
-    IoTabletPortraitSharp:IoTabletPortraitSharp,
-    CiZoomIn:CiZoomIn,
-    CiZoomOut:CiZoomOut,
-    MdOutlineZoomInMap:MdOutlineZoomInMap,
-    BsSave2:BsSave2,
-    FaRegWindowMinimize:FaRegWindowMinimize,
-    MdOutlineCategory:MdOutlineCategory,
-    RiApps2AddLine:RiApps2AddLine,
-    MdOutlineEdit:MdOutlineEdit,
-    AiOutlineDelete:AiOutlineDelete,
-    BsCopy:BsCopy,
-    MdOutlineMarkEmailRead:MdOutlineMarkEmailRead,
-    MdOutlineMarkEmailUnread:MdOutlineMarkEmailUnread,
-    FaArrowsToEye:FaArrowsToEye,
-    BsEye:BsEye,
-    IoAddCircleOutline:IoAddCircleOutline,
-    FaRegFileAlt:FaRegFileAlt,
-    TfiPencil:TfiPencil,
-    HiOutlineDesktopComputer:HiOutlineDesktopComputer,
-    IoBriefcaseOutline:IoBriefcaseOutline,
-    LuBringToFront:LuBringToFront,
-    LuSendToBack:LuSendToBack,
-    GrCut:GrCut,
-    GoPaste:GoPaste,
-    IoDuplicateOutline:IoDuplicateOutline,
-    MdOutlineDeleteOutline:MdOutlineDeleteOutline,
-    CiLock:CiLock,
-    FaUnsplash:FaUnsplash,
-    PiUploadFill:PiUploadFill,
-    SiPexels:SiPexels,
-    SiIconify:SiIconify,
-    RxCross1:RxCross1,
-    FaCheck:FaCheck,
-    CiCircleAlert:CiCircleAlert,
-    LuBadgeAlert:LuBadgeAlert
-}
+  CiHome: CiHome,
+  RxDashboard: RxDashboard,
+  HiOutlineUsers: HiOutlineUsers,
+  HiOutlineDocumentReport: HiOutlineDocumentReport,
+  CiSettings: CiSettings,
+  IoIosLogOut: IoIosLogOut,
+  GrTemplate: GrTemplate,
+  CgFormatText: CgFormatText,
+  GrGallery: GrGallery,
+  RiCheckboxBlankCircleLine: RiCheckboxBlankCircleLine,
+  RiCheckboxBlankLine: RiCheckboxBlankLine,
+  IoTabletLandscapeSharp: IoTabletLandscapeSharp,
+  IoTabletPortraitSharp: IoTabletPortraitSharp,
+  CiZoomIn: CiZoomIn,
+  CiZoomOut: CiZoomOut,
+  MdOutlineZoomInMap: MdOutlineZoomInMap,
+  BsSave2: BsSave2,
+  FaRegWindowMinimize: FaRegWindowMinimize,
+  MdOutlineCategory: MdOutlineCategory,
+  RiApps2AddLine: RiApps2AddLine,
+  MdOutlineEdit: MdOutlineEdit,
+  AiOutlineDelete: AiOutlineDelete,
+  BsCopy: BsCopy,
+  MdOutlineMarkEmailRead: MdOutlineMarkEmailRead,
+  MdOutlineMarkEmailUnread: MdOutlineMarkEmailUnread,
+  FaArrowsToEye: FaArrowsToEye,
+  BsEye: BsEye,
+  IoAddCircleOutline: IoAddCircleOutline,
+  FaRegFileAlt: FaRegFileAlt,
+  TfiPencil: TfiPencil,
+  HiOutlineDesktopComputer: HiOutlineDesktopComputer,
+  IoBriefcaseOutline: IoBriefcaseOutline,
+  LuBringToFront: LuBringToFront,
+  LuSendToBack: LuSendToBack,
+  GrCut: GrCut,
+  GoPaste: GoPaste,
+  IoDuplicateOutline: IoDuplicateOutline,
+  MdOutlineDeleteOutline: MdOutlineDeleteOutline,
+  CiLock: CiLock,
+  FaUnsplash: FaUnsplash,
+  PiUploadFill: PiUploadFill,
+  SiPexels: SiPexels,
+  SiIconify: SiIconify,
+  RxCross1: RxCross1,
+  FaCheck: FaCheck,
+  CiCircleAlert: CiCircleAlert,
+  LuBadgeAlert: LuBadgeAlert,
+  IoIosContact: IoIosContact,
+  FaBookReader: FaBookReader,
+  GrUserExpert: GrUserExpert,
+  GiSkills: GiSkills,
+  GrDocumentUser: GrDocumentUser,
+  TfiWrite:TfiWrite,
+  IoMdArrowRoundBack:IoMdArrowRoundBack
+};

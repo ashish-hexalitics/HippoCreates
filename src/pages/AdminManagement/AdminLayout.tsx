@@ -1,9 +1,8 @@
-// import React from 'react'
 import Header from "../../components/AdminLayout/Header";
 import MainContent from "../../components/AdminLayout/MainContent";
 import Sidebar from "../../components/AdminLayout/Sidebar";
 import { Route, Routes } from "react-router-dom";
-import { adminRoutes, utilizerRoutes } from "../../routes/routes";
+import { adminRoutes } from "../../routes/routes";
 
 function AdminLayout() {
   return (
@@ -13,23 +12,6 @@ function AdminLayout() {
         <Sidebar />
         <Routes>
           {adminRoutes.map(
-            ({ path, breadcrumb, showBreadcrumb, component: Component }) => (
-              <Route
-                key={path}
-                path={path}
-                element={
-                  <MainContent
-                    path={path}
-                    breadcrumb={breadcrumb}
-                    showBreadcrumb={showBreadcrumb}
-                  >
-                    <Component />
-                  </MainContent>
-                }
-              />
-            )
-          )}
-          {utilizerRoutes.map(
             ({ path, breadcrumb, showBreadcrumb, component: Component }) => (
               <Route
                 key={path}

@@ -34,7 +34,7 @@ const Login: React.FC = (): React.ReactElement => {
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("role", response.data.user.role);
         if (response.data.user.role === "utilizer") {
-          navigate("/step");
+          navigate("/choose-resume");
         } else {
           navigate(`/${response.data.user.role}/dashboard`);
         }
