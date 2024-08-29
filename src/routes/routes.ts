@@ -2,9 +2,8 @@ import Dashboard from "../pages/DashboardManagement/Dashboard";
 import HomePage from "../pages/HomePage";
 import AskExperiencePage from "../pages/AskExperiencePage";
 import IntroduceStepsPage from "../pages/IntroduceStepsPage";
-import CooseResumePage from "../pages/CooseResumePage";
+import ChooseResumePage from "../pages/ChooseResumePage";
 import Login from "../pages/AuthManagement/Login";
-import AdminLayout from "../pages/AdminManagement/AdminLayout";
 import Register from "../pages/AuthManagement/Register";
 import Report from "../pages/Report";
 import Setting from "../pages/SettingManagemnt/Setting";
@@ -12,8 +11,9 @@ import Users from "../pages/UserManagemnt/Users";
 import Template from "../pages/TemplateManagement/Templates";
 import ConfigureTemplate from "../pages/TemplateManagement/ConfigureTemplate";
 import Categories from "../pages/CategoryManagement/Categories";
-import UseTempalte from "../pages/TemplateManagement/UseTempalte";
 import BuildResumeLayout from "../pages/BuildResumeManagement/BuildResumeLayout";
+import AdminLayout from "../pages/AdminManagement/AdminLayout";
+import UseTempalte from "../pages/TemplateManagement/UseTempalte";
 import ContactPage from "../pages/BuildResumeManagement/ContactPage";
 import ExperiencePage from "../pages/BuildResumeManagement/ExperiencePage";
 import SkillsPage from "../pages/BuildResumeManagement/SkillsPage";
@@ -36,11 +36,7 @@ export const publicRoutes = [ // these routes are accessable without auth
   },
   {
     path: "/choose-resume",
-    component: CooseResumePage,
-  },
-  {
-    path: "/view/template/:categoryId/:templateId",
-    component: UseTempalte,
+    component: ChooseResumePage,
   },
 ];
 
@@ -50,8 +46,12 @@ export const protectedRoutes = [ // these routes are accessable with auth or lay
     component: AdminLayout,
   },
   {
-    path: "/build-resume/*",
     component: BuildResumeLayout,
+    path: "/build-resume/*",
+  },
+  {
+    path: "/view/template/:categoryId/:templateId",
+    component: UseTempalte,
   },
 ];
 

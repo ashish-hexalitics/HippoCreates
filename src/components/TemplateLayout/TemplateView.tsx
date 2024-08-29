@@ -1,7 +1,6 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { pixelsToCm } from "./constant";
-
 const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 
 function TemplateView({ template }: any) {
@@ -37,7 +36,9 @@ function TemplateView({ template }: any) {
       {isHovered && (
         <div className="w-full h-full bg-gray-100 bg-opacity-70 absolute flex items-center justify-center">
           <button
-            onClick={() => navigate(`/build-resume/contact?categoryId=${template.categoryId}&template=${template._id}`)}
+            onClick={() => {
+              navigate(`/build-resume/contact`);
+            }}
             className="bg-blue-900 text-white px-4 py-2 rounded-md"
           >
             Use This Template

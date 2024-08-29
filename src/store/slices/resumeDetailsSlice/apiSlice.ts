@@ -4,7 +4,7 @@ import { IUserInfo } from "../../../dto/user.dto";
 import { IUserEmployment } from "../../../dto/employment.dto";
 
 export const userResumeApi: any = createApi({
-  reducerPath: "userApi",
+  reducerPath: "userResumeApi",
   baseQuery: baseQueryWithInterceptor,
   endpoints: (builder) => ({
     getUserResumeInfo: builder.query<any, void>({
@@ -26,9 +26,38 @@ export const userResumeApi: any = createApi({
         },
       }),
     }),
-    updateUserResumeEmployments: builder.mutation<any, IUserEmployment>({
+    createUserResumeEmployments: builder.mutation<any, IUserEmployment>({
       query: (credentials) => ({
         url: `/employments`,
+        method: "POST",
+        body: credentials,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    createUserResumeEducations: builder.mutation<any, IUserEmployment>({
+      query: (credentials) => ({
+        url: `/educations`,
+        method: "POST",
+        body: credentials,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
+    // getUserResumeSkills: builder.query<any, void>({
+    //   query: () => ({
+    //     url: `/skills/get/user-skill`,
+    //     method: "GET",
+    //     headers: {
+    //       authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    //     },
+    //   }),
+    // }),
+    createUserResumeSkills: builder.mutation<any, IUserEmployment>({
+      query: (credentials) => ({
+        url: `/skills/add/user-skill`,
         method: "POST",
         body: credentials,
         headers: {
@@ -42,5 +71,8 @@ export const userResumeApi: any = createApi({
 export const {
   useGetUserResumeInfoQuery,
   useUpdateUserResumeInfoMutation,
-  useUpdateUserResumeEmploymentsMutation,
+  useCreateUserResumeEmploymentsMutation,
+  useCreateUserResumeEducationsMutation,
+  useCreateUserResumeSkillsMutation,
+  // useGetUserResumeSkillsQuery
 } = userResumeApi;

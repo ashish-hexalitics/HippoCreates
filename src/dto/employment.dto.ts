@@ -3,9 +3,10 @@ export interface IUserEmployment {
     company?: string;
     title?: string;
     startDate: string;
-    endDate?: string;
+    endDate: string;
     description?: string;
     city?: string;
+    state?: string;
     country?: string;
   }
   

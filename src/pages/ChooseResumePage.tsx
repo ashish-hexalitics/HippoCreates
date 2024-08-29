@@ -7,7 +7,6 @@ import { getTemplates } from "../store/slices/userSlice/userSlice";
 import { pixelsToCm } from "../components/TemplateLayout/constant";
 import ViewModal from "../components/Common/Modal/ViewModal";
 import TemplateView from "../components/TemplateLayout/TemplateView";
-
 const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 
 function ChooseResumePage() {
@@ -23,14 +22,30 @@ function ChooseResumePage() {
   useEffect(() => {
     if (data && data?.templates) {
       dispatch(getTemplates(data.templates));
+
       setShowLoginButton(false);
     }
   }, [data, dispatch]);
 
   const handleChooseTemplate = (data: any) => {
-    // console.log(`Template chosen: ${id}`);
     setTemplateData(data);
     setIsViewModalOpen(true);
+    updateQuery()
+  };
+
+  const updateQuery = () => {
+    localStorage.setItem("categoryId", templateData.categoryId);
+    localStorage.setItem("templateId", templateData._id);
+  };
+
+  const removeQuery = () => {
+    localStorage.removeItem("categoryId");
+    localStorage.removeItem("templateId");
+  };
+
+  const handleclose = () => {
+    removeQuery();
+    setIsViewModalOpen(false);
   };
 
   return (
@@ -107,7 +122,7 @@ function ChooseResumePage() {
           })}
           <ViewModal
             isOpen={isViewModalOpen}
-            onClose={() => setIsViewModalOpen(false)}
+            onClose={handleclose}
             title="View Template"
           >
             <TemplateView template={templateData} />

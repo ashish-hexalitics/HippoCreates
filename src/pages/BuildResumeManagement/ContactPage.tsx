@@ -12,11 +12,16 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import type { RootState } from "../../store";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function ContactPage() {
   const { data } = useGetUserResumeInfoQuery();
+  // const searchParams = useSearchParams();
+  // const categoryId = searchParams.get("categoryId");
+  // // const template = searchParams.get("template");
   const [updateUserResumeInfo] = useUpdateUserResumeInfoMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const resumeDetailsSlice = useAppSelector(
     (state: RootState) => state.resumeDetailsSlice
@@ -84,12 +89,12 @@ function ContactPage() {
     }
   }, [data, dispatch]);
 
-  console.log(resumeDetailsSlice);
+  // console.log(categoryId);
   return (
-    <div className="w-full flex flex-col items-center justify-center min-h-screen bg-gray-50 py-6">
-      <div className="max-w-6xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-500 to-teal-400 p-6">
-          <h1 className="text-3xl font-bold text-white">
+    <div className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 py-10">
+      <div className="max-w-6xl w-full bg-white shadow-2xl rounded-xl overflow-hidden transform transition-all hover:scale-105 duration-300">
+        <div className="bg-gradient-to-r from-blue-600 to-teal-500 p-8">
+          <h1 className="text-4xl font-extrabold text-white">
             Let's start with your header
           </h1>
           <p className="text-gray-200 mt-2">
@@ -103,7 +108,7 @@ function ContactPage() {
               <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center bg-gray-100">
                 <span className="text-gray-400 text-xl">+</span>
               </div>
-              <button className="mt-4 bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-full">
+              <button className="mt-4 bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full">
                 Add a photo
               </button>
             </div>
@@ -237,12 +242,20 @@ function ContactPage() {
                     </p>
                   ) : null}
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-2 flex justify-between">
                   <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md"
+                    className="px-6 py-3 rounded-md bg-teal-500 text-white font-bold shadow-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300"
                   >
                     Save
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigate(`/build-resume/experience`);
+                    }}
+                    className="px-6 py-3 rounded-md bg-teal-500 text-white font-bold shadow-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300"
+                  >
+                    Skip
                   </button>
                 </div>
               </form>
