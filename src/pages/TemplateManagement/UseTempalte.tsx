@@ -3,6 +3,7 @@ import {
   useGetTemplateQuery,
   useUpdateTemplateMutation,
 } from "../../store/slices/userSlice/apiSlice";
+// import { getUserResumeData } from "../../store/slices/resumeDetailsSlice/resumeDetailSlice";
 import { getTemplateSlice } from "../../store/slices/userSlice/userSlice";
 import TemplateSideBar from "../../components/TemplateLayout/RightSidebar/TemplateSideBar";
 import PDFSizeModal from "../../components/TemplateLayout/PDFSizeModal";
@@ -13,6 +14,7 @@ import {
   createTemplatesSlice,
   updateTemplateSlice,
 } from "../../store/slices/userSlice/userSlice";
+import { useGetUserResumeInfoQuery } from "../../store/slices/resumeDetailsSlice/apiSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
@@ -24,6 +26,8 @@ function UseTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { data: userResume } = useGetUserResumeInfoQuery();
+  const roleName: string | null = localStorage.getItem("role");
 
   const { template } = useAppSelector((state: RootState) => state.userSlice);
   const [elements, setElements] = useState<Element[]>([]);
@@ -58,11 +62,23 @@ function UseTemplate() {
   }, [params?.templateId]);
 
   useEffect(() => {
-    if (params?.templateId && data && data?.template) {
+    if (params?.templateId && data && data?.template && userResume) {
       dispatch(getTemplateSlice(data?.template));
-      setElements(data?.template?.layer);
+      const userJson = { ...userResume.data.user, ...userResume.data.userInfo };
+      if (data?.template?.layer && Array.isArray(data?.template?.layer)) {
+        const modifiedTemplateData = data?.template?.layer.map(
+          (layer: Element) => {
+            return {
+              ...layer,
+              value: layer?.name ? userJson[layer?.name] : userJson.value,
+            };
+          }
+        );
+        setElements(modifiedTemplateData);
+      }
+      // console.log(data?.template?.layer, userJson);
     }
-  }, [data?.template]);
+  }, [data?.template, userResume]);
 
   const addElement = (el: { name: string; value: string }) => {
     const newElement = {
@@ -247,12 +263,15 @@ function UseTemplate() {
             resetZoom={resetZoom}
             zoomIn={zoomIn}
             zoomOut={zoomOut}
-            addElement={addElement}
+            {...(roleName === "admin" && {
+              addElement: addElement,
+              openThirdPartyUpload: openThirdPartyUpload,
+              onUpload: handleUpload,
+              addShape:addShape
+            })}
             setIsModalOpen={setIsModalOpen}
-            onUpload={handleUpload}
-            addShape={addShape}
             setIsViewModalOpen={setIsViewModalOpen}
-            openThirdPartyUpload={openThirdPartyUpload}
+            roleName={roleName}
           />
         </div>
         <div
@@ -277,6 +296,7 @@ function UseTemplate() {
             guideLines={guideLines}
             setElements={setElements}
             selectedElement={selectedElement}
+            roleName={roleName}
           />
         </div>
         {/* Zoom Slider */}
@@ -301,6 +321,7 @@ function UseTemplate() {
         onChange={(data) =>
           selectedElementId && updateElement(selectedElementId, data)
         }
+        roleName={roleName}
       />
       <PDFSizeModal
         isOpen={isModalOpen}

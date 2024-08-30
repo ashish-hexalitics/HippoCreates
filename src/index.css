@@ -178,3 +178,7 @@ body {
   right: -6px;
   cursor: ne-resize;
 }
+
+/* .react-draggable {
+  transform: none !important;
+} */

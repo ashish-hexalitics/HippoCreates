@@ -7,7 +7,7 @@ const defaultSamples: { name: string; value: string }[] = [
     value: "your Name",
   },
   {
-    name: "email",
+    name: "otherEmail",
     value: "example@example.com",
   },
   {
@@ -30,15 +30,19 @@ function TextElement({
   element,
   handleInputChange,
   addElement,
+  roleName,
 }: {
   handleInputChange: (
     field: keyof TemplateStyle,
     value: string | number
   ) => void;
   element: TemplateStyle;
+  roleName: string | null;
   addElement?: (el: { name: string; value: string }) => void;
 }) {
-  const [activeTab, setActiveTab] = useState("text");
+  const [activeTab, setActiveTab] = useState(
+    roleName === "utilizer" ? "editText" : "text"
+  );
 
   const renderTextCustomization = () => (
     <>
@@ -154,33 +158,70 @@ function TextElement({
     </>
   );
 
-  return (
-    <div>
-      <div className="flex mb-4">
-        <button
-          className={`p-2 border-b-2 font-medium text-sm ${
-            activeTab === "text"
-              ? " border-[#3f9997] "
-              : "border-gray-400 text-gray-600"
-          }`}
-          onClick={() => setActiveTab("text")}
-        >
-          Text Customization
-        </button>
-        <button
-          className={`p-2 border-b-2 font-medium text-sm ${
-            activeTab === "addText"
-              ? "border-[#3f9997]"
-              : "border-gray-400 text-gray-600"
-          }`}
-          onClick={() => setActiveTab("addText")}
-        >
-          Add Text Fields
+  const renderEditText = () => (
+    <>
+      <div className="mb-4">
+        <label className="block text-black mb-2">Value:</label>
+        <input
+          type="text"
+          value={element.value}
+          onChange={(e) => handleInputChange("value", e.target.value)}
+          className="w-full border rounded px-2 py-1"
+        />
+        <button className="py-2  mt-3 px-4 rounded font-medium text-md bg-[#3f9997] text-white">
+          save
         </button>
       </div>
+    </>
+  );
 
-      {activeTab === "text" && renderTextCustomization()}
-      {activeTab === "addText" && renderAddTextFields()}
+  return (
+    <div>
+      {roleName === "admin" && (
+        <div>
+          <div className="flex mb-4">
+            <button
+              className={`p-2 border-b-2 font-medium text-sm ${
+                activeTab === "text"
+                  ? " border-[#3f9997] "
+                  : "border-gray-400 text-gray-600"
+              }`}
+              onClick={() => setActiveTab("text")}
+            >
+              Text Customization
+            </button>
+            <button
+              className={`p-2 border-b-2 font-medium text-sm ${
+                activeTab === "addText"
+                  ? "border-[#3f9997]"
+                  : "border-gray-400 text-gray-600"
+              }`}
+              onClick={() => setActiveTab("addText")}
+            >
+              Add Text Fields
+            </button>
+          </div>
+          {activeTab === "text" && renderTextCustomization()}
+          {activeTab === "addText" && renderAddTextFields()}
+        </div>
+      )}
+      {roleName === "utilizer" && (
+        <div>
+          <div className="flex mb-4">
+            <button
+              className={`p-2 border-b-2 font-medium text-sm ${
+                activeTab === "editText"
+                  ? " border-[#3f9997] "
+                  : "border-gray-400 text-gray-600"
+              }`}
+              onClick={() => setActiveTab("editText")}
+            >
+              Edit Text Value
+            </button>
+          </div>
+          {activeTab === "editText" && renderEditText()}
+        </div>
+      )}
     </div>
   );
 }

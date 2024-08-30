@@ -16,7 +16,8 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   element,
   onChange,
   addElement,
-  openThirdPartyUpload
+  openThirdPartyUpload,
+  roleName = null,
 }) => {
   if (!element)
     return <div className="p-4">Select an element to customize.</div>;
@@ -45,25 +46,37 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
           element={element}
           handleInputChange={handleInputChange}
           addElement={addElement}
+          roleName={roleName}
         />
       )}
-      {element.content.startsWith("rectangle") && (
-        <RectangleElement
-          element={element}
-          handleInputChange={handleInputChange}
-        />
-      )}
-      {element.content.startsWith("circle") && (
-        <CircleElement
-          element={element}
-          handleInputChange={handleInputChange}
-        />
-      )}
-      {element.content.startsWith("line") && (
-        <LineElement element={element} handleInputChange={handleInputChange} />
-      )}
-      {element.content.startsWith("iconify~") && openThirdPartyUpload && (
-        <IconElement element={element} handleInputChange={handleInputChange} openThirdPartyUpload={openThirdPartyUpload} />
+      {roleName === "admin" && (
+        <>
+          {element.content.startsWith("rectangle") && (
+            <RectangleElement
+              element={element}
+              handleInputChange={handleInputChange}
+            />
+          )}
+          {element.content.startsWith("circle") && (
+            <CircleElement
+              element={element}
+              handleInputChange={handleInputChange}
+            />
+          )}
+          {element.content.startsWith("line") && (
+            <LineElement
+              element={element}
+              handleInputChange={handleInputChange}
+            />
+          )}
+          {element.content.startsWith("iconify~") && openThirdPartyUpload && (
+            <IconElement
+              element={element}
+              handleInputChange={handleInputChange}
+              openThirdPartyUpload={openThirdPartyUpload}
+            />
+          )}
+        </>
       )}
     </div>
   );

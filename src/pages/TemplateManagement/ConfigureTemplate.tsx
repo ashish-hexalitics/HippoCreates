@@ -24,6 +24,7 @@ function ConfigureTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const roleName: string | null = localStorage.getItem("role");
 
   const { template } = useAppSelector((state: RootState) => state.userSlice);
   const [elements, setElements] = useState<Element[]>([]);
@@ -257,6 +258,7 @@ function ConfigureTemplate() {
             addShape={addShape}
             setIsViewModalOpen={setIsViewModalOpen}
             openThirdPartyUpload={openThirdPartyUpload}
+            roleName={roleName}
           />
         </div>
         <div
@@ -281,6 +283,7 @@ function ConfigureTemplate() {
             guideLines={guideLines}
             setElements={setElements}
             selectedElement={selectedElement}
+            roleName={roleName}
           />
         </div>
         {/* Zoom Slider */}
@@ -306,6 +309,7 @@ function ConfigureTemplate() {
           selectedElementId && updateElement(selectedElementId, data)
         }
         openThirdPartyUpload={openThirdPartyUpload}
+        roleName={roleName}
       />
       <PDFSizeModal
         isOpen={isModalOpen}

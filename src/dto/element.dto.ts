@@ -55,4 +55,5 @@ export interface IRNDElement {
   guideLines: React.ComponentState;
   setElements: React.ComponentState;
   selectedElement?: Element;
+  roleName: string | null;
 }

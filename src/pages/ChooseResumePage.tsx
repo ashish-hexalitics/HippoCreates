@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import Header from "../components/Landing/Header";
 import { useGetTemplatesQuery } from "../store/slices/userSlice/apiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -30,12 +30,12 @@ function ChooseResumePage() {
   const handleChooseTemplate = (data: any) => {
     setTemplateData(data);
     setIsViewModalOpen(true);
-    updateQuery()
+    updateQuery(data)
   };
 
-  const updateQuery = () => {
-    localStorage.setItem("categoryId", templateData.categoryId);
-    localStorage.setItem("templateId", templateData._id);
+  const updateQuery = (data: any)  => {
+    localStorage.setItem("categoryId", data.categoryId);
+    localStorage.setItem("templateId", data._id);
   };
 
   const removeQuery = () => {
@@ -86,7 +86,7 @@ function ChooseResumePage() {
 
         {/* Template List */}
         <div className="flex flex-wrap gap-4">
-          {templates.map((template) => {
+          {templates.map((template: { document: string; id: Key | null | undefined; }) => {
             const sanitizedDocument = template.document.replace(
               /contenteditable\s*=\s*["]?true["]?/gi,
               "contentEditable='false'"

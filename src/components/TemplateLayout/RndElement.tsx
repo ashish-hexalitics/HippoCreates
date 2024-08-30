@@ -24,6 +24,7 @@ function RndElement({
   handleContentChange,
   guideLines,
   selectedElement,
+  roleName
 }: IRNDElement) {
   const [contextMenu, setContextMenu] = useState<{
     visible: boolean;
@@ -105,6 +106,7 @@ function RndElement({
             setSelectedElementId(el.id);
           }}
           bounds="parent"
+          disableDragging={roleName==="utilizer"}
         >
           <div
             // className="cursor-pointer relative resizeable-element selected react-resizable-handle"

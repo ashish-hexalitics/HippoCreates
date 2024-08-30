@@ -25,14 +25,15 @@ function TopBar({
   onUpload,
   addShape,
   setIsViewModalOpen,
-  openThirdPartyUpload
+  openThirdPartyUpload,
+  roleName,
 }: ITopBar) {
   const [showShapeDropdown, setShowShapeDropdown] = useState(false);
   const [selectedShape, setSelectedShape] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      onUpload(event.target.files[0]);
+      onUpload && onUpload(event.target.files[0]);
     }
   };
 
@@ -42,21 +43,24 @@ function TopBar({
     setShowShapeDropdown(false);
   };
 
-
   return (
     <div className="grid grid-cols-3 bg-gray-700 px-4 py-2 h-full">
       <div>
         {addElement && <TextTools addElement={addElement} />}
-        <GalleryTools
-          handleFileChange={handleFileChange}
-          openThirdPartyUpload={openThirdPartyUpload}
-        />
-        <ShapeTools
-          selectedShape={selectedShape}
-          setShowShapeDropdown={setShowShapeDropdown}
-          showShapeDropdown={showShapeDropdown}
-          handleShapeSelect={handleShapeSelect}
-        />
+        {openThirdPartyUpload && onUpload && (
+          <GalleryTools
+            handleFileChange={handleFileChange}
+            openThirdPartyUpload={openThirdPartyUpload}
+          />
+        )}
+        {addShape && (
+          <ShapeTools
+            selectedShape={selectedShape}
+            setShowShapeDropdown={setShowShapeDropdown}
+            showShapeDropdown={showShapeDropdown}
+            handleShapeSelect={handleShapeSelect}
+          />
+        )}
       </div>
       <ZoomTools
         zoomIn={zoomIn}

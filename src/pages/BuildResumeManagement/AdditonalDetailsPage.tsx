@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 
 function AdditionalDetailsPage() {
   const navigate = useNavigate();
-  const categoryId = localStorage.removeItem("categoryId");
-  const templateId = localStorage.removeItem("templateId");
+  const categoryId = localStorage.getItem("categoryId");
+  const templateId = localStorage.getItem("templateId");
   return (
     <div className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 py-10">
       <div className="max-w-6xl w-full bg-white shadow-2xl rounded-xl overflow-hidden transform transition-all hover:scale-105 duration-300">

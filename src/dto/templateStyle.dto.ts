@@ -29,11 +29,12 @@ export interface TemplateSideBarProps {
   onChange: (data: Partial<TemplateStyle>) => void;
   addElement?: (el: { name: string; value: string }) => void;
   openThirdPartyUpload?: (value: string) => void;
+  roleName: string | null;
 }
 
 export interface ITopBar {
   addElement?: (el: { name: string; value: string }) => void;
-  openThirdPartyUpload: (imageSrc: string) => void;
+  openThirdPartyUpload?: (imageSrc: string) => void;
   toggleOrientation: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
@@ -41,7 +42,8 @@ export interface ITopBar {
   zoomLevel: number;
   setIsModalOpen: React.ComponentState;
   isPortrait: React.ComponentState;
-  onUpload: (file: File) => void;
-  addShape: (shape: string) => void;
+  onUpload?: (file: File) => void;
+  addShape?: (shape: string) => void;
   setIsViewModalOpen: React.ComponentState;
+  roleName: string | null;
 }
