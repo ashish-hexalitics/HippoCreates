@@ -94,7 +94,7 @@ function RectangleElement({
         <input
           type="checkbox"
           checked={element.borderEnabled || false}
-          onChange={(e: React.ChangeEvent) =>
+          onChange={(e: React.ChangeEvent<any>) =>
             handleInputChange("borderEnabled", e.target?.checked)
           }
           className="mr-2"

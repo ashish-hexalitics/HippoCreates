@@ -40,8 +40,7 @@ export const createResumeDetailsSlice = createSlice({
       state = action.payload;
       return state;
     },
-    updateUserResumeData: (state: IState, action: PayloadAction<any>) => {
-      console.log(action);
+    updateUserResumeData: (state: IState | any, action: PayloadAction<any>) => {
       state[action.payload.key] = {
         ...state[action.payload.key],
         ...action.payload

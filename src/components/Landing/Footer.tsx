@@ -2,7 +2,7 @@
 
 function Footer() {
   return (
-    <footer className="bg-gray-100 py-8 mt-8">
+    <footer className="section bg-gray-100 py-8 mt-8">
       <div className="w-2/3 mx-auto flex justify-between my-10">
         <div>
           <h3 className="text-lg text-gray-700  font-bold">HippoCreates</h3>

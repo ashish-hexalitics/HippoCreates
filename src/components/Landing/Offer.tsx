@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 function Offer() {
-  let animateCircleFragment = document.createDocumentFragment();
 
   function createRipple(event: MouseEvent) {
     const targetElement = event.currentTarget as HTMLElement;
@@ -27,19 +26,19 @@ function Offer() {
 
   useEffect(() => {
     const elements = document.querySelectorAll(".ripple-effect");
-    elements.forEach((el) => {
+    elements.forEach((el:any) => {
       el.addEventListener("mouseenter", createRipple);
     });
 
     return () => {
-      elements.forEach((el) => {
+      elements.forEach((el:any) => {
         el.removeEventListener("mouseenter", createRipple);
       });
     };
   }, []);
 
   return (
-    <section className="flex-col justify-center items-center dark:bg-[#fbf8f1]">
+    <section className="section flex-col justify-center items-center dark:bg-[#fbf8f1]">
       <div className="text-center">
         <h2 className="font-extrabold text-gray-700 text-6xl animate-[fade-in-down_1s_ease-in-out] ">
           What We Offer

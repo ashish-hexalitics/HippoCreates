@@ -22,6 +22,7 @@ export interface TemplateStyle {
   filter?: string;
   overlay?: boolean;
   blur?: number;
+  sectionType?: string;
 }
 
 export interface TemplateSideBarProps {
@@ -30,6 +31,7 @@ export interface TemplateSideBarProps {
   addElement?: (el: { name: string; value: string }) => void;
   openThirdPartyUpload?: (value: string) => void;
   roleName: string | null;
+  addSection?: (el: { label: string; tag: string; sectionType: string }) => void;
 }
 
 export interface ITopBar {

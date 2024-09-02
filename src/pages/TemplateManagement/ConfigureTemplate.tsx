@@ -87,6 +87,25 @@ function ConfigureTemplate() {
     setSelectedElementId(newElement.id);
   };
 
+  const addSection = (el: any) => {
+    console.log(el)
+    const newElement = {
+      id: Date.now(),
+      x: 0,
+      y: 0,
+      width: '100%',
+      height: 50,
+      content: "Section",
+      color: "#000000",
+      fontSize: 16,
+      fontWeight: "normal",
+      padding: 0,
+      ...el,
+    };
+    setElements([...elements, newElement]);
+    setSelectedElementId(newElement.id);
+  };
+
   const updateElement = (id: number, data: Partial<Element>) => {
     // console.log(data)
     setElements(elements.map((el) => (el.id === id ? { ...el, ...data } : el)));
@@ -285,6 +304,20 @@ function ConfigureTemplate() {
             selectedElement={selectedElement}
             roleName={roleName}
           />
+          <RndElement
+            isPortrait={isPortrait}
+            zoomLevel={zoomLevel}
+            elements={elements}
+            handleDrag={handleDrag}
+            handleDragStop={handleDragStop}
+            setSelectedElementId={setSelectedElementId}
+            handleResizeStop={handleResizeStop}
+            handleContentChange={handleContentChange}
+            guideLines={guideLines}
+            setElements={setElements}
+            selectedElement={selectedElement}
+            roleName={roleName}
+          />
         </div>
         {/* Zoom Slider */}
         <div
@@ -310,6 +343,7 @@ function ConfigureTemplate() {
         }
         openThirdPartyUpload={openThirdPartyUpload}
         roleName={roleName}
+        addSection={addSection}
       />
       <PDFSizeModal
         isOpen={isModalOpen}

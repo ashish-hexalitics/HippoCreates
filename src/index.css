@@ -13,6 +13,35 @@ body {
   height: 100%;
 }
 
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0; 
+  border-radius: 10px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #55bab9, #5597ba); 
+  border-radius: 10px; 
+  transition:  0.3s ease; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #5597ba, #55bab9); 
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(45deg, #5597ba, #55ba98);
+}
+
+::-webkit-scrollbar-corner {
+  background: #f0f0f0;
+}
+
+
 .circle {
   position: absolute;
   width: 10px;

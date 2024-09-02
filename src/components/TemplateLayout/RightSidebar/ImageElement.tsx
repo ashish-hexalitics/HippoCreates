@@ -11,7 +11,9 @@ function ImageElement({
   ) => void;
   element: TemplateStyle;
 }) {
-  const selectedFilter: string = filterStyles[element.filter] || "none";
+  const selectedFilter: string =
+    (typeof element.filter === "string" && filterStyles[element.filter]) ||
+    "none";
 
   return (
     <>
@@ -107,21 +109,24 @@ function ImageElement({
       <div className="mb-4">
         <label className="block text-black mb-2">Shadow:</label>
         <div className="flex justify-between">
-          {Object.keys(shadowStyles).map((key:string) => {
-            return (
-              <button
-                key={key}
-                className={`p-2 border rounded ${
-                  element.boxShadow===shadowStyles[key] ? "bg-[#3f9997] text-white" : ""
-                }`}
-                onClick={() =>
-                  handleInputChange("boxShadow", shadowStyles[key])
-                }
-              >
-                {key}
-              </button>
-            );
-          })}
+          {Object.keys(shadowStyles).length > 0 &&
+            Object.keys(shadowStyles).map((key: string) => {
+              return (
+                <button
+                  key={key}
+                  className={`p-2 border rounded ${
+                    element.boxShadow === shadowStyles[key]
+                      ? "bg-[#3f9997] text-white"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleInputChange("boxShadow", shadowStyles[key])
+                  }
+                >
+                  {key}
+                </button>
+              );
+            })}
         </div>
       </div>
 

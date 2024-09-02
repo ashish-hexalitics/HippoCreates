@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Page, Image, Document, StyleSheet, PDFViewer } from "@react-pdf/renderer";
 import html2canvas from "html2canvas";
 
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 });
 
 const TemplatePDFPreview = ({ templateContent }:any) => {
-  const [imageSrc, setImageSrc] = useState(null);
+  const [imageSrc, setImageSrc] = useState<any>(null);
 
   useEffect(() => {
     const convertHtmlToImage = async () => {

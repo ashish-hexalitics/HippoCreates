@@ -38,6 +38,7 @@ export interface Element {
   filter?: string;
   overlay?: boolean;
   blur?: number;
+  sectionType?: string;
 }
 
 export interface IRNDElement {
@@ -56,4 +57,5 @@ export interface IRNDElement {
   setElements: React.ComponentState;
   selectedElement?: Element;
   roleName: string | null;
+  addSection?:(el: { name: string; value: string }) => void;
 }

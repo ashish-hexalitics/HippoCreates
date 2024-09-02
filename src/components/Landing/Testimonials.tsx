@@ -2,7 +2,7 @@
 
 function Testimonials() {
   return (
-    <section className="flex flex-col justify-center items-center dark:bg-[#fbf8f1]">
+    <section className="section flex flex-col justify-center items-center dark:bg-[#fbf8f1]">
       {/* <!-- Testimonials Section --> */}
       <div className="w-2/3 text-center">
         <h2 className="font-extrabold text-gray-700 text-6xl mt-28 animate-[fade-in-down_1s_ease-in-out]">

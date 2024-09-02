@@ -9,8 +9,8 @@ const {
   GoPaste,
   IoDuplicateOutline,
   MdOutlineDeleteOutline,
+  FaObjectGroup
 } = icons;
-
 interface RightClickedHandleProps {
   contextMenu: {
     visible: boolean;
@@ -94,6 +94,10 @@ function RightClickedHandle({
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
 
+  const groupElementHandler = ()=>{
+
+  }
+
   return (
     <>
       {contextMenu.visible && (
@@ -109,40 +113,46 @@ function RightClickedHandle({
         >
           <div
             onClick={bringToFront}
-            className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+            className="p-2 text-gray-700 cursor-pointer hover:bg-gray-200 flex items-center"
           >
             <LuBringToFront className="me-2 font-medium" /> Bring to Front
           </div>
           <div
             onClick={sendToBack}
-            className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+            className="p-2 text-gray-700 cursor-pointer hover:bg-gray-200 flex items-center"
           >
             <LuSendToBack className="me-2 font-medium" /> Send to Back
           </div>
           <div
             onClick={cutElementHandler}
-            className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+            className="p-2 text-gray-700 cursor-pointer hover:bg-gray-200 flex items-center"
           >
             <GrCut className="me-2 font-medium" /> Cut
           </div>
           <div
             onClick={pasteElementHandler}
-            className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+            className="p-2 text-gray-700 cursor-pointer hover:bg-gray-200 flex items-center"
           >
             <GoPaste className="me-2 font-medium" /> Paste
           </div>
           <div
             onClick={duplicateElementHandler}
-            className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+            className="p-2 text-gray-700 cursor-pointer hover:bg-gray-200 flex items-center"
           >
             <IoDuplicateOutline className="me-2 font-medium" /> Duplicate
           </div>
           <div
             onClick={deleteElementHandler}
-            className="p-2 cursor-pointer hover:bg-gray-200 flex items-center"
+            className="p-2 text-gray-700 cursor-pointer hover:bg-gray-200 flex items-center"
           >
             <MdOutlineDeleteOutline className="me-2 font-medium" /> Delete
           </div>
+          <button
+            onClick={groupElementHandler}
+            className="p-2 text-gray-700 w-full cursor-pointer hover:bg-gray-200 flex items-center disabled:bg-gray-100 disabled:text-gray-400"
+          >
+            <FaObjectGroup className="me-2 font-medium" /> Group
+          </button>
         </div>
       )}
     </>

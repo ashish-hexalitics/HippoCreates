@@ -4,7 +4,7 @@ function CTASection() {
   return (
     <>
       {/* <!-- CTA Section --> */}
-      <section className="flex justify-center items-center dark:bg-[#fbf8f1]">
+      <section className="section flex justify-center items-center dark:bg-[#fbf8f1]">
         <div className="w-2/3 text-center">
           <h2 className="font-extrabold text-gray-700 text-6xl mt-28 animate-[fade-in-down_1s_ease-in-out]">
             Get Started

@@ -50,6 +50,7 @@ import { GiSkills } from "react-icons/gi";
 import { GrDocumentUser } from "react-icons/gr";
 import { TfiWrite } from "react-icons/tfi";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { FaObjectGroup } from "react-icons/fa";
 
 export const icons = {
   CiHome: CiHome,
@@ -105,5 +106,6 @@ export const icons = {
   GiSkills: GiSkills,
   GrDocumentUser: GrDocumentUser,
   TfiWrite:TfiWrite,
-  IoMdArrowRoundBack:IoMdArrowRoundBack
+  IoMdArrowRoundBack:IoMdArrowRoundBack,
+  FaObjectGroup: FaObjectGroup,
 };

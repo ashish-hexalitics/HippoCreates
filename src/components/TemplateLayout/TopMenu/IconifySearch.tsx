@@ -13,9 +13,9 @@ interface APIv2SearchResponse {
 
 function IconifySearch({ onIconSelect }: any) {
   const [query, setQuery] = useState("");
-  const [collections, setCollections] = useState<
-    APIv2SearchResponse["collections"]
-  >({});
+  // const [collections, setCollections] = useState<
+  //   APIv2SearchResponse["collections"]
+  // >({});
   const [icons, setIcons] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ function IconifySearch({ onIconSelect }: any) {
         `https://api.iconify.design/search?query=${query}&limit=${iconsPerPage}&page=${page}&pretty=1`
       );
       const data: APIv2SearchResponse = await response.json();
-      setCollections(data.collections);
+      // setCollections(data.collections);
       setIcons(data.icons);
       setTotalPages(Math.ceil(data.total / iconsPerPage)); // Calculate total pages
     } catch (error) {
@@ -47,7 +47,7 @@ function IconifySearch({ onIconSelect }: any) {
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e:any) => {
     e.preventDefault();
     setPage(1); // Reset to the first page on a new search
     fetchIcons(query, 1);

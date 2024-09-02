@@ -6,6 +6,10 @@ import Offer from "../components/Landing/Offer";
 import CTASection from "../components/Landing/CTASection";
 import Mission from "../components/Landing/Mission";
 import GetStart from "../components/Landing/GetStart";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
   let animateCircleFragment = document.createDocumentFragment();
@@ -31,6 +35,26 @@ function Home() {
   }
 
   useEffect(() => {
+    gsap.utils.toArray(".section").forEach((section:any) => {
+      gsap.fromTo(
+        section,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none none",
+            markers: false,
+          },
+        }
+      );
+    });
+  }, []);
+
+  useEffect(() => {
     document.addEventListener("mousemove", animateCircle);
     return () => {
       document.removeEventListener("mousemove", animateCircle);
@@ -38,7 +62,11 @@ function Home() {
   }, []);
 
   return (
-    <div className="dark:bg-[#fbf8f1] font-sans relative">
+    <div
+      className="dark:bg-[#fbf8f1] font-sans relative"
+      id="homePage"
+      style={{ scrollBehavior: "smooth" }}
+    >
       <Header />
       <GetStart />
       <Offer />

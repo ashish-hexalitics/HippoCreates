@@ -11,6 +11,8 @@ import RectangleElement from "./RectangleElement";
 import LineElement from "./LineElement";
 import CircleElement from "./CircleElement";
 import IconElement from "./IconElement";
+import SelectSectionElement from "../Section/SectionElements";
+import SectionElement from "./SectionElement";
 
 const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   element,
@@ -18,16 +20,24 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   addElement,
   openThirdPartyUpload,
   roleName = null,
+  addSection,
 }) => {
-  if (!element)
-    return <div className="p-4">Select an element to customize.</div>;
-
   const handleInputChange = (
     field: keyof TemplateStyle,
     value: string | number
   ) => {
     onChange({ [field]: value });
   };
+
+  const renderSections = () => {
+    return (
+      <div className="p-2 flex flex-col mb-2">
+        <SelectSectionElement addSection={addSection} />
+      </div>
+    );
+  };
+
+  if (!element) return renderSections();
 
   return (
     <div
@@ -75,6 +85,10 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
               handleInputChange={handleInputChange}
               openThirdPartyUpload={openThirdPartyUpload}
             />
+          )}
+
+          {element.content.startsWith("Section") && (
+            <SectionElement element={element} />
           )}
         </>
       )}

@@ -3,7 +3,7 @@
 function Mission() {
   return (
     <>
-      <section className=" flex justify-center items-center dark:bg-[#fbf8f1]">
+      <section className="section flex justify-center items-center dark:bg-[#fbf8f1]">
         <div className="w-2/3 text-center">
           <h2 className="text-9xl font-bold mb-6 bg-gradient-to-r from-[#55ba98] via-[#55bab9] to-[#5597ba] bg-clip-text text-transparent">
             Our Mission

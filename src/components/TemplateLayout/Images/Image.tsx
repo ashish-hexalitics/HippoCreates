@@ -30,7 +30,7 @@ function Image({ element }: RectangleProps) {
             : "none",
           boxShadow: element.boxShadow,
           opacity: (Number(element.opacity) /  100) || 1,
-          filter: filterStyles[element.filter] || "none", 
+          filter: typeof  element.filter === "string" &&  filterStyles[element.filter] || "none", 
         }}
         className="react-resizable-handle-w react-resizable-handle-e react-resizable-handle-n eact-resizable-handle-s react-resizable-handle-nw react-resizable-handle-ne react-resizable-handle-se react-resizable-handle-sw "
       />

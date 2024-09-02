@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import type { RootState } from "../../store";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ContactPage() {
   const { data } = useGetUserResumeInfoQuery();

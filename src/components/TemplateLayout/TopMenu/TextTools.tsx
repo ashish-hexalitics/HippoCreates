@@ -17,7 +17,11 @@ const textOptions = [
 function TextTools({
   addElement,
 }: {
-  addElement: (el: { name: string; value: string }) => void;
+  addElement: (el: {
+    name: string;
+    value: string;
+    textVarient: string;
+  }) => void;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
 

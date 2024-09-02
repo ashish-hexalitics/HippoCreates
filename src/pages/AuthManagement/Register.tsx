@@ -21,7 +21,7 @@ const Register: React.FC = (): React.ReactElement => {
   const navigate = useNavigate();
   const notify = (message: string) => toast(message);
 
-  const [register, { isLoading, isError, data }] = useRegisterMutation();
+  const [register, { isError, data }] = useRegisterMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -36,7 +36,7 @@ const Register: React.FC = (): React.ReactElement => {
         !isError && navigate("/login");
         notify(data.message);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error)
       notify(error.data.message);
     }

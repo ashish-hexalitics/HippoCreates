@@ -13,13 +13,13 @@ interface IfilterStyles {
   Vibrant: string;
 }
 
-interface IshadowStyles {
-  None: string;
-  Soft: string;
-  Regular: string;
-  Retro: string;
-}
-export const filterStyles: IfilterStyles = {
+// interface IshadowStyles {
+//   None: string;
+//   Soft: string;
+//   Regular: string;
+//   Retro: string;
+// }
+export const filterStyles: IfilterStyles | any = {
   None: "none",
   Noir: "grayscale(100%)",
   Gray: "grayscale(50%)",
@@ -30,7 +30,7 @@ export const filterStyles: IfilterStyles = {
   Vibrant: "saturate(150%)",
 };
 
-export const shadowStyles: IshadowStyles = {
+export const shadowStyles: Record<string, string> = {
   None: "none",
   Soft: "5px 5px 10px rgba(0,0,0,0.15)",
   Regular: "5px 5px 15px rgba(0,0,0,0.3)",

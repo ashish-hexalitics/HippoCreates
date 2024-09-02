@@ -8,7 +8,7 @@ import {
 import {
   useGetUserResumeInfoQuery,
   useCreateUserResumeSkillsMutation,
-  useGetUserResumeSkillsQuery,
+  // useGetUserResumeSkillsQuery,
 } from "../../store/slices/resumeDetailsSlice/apiSlice";
 import { useGetAllSkillsQuery } from "../../store/slices/skilSlice/apiSlice";
 import { getSkills } from "../../store/slices/skilSlice/skillSlice";

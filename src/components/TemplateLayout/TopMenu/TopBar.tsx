@@ -26,7 +26,7 @@ function TopBar({
   addShape,
   setIsViewModalOpen,
   openThirdPartyUpload,
-  roleName,
+  // roleName,
 }: ITopBar) {
   const [showShapeDropdown, setShowShapeDropdown] = useState(false);
   const [selectedShape, setSelectedShape] = useState<string | null>(null);
@@ -39,7 +39,7 @@ function TopBar({
 
   const handleShapeSelect = (shape: string) => {
     setSelectedShape(shape);
-    addShape(shape);
+    addShape && addShape(shape);
     setShowShapeDropdown(false);
   };
 
