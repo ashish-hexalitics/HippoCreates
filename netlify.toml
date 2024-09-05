@@ -1,5 +1,4 @@
 [[redirects]]
-  from = "/api/*"
-  to = "http://ec2-16-170-243-143.eu-north-1.compute.amazonaws.com:3000/api/:splat"
+  from = "/*"
+  to = "/index.html"
   status = 200
-  force = true
