@@ -1,12 +1,68 @@
 import React from "react";
 
-const sectionOptions: { label: string; tag: string; sectionType: string }[] = [
+const section = {
+  showSection: true,
+  sectionType: "summary",
+  showLabel: true,
+  showSummary: true,
+  style: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#ffffff",
+    padding: 0,
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    // justifyContent: "center",
+    // alignItems: "center",
+  },
+  lableProperties: {
+    lable: "Professional Summary",
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      padding: "",
+    },
+  },
+  summaryProperties: {
+    value: "lorem Ipsum is just rep elit sed diam non pro id elit. Lorem Ipsum",
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      padding: "",
+    },
+  },
+};
+
+const sectionOptions: {
+  label: string;
+  tag: string;
+  sectionType: string;
+  section?: any;
+}[] = [
   { label: "Add Contact Section", tag: "section", sectionType: "Contact" },
   { label: "Add Education Section", tag: "section", sectionType: "Education" },
-  { label: "Add Employment Section", tag: "section", sectionType: "Employment" },
+  {
+    label: "Add Employment Section",
+    tag: "section",
+    sectionType: "Employment",
+  },
   { label: "Add Summary Section", tag: "section", sectionType: "Summary" },
-  { label: "Add Skills Section", tag: "section", sectionType: "Skills" },
-  { label: "Add Your Custom Section", tag: "section", sectionType: "CustomSection" },
+  {
+    label: "Add Skills Section",
+    tag: "section",
+    sectionType: "Skills",
+    section: section,
+  },
+  {
+    label: "Add Your Custom Section",
+    tag: "section",
+    sectionType: "CustomSection",
+  },
 ];
 
 const SectionElement: React.FC<any> = ({

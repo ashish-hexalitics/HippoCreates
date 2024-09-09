@@ -304,20 +304,6 @@ function ConfigureTemplate() {
             selectedElement={selectedElement}
             roleName={roleName}
           />
-          <RndElement
-            isPortrait={isPortrait}
-            zoomLevel={zoomLevel}
-            elements={elements}
-            handleDrag={handleDrag}
-            handleDragStop={handleDragStop}
-            setSelectedElementId={setSelectedElementId}
-            handleResizeStop={handleResizeStop}
-            handleContentChange={handleContentChange}
-            guideLines={guideLines}
-            setElements={setElements}
-            selectedElement={selectedElement}
-            roleName={roleName}
-          />
         </div>
         {/* Zoom Slider */}
         <div
