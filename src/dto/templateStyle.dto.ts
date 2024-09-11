@@ -2,6 +2,8 @@ export interface TemplateStyle {
   fontWeight?: string;
   fontSize?: number;
   color?: string;
+  labelsColor?: string;
+  labelsFontSize?: number;
   backgroundColor?: string;
   x: number;
   y: number;
@@ -31,7 +33,11 @@ export interface TemplateSideBarProps {
   addElement?: (el: { name: string; value: string }) => void;
   openThirdPartyUpload?: (value: string) => void;
   roleName: string | null;
-  addSection?: (el: { label: string; tag: string; sectionType: string }) => void;
+  addSection?: (el: {
+    label: string;
+    tag: string;
+    sectionType: string;
+  }) => void;
 }
 
 export interface ITopBar {

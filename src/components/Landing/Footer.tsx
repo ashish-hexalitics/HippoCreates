@@ -1,11 +1,13 @@
 // import React from "react";
+import hippoLogoGray from "../../assets/images/hippoLogoGray.png";
 
 function Footer() {
   return (
     <footer className="section bg-gray-100 py-8 mt-8">
       <div className="w-2/3 mx-auto flex justify-between my-10">
         <div>
-          <h3 className="text-lg text-gray-700  font-bold">HippoCreates</h3>
+          {/* <h3 className="text-lg text-gray-700  font-bold">HippoCreates</h3> */}
+          <img src={hippoLogoGray} className="h-[40px]" />
           <p className="text-sm text-gray-700 font-medium">© 2024 HippoCreates. All rights reserved.</p>
         </div>
         <div>

@@ -86,9 +86,11 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
               openThirdPartyUpload={openThirdPartyUpload}
             />
           )}
-
           {element.content.startsWith("Section") && (
-            <SectionElement element={element} />
+            <SectionElement
+              element={element}
+              handleInputChange={handleInputChange}
+            />
           )}
         </>
       )}

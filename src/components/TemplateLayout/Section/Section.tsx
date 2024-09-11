@@ -191,23 +191,71 @@ const Skills = {
   },
 };
 
-const Section: React.FC<any> = ({ element }) => {
+const Section: React.FC<any> = ({ element, handleContentChange }) => {
   const customElement: any = {
     ...element,
     section: {
-      ...(element.sectionType === "Summary" ? Summary : {}),
-      ...(element.sectionType === "Education" ? Education : {}),
-      ...(element.sectionType === "Employment" ? Employment : {}),
-      ...(element.sectionType === "Skills" ? Skills : {}),
+      ...(element.sectionType === "Summary"
+        ? {
+            ...Summary,
+            lableProperties: {
+              ...Summary.lableProperties,
+              style: {
+                ...Summary.lableProperties.style,
+                color: element.labelsColor,
+                fontSize: `${element.labelsFontSize}px`,
+                textAlign: "",
+                fontWeight: "",
+                textDecoration: "",
+              },
+            },
+            style: {
+              ...Summary.style,
+            },
+          }
+        : {}),
+      ...(element.sectionType === "Education"
+        ? {
+            ...Education,
+            style: {
+              ...Education.style,
+              color: element.labelsColor,
+            },
+          }
+        : {}),
+      ...(element.sectionType === "Employment"
+        ? {
+            ...Employment,
+            style: {
+              ...Employment.style,
+              color: element.labelsColor,
+            },
+          }
+        : {}),
+      ...(element.sectionType === "Skills"
+        ? {
+            ...Skills,
+            style: {
+              ...Skills.style,
+              color: element.labelsColor,
+            },
+          }
+        : {}),
     },
   };
+  console.log(element.labelsFontSize);
   return (
     <div>
       {/* group w-full relative flex flex-col border-2 border-blue-500 mt-2 overflow-hidden hover:border-yellow-500 p-4 bg-white rounded-md */}
       {/* Contact Section */}
       {customElement.sectionType === "Contact" && (
         <div className="w-full">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          <h3
+            onBlur={(e) =>
+              handleContentChange && handleContentChange(e, customElement.id)
+            }
+            style={{ color: element.labelsColor }}
+          >
             Contact Information
           </h3>
           <label className="block mb-2">

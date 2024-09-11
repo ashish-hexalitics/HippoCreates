@@ -107,7 +107,6 @@ function ConfigureTemplate() {
   };
 
   const updateElement = (id: number, data: Partial<Element>) => {
-    // console.log(data)
     setElements(elements.map((el) => (el.id === id ? { ...el, ...data } : el)));
   };
 

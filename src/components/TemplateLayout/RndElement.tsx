@@ -133,16 +133,16 @@ function RndElement({
             disableDragging={roleName === "utilizer"}
           >
             <div
-              // className={`cursor-pointer relative resizeable-element ${
-              //   isSelected ? "selected" : ""
-              // }`}
-              // style={{
-              //   fontSize: `${el.fontSize}px`,
-              //   fontWeight: el.fontWeight,
-              //   padding: `${el.padding}px`,
-              //   transform: `scale(${zoomLevel})`,
-              //   position: "relative",
-              // }}
+              className={`cursor-pointer relative resizeable-element ${
+                isSelected ? "selected" : ""
+              }`}
+              style={{
+                fontSize: `${el.fontSize}px`,
+                fontWeight: el.fontWeight,
+                padding: `${el.padding}px`,
+                transform: `scale(${zoomLevel})`,
+                position: "relative",
+              }}
             >
               {selectedElement &&
                 el.content === selectedElement.content &&

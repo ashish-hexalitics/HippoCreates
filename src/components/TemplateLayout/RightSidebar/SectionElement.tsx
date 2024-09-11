@@ -1,7 +1,16 @@
 // import React from "react";
 import { TemplateStyle } from "../../../dto/templateStyle.dto";
 
-function SectionElement({ element }:{element:TemplateStyle}) {
+function SectionElement({
+  element,
+  handleInputChange,
+}: {
+  element: TemplateStyle;
+  handleInputChange: (
+    field: keyof TemplateStyle,
+    value: string | number
+  ) => void;
+}) {
   return (
     <>
       {element.content.startsWith("Section") && (
@@ -15,6 +24,7 @@ function SectionElement({ element }:{element:TemplateStyle}) {
                 type="color"
                 name="labelsColor"
                 className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
+                onChange={(e) => handleInputChange("labelsColor", e.target.value)}
               />
             </label>
           </div>
@@ -26,11 +36,12 @@ function SectionElement({ element }:{element:TemplateStyle}) {
               </span>
               <input
                 type="number"
-                name="fontSize"
+                name="labelsFontSize"
                 min="10"
                 max="36"
                 defaultValue="16"
                 className="w-16 px-2 py-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                onChange={(e) => handleInputChange("labelsFontSize", e.target.value)}
               />
             </label>
           </div>

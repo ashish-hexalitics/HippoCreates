@@ -6,6 +6,7 @@ import {
 } from "../../store/slices/userSlice/apiSlice";
 import { getUserInfo } from "../../store/slices/userSlice/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import hippoLogoWhite from "../../assets/images/hippoLogoWhite.png";
 
 interface IUserInfo {
   address: string;
@@ -62,8 +63,8 @@ function Header() {
       <div className="w-full mx-auto sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h2 className="font-bold text-white text-xl">HippoCreates</h2>
+            <div className="flex w-full justify-between items-center">
+              <img src={hippoLogoWhite} className="h-[40px] mt-2" />
             </div>
           </div>
           <div className="hidden md:block">
