@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 function Offer() {
-
   function createRipple(event: MouseEvent) {
     const targetElement = event.currentTarget as HTMLElement;
     const ripple = document.createElement("span");
@@ -26,12 +25,12 @@ function Offer() {
 
   useEffect(() => {
     const elements = document.querySelectorAll(".ripple-effect");
-    elements.forEach((el:any) => {
+    elements.forEach((el: any) => {
       el.addEventListener("mouseenter", createRipple);
     });
 
     return () => {
-      elements.forEach((el:any) => {
+      elements.forEach((el: any) => {
         el.removeEventListener("mouseenter", createRipple);
       });
     };
@@ -40,43 +39,46 @@ function Offer() {
   return (
     <section className="section flex-col justify-center items-center dark:bg-[#fbf8f1]">
       <div className="text-center">
-        <h2 className="font-extrabold text-gray-700 text-6xl animate-[fade-in-down_1s_ease-in-out] ">
+        <h2 className="font-extrabold text-gray-700 text-3xl lg:text-6xl md:text-5xl sm:text-3xl animate-[fade-in-down_1s_ease-in-out] ">
           What We Offer
         </h2>
-        <p className="mt-3 text-gray-700 text-lg font-medium font-sans">
+        <p className="mt-3 text-gray-700 text-md lg:text-lg font-medium font-sans">
           We provide an extensive range of resume-building services designed to
           <br />
           cater to your unique career goals.
         </p>
       </div>
-      <div className="grid grid-cols-2 mt-2 p-12">
-        <div className="py-12 border-r-2 border-dashed border-gray-300">
-          <div className="p-12 border-b-2 border-dashed border-gray-300 text-right">
-            <p className="m-4 text-gray-700 text-md font-medium font-sans text-right ripple-effect">
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-2 p-4 md:p-12">
+        {/* Left Column */}
+        <div className="py-6 md:py-12 border-b-2 md:border-b-0 md:border-r-2 border-dashed border-gray-300">
+          <div className="p-4 md:p-12 border-b-2 border-dashed border-gray-300 md:text-right lg:text-right sm:text-left text-left">
+            <p className="m-4 text-gray-700 text-sm md:text-md font-medium font-sans md:text-right lg:text-right sm:text-left text-leftripple-effect">
               Diverse Templates: Choose from a wide variety of free and premium
               resume templates tailored to different industries and experience
               levels.
             </p>
           </div>
-          <div className="p-12">
-            <p className="m-4 text-gray-700 text-md font-medium font-sans text-right ripple-effect">
+          <div className="p-4 md:p-12">
+            <p className="m-4 text-gray-700 text-sm md:text-md font-medium font-sans md:text-right lg:text-right sm:text-left text-left ripple-effect">
               Customizable Categories: Whether you’re entry-level, a seasoned
               professional, or anything in between, our categories include:
               Custom, Entry-Level, Industry-Specific, Professional, Creative,
-              Technical Academic & Research, Senior-Level ,Freelance &
-              Consulting, Government & Public Sector
+              Technical Academic & Research, Senior-Level, Freelance &
+              Consulting, Government & Public Sector.
             </p>
           </div>
         </div>
-        <div className="py-12">
-          <div className="p-12 border-b-2 border-dashed border-gray-300">
-            <p className="m-4 text-gray-700 text-md font-medium font-sans ripple-effect">
-              30-Day Free Trial: Explore all the features of our platform
+
+        {/* Right Column */}
+        <div className="py-6 md:py-12">
+          <div className="p-4 md:p-12 border-b-2 border-dashed border-gray-300">
+            <p className="m-4 text-gray-700 text-sm md:text-md font-medium font-sans ripple-effect">
+              30-Day Free Trial: Explore all the features of our platform<br/>
               risk-free with a 30-day trial.
             </p>
           </div>
-          <div className="p-12">
-            <p className="m-4 text-gray-700 text-md font-medium font-sans ripple-effect">
+          <div className="p-4 md:p-12">
+            <p className="m-4 text-gray-700 text-sm md:text-md font-medium font-sans ripple-effect">
               Affordable Options: Access high-quality templates at a fraction of
               the cost of other services. <br />
               Earn with Your Creativity: Create your own resume templates and

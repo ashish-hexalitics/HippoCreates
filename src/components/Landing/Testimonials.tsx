@@ -5,10 +5,10 @@ function Testimonials() {
     <section className="section flex flex-col justify-center items-center dark:bg-[#fbf8f1]">
       {/* <!-- Testimonials Section --> */}
       <div className="w-2/3 text-center">
-        <h2 className="font-extrabold text-gray-700 text-6xl mt-28 animate-[fade-in-down_1s_ease-in-out]">
+        <h2 className="font-extrabold text-gray-700 text-4xl lg:text-6xl md:text-6xl sm:text-4xl mt-28 animate-[fade-in-down_1s_ease-in-out]">
           Testimonials
         </h2>
-        <p className="mt-3 text-gray-700 text-lg font-medium font-sans ">
+        <p className="mt-3 text-gray-700 text-lg font-medium font-sans">
           See what our happy customers have to say about us.<br/> Our services have
           transformed lives for the better.
         </p>
