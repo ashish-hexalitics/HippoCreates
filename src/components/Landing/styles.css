@@ -1,0 +1,40 @@
+
+.swiper {
+    width: 240px;
+    height: 320px;
+  }
+  
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .glow-div {
+    width: 50px;
+    height: 50px;
+    background-color: #55bab8bf; /* Vibrant color */
+    border-radius: 5%; /* Make it circular */
+    box-shadow: 0 0 60px 20px rgb(85, 186, 185,0.7), /* Outer glow */
+                0 0 30px 15px rgba(85, 186, 185, 0.5); /* Inner glow */
+    filter: blur(100px); /* Add a blur effect */
+    position: relative;
+    animation: pulsate 3s ease-in-out infinite; /* Optional animation for pulsating effect */
+  }
+  
+  @keyframes pulsate {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1); /* Slightly enlarge for pulsating effect */
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  

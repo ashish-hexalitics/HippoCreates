@@ -29,6 +29,7 @@
     "react-rnd": "^10.4.12",
     "react-router-dom": "^6.24.1",
     "sheryjs": "^1.0.0-beta.0.1.8",
+    "swiper": "^11.1.14",
     "tw-elements-react": "^1.0.0-alpha-end",
     "unsplash-js": "^7.0.19",
     "yup": "^1.4.0"
