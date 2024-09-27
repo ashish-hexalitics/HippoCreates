@@ -115,7 +115,8 @@ function ContactPage() {
   
           {/* Form Section */}
           <div className="w-full md:w-2/3">
-            <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={formik.handleSubmit} className="w-full">
+              <div className="grid grid-cols-0 sm:grid-cols-0 md:grid-cols-2 lg:grid-cols-2 gap-4">
               <div>
                 <label className="block text-gray-700 font-semibold mb-2">
                   First Name
@@ -218,6 +219,7 @@ function ContactPage() {
                   <p className="text-red-500 mt-1">{formik.errors.phone}</p>
                 )}
               </div>
+              </div>
               <div className="col-span-2">
                 <label className="block text-gray-700 font-semibold mb-2">
                   Email
@@ -235,7 +237,6 @@ function ContactPage() {
                   <p className="text-red-500 mt-1">{formik.errors.otherEmail}</p>
                 )}
               </div>
-  
               {/* Buttons Section */}
               <div className="col-span-2 flex flex-col sm:flex-row items-center justify-between mt-4">
                 <button
