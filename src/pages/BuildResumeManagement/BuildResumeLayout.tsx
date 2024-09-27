@@ -7,7 +7,7 @@ import { utilizerRoutes } from "../../routes/routes";
 function BuildResumeLayout() {
   return (
     <div className="h-screen w-screen bg-slate-100">
-      <div  className="w-full h-full flex">
+      <div  className="w-full h-full flex flex-col sm:flex-col md:flex-row lg:flex-row">
         <Sidebar />
         <Routes>
           {utilizerRoutes.map(({ path, component: Component }) => (
