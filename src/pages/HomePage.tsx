@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import Header from "../components/Landing/Header";
 import Testimonials from "../components/Landing/Testimonials";
 import Footer from "../components/Landing/Footer";
@@ -8,11 +8,13 @@ import Mission from "../components/Landing/Mission";
 import GetStart from "../components/Landing/GetStart";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import { useAppSelector } from "../store/hooks";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
   let animateCircleFragment = document.createDocumentFragment();
+  // const state = useAppSelector((state) => state);
 
   function animateCircle(event: MouseEvent) {
     let circleDivElem: HTMLElement = document.createElement("div");
@@ -34,6 +36,7 @@ function Home() {
     }, 800);
   }
 
+  const [showLoginButton, setShowLoginButton] = useState<boolean>(true)
   useEffect(() => {
     gsap.utils.toArray(".section").forEach((section:any) => {
       gsap.fromTo(
@@ -53,8 +56,9 @@ function Home() {
       );
     });
   }, []);
-
+  
   useEffect(() => {
+    setShowLoginButton(localStorage.getItem("access_token") ?false:true)
     document.addEventListener("mousemove", animateCircle);
     return () => {
       document.removeEventListener("mousemove", animateCircle);
@@ -67,7 +71,7 @@ function Home() {
       id="homePage"
       style={{ scrollBehavior: "smooth" }}
     >
-      <Header />
+      <Header showLoginButton={showLoginButton} />
       <GetStart />
       <Offer />
       <Mission />

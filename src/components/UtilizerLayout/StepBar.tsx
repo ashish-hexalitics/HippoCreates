@@ -46,7 +46,7 @@ function Sidebar() {
           >
             <Icon style={{ fontSize: "18px" }} />
             <span
-              className="absolute left-full ml-2 bg-white text-gray-700 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md z-20"
+              className="absolute top-full sm:top-full md:top-0 lg:top-0 -left-50 sm:-left-50 md:left-full lg:left-full ml-2 bg-white text-gray-700 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md z-20"
               style={{ whiteSpace: "nowrap" }}
             >
               {label}
