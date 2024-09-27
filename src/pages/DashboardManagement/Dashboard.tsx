@@ -15,19 +15,19 @@ const statCardsdata: {
   changeType: "up" | "down";
 }[] = [
   {
-    title: "Net Profit",
+    title: "Templates",
     value: "$302.1K",
     change: "▼ 2.9% vs $303.3K last year",
     changeType: "down",
   },
   {
-    title: "Store",
+    title: "Templates Utilizers",
     value: "12,900",
     change: "▲ 12.9% vs 10,300 last year",
     changeType: "up",
   },
   {
-    title: "Product",
+    title: "Earning",
     value: "390,040",
     change: "▲ 4.1% vs 320,583 last year",
     changeType: "up",

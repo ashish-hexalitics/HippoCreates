@@ -13,6 +13,7 @@ import {
   createTemplatesSlice,
   updateTemplateSlice,
 } from "../../store/slices/userSlice/userSlice";
+import { updateLayout } from "../../store/slices/adminLayoutSlice/adminLayoutSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
@@ -25,7 +26,7 @@ function ConfigureTemplate() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const roleName: string | null = localStorage.getItem("role");
-
+  const layout = useAppSelector((state) => state.adminLayoutSlice.layout);
   const { template } = useAppSelector((state: RootState) => state.userSlice);
   const [elements, setElements] = useState<Element[]>([]);
 
@@ -53,9 +54,13 @@ function ConfigureTemplate() {
   const [updateTemplate] = useUpdateTemplateMutation();
 
   useEffect(() => {
+    dispatch(updateLayout({ showLeftSidebar: false, showHeader: false }));
     if (params?.templateId) {
       setIsEdit(true);
     }
+    return () => {
+      dispatch(updateLayout({ showLeftSidebar: true, showHeader: true }));
+    };
   }, [params?.templateId]);
 
   useEffect(() => {
@@ -88,12 +93,12 @@ function ConfigureTemplate() {
   };
 
   const addSection = (el: any) => {
-    console.log(el)
+    console.log(el);
     const newElement = {
       id: Date.now(),
       x: 0,
       y: 0,
-      width: '100%',
+      width: "100%",
       height: 50,
       content: "Section",
       color: "#000000",
@@ -259,7 +264,12 @@ function ConfigureTemplate() {
   return (
     <div className="h-full w-full bg-gray-100 flex relative">
       <div
-        style={{ width: "calc(100% - 300px)", height: "100%" }}
+        style={{
+          width: layout.showTemplateRightSidebar
+            ? "calc(100% - 300px)"
+            : "100%",
+          height: "100%",
+        }}
         className="relative"
       >
         <div style={{ height: "60px" }}>
@@ -320,16 +330,18 @@ function ConfigureTemplate() {
           />
         </div>
       </div>
-      <TemplateSideBar
-        element={selectedElement}
-        addElement={addElement}
-        onChange={(data) =>
-          selectedElementId && updateElement(selectedElementId, data)
-        }
-        openThirdPartyUpload={openThirdPartyUpload}
-        roleName={roleName}
-        addSection={addSection}
-      />
+      {layout.showTemplateRightSidebar && (
+        <TemplateSideBar
+          element={selectedElement}
+          addElement={addElement}
+          onChange={(data) =>
+            selectedElementId && updateElement(selectedElementId, data)
+          }
+          openThirdPartyUpload={openThirdPartyUpload}
+          roleName={roleName}
+          addSection={addSection}
+        />
+      )}
       <PDFSizeModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

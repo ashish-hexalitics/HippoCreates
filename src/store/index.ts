@@ -7,6 +7,8 @@ import { userResumeApi } from "./slices/resumeDetailsSlice/apiSlice";
 import resumeDetailsSlice from "./slices/resumeDetailsSlice/resumeDetailSlice";
 import {skillApi} from "./slices/skilSlice/apiSlice";
 import skillSlice from "./slices/skilSlice/skillSlice";
+import adminLayoutSlice from "./slices/adminLayoutSlice/adminLayoutSlice";
+
 
 
 export const store: Store = configureStore({
@@ -18,7 +20,8 @@ export const store: Store = configureStore({
     userSlice,
     categorySlice,
     resumeDetailsSlice,
-    skillSlice
+    skillSlice,
+    adminLayoutSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

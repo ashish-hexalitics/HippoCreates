@@ -52,7 +52,7 @@ function Offer() {
         {/* Left Column */}
         <div className="py-6 md:py-12 border-b-2 md:border-b-0 md:border-r-2 border-dashed border-gray-300">
           <div className="p-4 md:p-12 border-b-2 border-dashed border-gray-300 md:text-right lg:text-right sm:text-left text-left">
-            <p className="m-4 text-gray-700 text-sm md:text-md font-medium font-sans md:text-right lg:text-right sm:text-left text-leftripple-effect">
+            <p className="m-4 text-gray-700 text-sm md:text-md font-medium font-sans md:text-right lg:text-right sm:text-left text-left ripple-effect">
               Diverse Templates: Choose from a wide variety of free and premium
               resume templates tailored to different industries and experience
               levels.

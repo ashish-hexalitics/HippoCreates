@@ -3,13 +3,17 @@ import MainContent from "../../components/AdminLayout/MainContent";
 import Sidebar from "../../components/AdminLayout/Sidebar";
 import { Route, Routes } from "react-router-dom";
 import { adminRoutes } from "../../routes/routes";
-
+import { useAppSelector } from "../../store/hooks";
 function AdminLayout() {
+  const layout = useAppSelector((state) => state.adminLayoutSlice.layout);
   return (
     <div className="h-screen bg-slate-100">
-      <Header />
-      <div style={{ height: "calc(100% - 70px)" }} className="w-screen flex">
-        <Sidebar />
+      {layout?.showHeader && <Header />}
+      <div
+        style={{ height: layout?.showHeader ? "calc(100% - 70px)" : "100%" }}
+        className="w-screen flex"
+      >
+        {layout?.showLeftSidebar && <Sidebar />}
         <Routes>
           {adminRoutes.map(
             ({ path, breadcrumb, showBreadcrumb, component: Component }) => (
