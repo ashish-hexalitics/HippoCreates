@@ -114,7 +114,7 @@ function ConfigureTemplate() {
   const updateElement = (id: number, data: Partial<Element>) => {
     setElements(elements.map((el) => (el.id === id ? { ...el, ...data } : el)));
   };
-
+  
   const handleDrag = (x: number, y: number) => {
     const threshold = 5;
     const newGuideLines: { x: number | null; y: number | null } = {
@@ -322,7 +322,7 @@ function ConfigureTemplate() {
           <input
             type="range"
             min="0.1"
-            max="3"
+            max="2"
             step="0.1"
             value={zoomLevel}
             onChange={handleZoomChange}

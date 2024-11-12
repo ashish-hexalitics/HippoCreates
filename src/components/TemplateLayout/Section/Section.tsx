@@ -191,10 +191,84 @@ const Skills = {
   },
 };
 
+const CustomSection = {
+  showSection: true,
+  sectionType: "CustomSection",
+  showLabel: true,
+  showSkill: true,
+  style: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "",
+    padding: 0,
+    textAlign: "left",
+    display: "flex",
+    flexDirection: "column",
+  },
+  lableProperties: {
+    lable: "Custom Section",
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      padding: "",
+    },
+  },
+  CustomProperties: {
+    skills: [
+      {
+        name: "JavaScript",
+      },
+      {
+        name: "React",
+      },
+    ],
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      listStyle: "circle",
+      display: "flex",
+      flexDirection: "column",
+      padding: "",
+    },
+  },
+};
+
 const Section: React.FC<any> = ({ element, handleContentChange }) => {
   const customElement: any = {
     ...element,
     section: {
+      ...(element.sectionType === "CustomSection"
+        ? {
+            ...CustomSection,
+            lableProperties: {
+              ...CustomSection.lableProperties,
+              style: {
+                ...CustomSection.lableProperties.style,
+                color: element.labelsColor,
+                fontSize: `${element.labelsFontSize}px`,
+                fontWeight: element.labelsFontWeight,
+                textDecoration: "",
+                textAlign: element.SectionTextAlignMent,
+              },
+            },
+            style: {
+              ...CustomSection.style,
+              textAlign: element.SectionTextAlignMent,
+              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              ...(element.paddingPosition &&
+              typeof element.paddingPosition === "string" &&
+              typeof JSON.parse(element.paddingPosition) === "object"
+                ? JSON.parse(element.paddingPosition)
+                : {}),
+              [element.paddingPosition]: `${element.paddingPx}px`,
+              backgroundColor: element.SectionBgColor,
+            },
+          }
+        : {}),
       ...(element.sectionType === "Summary"
         ? {
             ...Summary,
@@ -204,57 +278,129 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
                 ...Summary.lableProperties.style,
                 color: element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
-                textAlign: "",
-                fontWeight: "",
+                fontWeight: element.labelsFontWeight,
+                textAlign: "left",
                 textDecoration: "",
               },
             },
             style: {
               ...Summary.style,
+              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              ...(element.paddingPosition &&
+              typeof element.paddingPosition === "string" &&
+              Object.keys(JSON.parse(element.paddingPosition)) &&
+              typeof JSON.parse(element.paddingPosition) === "object"
+                ? JSON.parse(element.paddingPosition)
+                : {}),
+              [element.paddingPosition]: `${element.paddingPx}px`,
+              textAlign: element.SectionTextAlignMent,
+              backgroundColor: element.SectionBgColor,
             },
           }
         : {}),
       ...(element.sectionType === "Education"
         ? {
             ...Education,
+            lableProperties: {
+              ...Education.lableProperties,
+              style: {
+                ...Education.style,
+                color: element.labelsColor,
+                textAlign: element.SectionTextAlignMent,
+                fontWeight: element.labelsFontWeight,
+                fontSize: `${element.labelsFontSize}px`,
+              },
+            },
             style: {
               ...Education.style,
-              color: element.labelsColor,
+              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              ...(element.paddingPosition &&
+              typeof element.paddingPosition === "string" &&
+              Object.keys(JSON.parse(element.paddingPosition)) &&
+              typeof JSON.parse(element.paddingPosition) === "object"
+                ? JSON.parse(element.paddingPosition)
+                : {}),
+              [element.paddingPosition]: `${element.paddingPx}px`,
+              textAlign: element.SectionTextAlignMent,
+              backgroundColor: element.SectionBgColor,
             },
           }
         : {}),
       ...(element.sectionType === "Employment"
         ? {
             ...Employment,
+            lableProperties: {
+              ...Employment.lableProperties,
+              style: {
+                fontSize: `${element.labelsFontSize}px`,
+                ...Employment.style,
+                color: element.labelsColor,
+                textAlign: "left",
+                fontWeight: element.labelsFontWeight,
+              },
+            },
             style: {
               ...Employment.style,
-              color: element.labelsColor,
+              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              ...(element.paddingPosition &&
+              typeof element.paddingPosition === "string" &&
+              Object.keys(JSON.parse(element.paddingPosition)) &&
+              typeof JSON.parse(element.paddingPosition) === "object"
+                ? JSON.parse(element.paddingPosition)
+                : {}),
+              [element.paddingPosition]: `${element.paddingPx}px`,
+              textAlign: element.SectionTextAlignMent,
+              backgroundColor: element.SectionBgColor,
             },
           }
         : {}),
       ...(element.sectionType === "Skills"
         ? {
             ...Skills,
+            lableProperties: {
+              ...Skills.lableProperties,
+              style: {
+                ...Skills.style,
+                color: element.labelsColor,
+                textAlign: element.SectionTextAlignMent,
+                fontWeight: element.labelsFontWeight,
+                fontSize: `${element.labelsFontSize}px`,
+              },
+            },
             style: {
               ...Skills.style,
-              color: element.labelsColor,
+              [element.SectionBorder]:
+                "1px solid " + element.labelsColor || "#000",
+              ...(element.paddingPosition &&
+              typeof element.paddingPosition === "string" &&
+              Object.keys(JSON.parse(element.paddingPosition)) &&
+              typeof JSON.parse(element.paddingPosition) === "object"
+                ? JSON.parse(element.paddingPosition)
+                : {}),
+              textAlign: element.SectionTextAlignMent,
+              backgroundColor: element.SectionBgColor,
             },
           }
         : {}),
     },
   };
-  console.log(element.labelsFontSize);
+
+  console.log(customElement);
+
   return (
     <div>
-      {/* group w-full relative flex flex-col border-2 border-blue-500 mt-2 overflow-hidden hover:border-yellow-500 p-4 bg-white rounded-md */}
-      {/* Contact Section */}
       {customElement.sectionType === "Contact" && (
-        <div className="w-full">
+        <div className="w-full" style={customElement.section.style}>
           <h3
             onBlur={(e) =>
               handleContentChange && handleContentChange(e, customElement.id)
             }
-            style={{ color: element.labelsColor }}
+            style={{
+              color:
+                element.ShowlabelsColor === "onlyForThis"
+                  ? customElement?.section?.lableProperties?.style?.color
+                  : element.labelsColor,
+            }}
           >
             Contact Information
           </h3>
@@ -272,7 +418,16 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
         customElement.section.showSection && (
           <div style={customElement.section.style}>
             {customElement.section.showLabel && (
-              <h3 style={customElement.section.lableProperties.style}>
+              <h3 
+              // style={customElement.section.lableProperties.style}
+              style={{
+                ...customElement.section.lableProperties.style,
+                color:
+                  element.ShowlabelsColor === "onlyForThis"
+                    ? customElement?.section?.lableProperties?.style?.color
+                    : element.labelsColor,
+              }}
+              >
                 {customElement.section.lableProperties.lable}
               </h3>
             )}
@@ -381,9 +536,11 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
       {/* Custom Section */}
       {customElement.sectionType === "CustomSection" && (
         <div className="w-full">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
-            Custom Section
-          </h3>
+          {customElement.section.showLabel && (
+            <h3 style={customElement.section.lableProperties.style}>
+              {customElement.section.lableProperties.lable}
+            </h3>
+          )}
         </div>
       )}
     </div>

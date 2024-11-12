@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import business3dYoungWomenStanding from "../../assets/images/business-3d-young-women-standing.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../store/slices/userSlice/apiSlice";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 interface RegisterRequest {
   email: string;
@@ -12,6 +12,28 @@ interface RegisterRequest {
 }
 
 const Register: React.FC = (): React.ReactElement => {
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const card = e.currentTarget;
+    const { left, top, width, height } = card.getBoundingClientRect();
+
+    // Calculate the center position of the card
+    const x = e.clientX - left - width / 2;
+    const y = e.clientY - top - height / 2;
+
+    // Calculate rotation based on mouse position
+    const rotationX = (y / height) * 50; // Adjust these values for more/less effect
+    const rotationY = (x / width) * -50;
+
+    setRotation({ x: rotationX, y: rotationY });
+  };
+
+  const handleMouseLeave = () => {
+    // Reset the rotation when the mouse leaves the card
+    setRotation({ x: 0, y: 0 });
+  };
+
   const [user, setUser] = useState<RegisterRequest>({
     email: "",
     password: "",
@@ -36,22 +58,28 @@ const Register: React.FC = (): React.ReactElement => {
         !isError && navigate("/login");
         notify(data.message);
       }
-    } catch (error:any) {
-      console.log(error)
+    } catch (error: any) {
+      console.log(error);
       notify(error.data.message);
     }
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6 dark:bg-[#fbf8f1]">
-      <div className="flex w-full max-w-4xl overflow-hidden rounded-lg bg-[#fbf8f1] shadow-lg dark:bg-white">
+      <div className="flex w-full max-w-5xl overflow-hidden rounded-lg bg-[#fbf8f1] shadow-lg dark:bg-white">
         <div className="w-full p-8 sm:p-12 lg:w-1/2">
           <h2 className="mb-4 text-2xl font-bold text-left text-gray dark:text-gray">
             Register
           </h2>
-          <Toaster/>
+          <Toaster />
           <form>
             <div className="relative mb-6">
+              <label
+                htmlFor="exampleInputEmail"
+                className="pointer-events-none mb-2 text-gray-500 dark:text-gray-400"
+              >
+                Email
+              </label>
               <input
                 type="email"
                 className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
@@ -60,14 +88,14 @@ const Register: React.FC = (): React.ReactElement => {
                 name="email"
                 onChange={handleChange}
               />
-              <label
-                htmlFor="exampleInputEmail"
-                className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
-              >
-                Email
-              </label>
             </div>
             <div className="relative mb-6">
+              <label
+                htmlFor="exampleInputFullName"
+                className="pointer-events-none mb-2 text-gray-500 dark:text-gray-400"
+              >
+                Full Name
+              </label>
               <input
                 type="text"
                 className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
@@ -76,14 +104,14 @@ const Register: React.FC = (): React.ReactElement => {
                 onChange={handleChange}
                 name="name"
               />
-              <label
-                htmlFor="exampleInputFullName"
-                className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
-              >
-                Full Name
-              </label>
             </div>
             <div className="relative mb-6">
+              <label
+                htmlFor="exampleInputPassword"
+                className="pointer-events-none mb-2 text-gray-500 dark:text-gray-400"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
@@ -92,12 +120,6 @@ const Register: React.FC = (): React.ReactElement => {
                 onChange={handleChange}
                 name="password"
               />
-              <label
-                htmlFor="exampleInputPassword"
-                className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
-              >
-                Password
-              </label>
             </div>
             <div className="mb-6">
               <label className="block text-gray-600 dark:text-gray-500">
@@ -151,7 +173,7 @@ const Register: React.FC = (): React.ReactElement => {
             >
               Register Now
             </button>
-            <div className="mt-4 text-center text-gray-500 dark:text-gray-500">
+            {/* <div className="mt-4 text-center text-gray-500 dark:text-gray-500">
               or Register with
             </div>
             <div className="mt-4 flex justify-center space-x-2">
@@ -177,16 +199,33 @@ const Register: React.FC = (): React.ReactElement => {
                 />
                 Facebook
               </button>
-            </div>
+            </div> */}
           </form>
         </div>
         <div className="hidden p-16 w-1/2 lg:block">
-          <div
+          <div className="flex items-center justify-center w-full h-full shadow-inner bg-gray-200 rounded-lg">
+            <div
+              className="w-full h-full bg-white rounded-lg shadow-lg transition-transform duration-300"
+              style={{
+                transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+              }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-gray-800">3D Card</h2>
+                <p className="text-gray-600 mt-2">
+                  This card tilts based on mouse movement to create a 3D effect.
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* <div
             className="w-full h-full bg-cover bg-top lg:block"
             style={{
               backgroundImage: `url(${business3dYoungWomenStanding})`,
             }}
-          ></div>
+          ></div> */}
         </div>
       </div>
     </div>

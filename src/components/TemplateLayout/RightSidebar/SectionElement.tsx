@@ -16,22 +16,48 @@ function SectionElement({
       {element.content.startsWith("Section") && (
         <div className="w-full rounded-lg space-y-4">
           <div>
-            <label className="flex items-center space-x-3">
-              <span className="text-lg font-semibold text-gray-700">
-                Label Color:
+            <span className="text-sm font-semibold text-gray-700">Label:</span>
+            <label className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
+              <span className="text-sm font-semibold text-gray-700">
+                Color:
               </span>
               <input
                 type="color"
                 name="labelsColor"
                 className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
-                onChange={(e) => handleInputChange("labelsColor", e.target.value)}
+                value={element.labelsColor}
+                onChange={(e) =>
+                  handleInputChange("labelsColor", e.target.value)
+                }
               />
+
+              <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4">
+                {[
+                  { label: "For All", value: "forAll" },
+                  { label: "Only For This", value: "onlyForThis" },
+                ].map((colorLabel, key) => (
+                  <label key={key} className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="ShowlabelsColor"
+                      checked={element.ShowlabelsColor === colorLabel.value}
+                      onChange={() =>
+                        handleInputChange("ShowlabelsColor", colorLabel.value)
+                      }
+                      className="cursor-pointer"
+                    />
+                    <span className="text-sm font-semibold text-gray-700">
+                      {colorLabel.label}
+                    </span>
+                  </label>
+                ))}
+              </div>
             </label>
           </div>
 
           <div>
             <label className="flex items-center space-x-3">
-              <span className="text-lg font-semibold text-gray-700">
+              <span className="text-sm font-semibold text-gray-700">
                 Font Size:
               </span>
               <input
@@ -41,22 +67,27 @@ function SectionElement({
                 max="36"
                 defaultValue="16"
                 className="w-16 px-2 py-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-                onChange={(e) => handleInputChange("labelsFontSize", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("labelsFontSize", e.target.value)
+                }
               />
             </label>
           </div>
 
           <div>
             <label className="flex items-center space-x-3">
-              <span className="text-lg font-semibold text-gray-700">
+              <span className="text-sm font-semibold text-gray-700">
                 Font Weight:
               </span>
               <select
                 name="fontWeight"
                 className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                onChange={(e) =>
+                  handleInputChange("labelsFontWeight", e.target.value)
+                }
               >
                 <option value="normal">Normal</option>
-                <option value="bold">Bold</option>
+                <option value="thin">Medium</option>
                 <option value="bolder">Bolder</option>
                 <option value="lighter">Lighter</option>
               </select>
@@ -64,13 +95,121 @@ function SectionElement({
           </div>
 
           <div>
+            <span className="text-sm font-semibold text-gray-700">
+              Section Background :
+            </span>
             <label className="flex items-center space-x-3">
-              <span className="text-lg font-semibold text-gray-700">
-                Background Color:
+              <span className="text-sm font-semibold text-gray-700">
+               Color:
               </span>
               <input
                 type="color"
+                onChange={(e) =>
+                  handleInputChange("SectionBgColor", e.target.value)
+                }
                 name="backgroundColor"
+                className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
+              />
+              {[
+                { label: "For All", value: "forAll" },
+                { label: "Only For This", value: "onlyForThis" },
+              ].map((colorLabel, key) => (
+                <label key={key} className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="ShowSectionBgColor"
+                    checked={element.ShowSectionBgColor === colorLabel.value}
+                    onChange={() =>
+                      handleInputChange("ShowSectionBgColor", colorLabel.value)
+                    }
+                    className="cursor-pointer"
+                  />
+                  <span className="text-sm font-semibold text-gray-700">
+                    {colorLabel.label}
+                  </span>
+                </label>
+              ))}
+            </label>
+          </div>
+
+          <div>
+            <label className="flex items-center space-x-3">
+              <span className="text-sm font-semibold text-gray-700">
+                Margin:
+              </span>
+              <select
+                name="paddingPosition"
+                className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                onChange={(e) =>
+                  handleInputChange("paddingPosition", e.target.value)
+                }
+              >
+                {[
+                  {
+                    value: { paddingTop: element.paddingPx },
+                    label: "Padding Top",
+                  },
+                  {
+                    value: { paddingLeft: element.paddingPx },
+                    label: "Padding Left",
+                  },
+                  {
+                    value: { paddingRight: element.paddingPx },
+                    label: "Padding Right",
+                  },
+                  {
+                    value: { paddingBottom: element.paddingPx },
+                    label: "Padding Bottom",
+                  },
+                  {
+                    value: {
+                      paddingTop: element.paddingPx,
+                      paddingLeft: element.paddingPx,
+                    },
+                    label: "Padding Top Left",
+                  },
+                  {
+                    value: {
+                      paddingBottom: element.paddingPx,
+                      paddingLeft: element.paddingPx,
+                    },
+                    label: "Padding Top Right",
+                  },
+                  {
+                    value: {
+                      paddingRight: element.paddingPx,
+                      paddingTop: element.paddingPx,
+                    },
+                    label: "Padding Right Top",
+                  },
+                  {
+                    value: {
+                      paddingBottom: element.paddingPx,
+                      paddingRight: element.paddingPx,
+                    },
+                    label: "Padding Bottom Right",
+                  },
+                  {
+                    value: { padding: element.paddingPx },
+                    label: "Padding All",
+                  },
+                ].map((option, key) => (
+                  <option key={key} value={JSON.stringify(option.value)}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="number"
+                onChange={(e) =>
+                  handleInputChange("paddingPx", e.target.value + "px")
+                }
+                value={
+                  element.paddingPx?.includes("px")
+                    ? Number(element.paddingPx.replace("px", ""))
+                    : 0
+                }
+                name="paddingPx"
                 className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
               />
             </label>
@@ -78,12 +217,15 @@ function SectionElement({
 
           <div>
             <label className="flex items-center space-x-3">
-              <span className="text-lg font-semibold text-gray-700">
+              <span className="text-sm font-semibold text-gray-700">
                 Text Alignment:
               </span>
               <select
                 name="textAlign"
                 className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                onChange={(e) =>
+                  handleInputChange("SectionTextAlignMent", e.target.value)
+                }
               >
                 <option value="left">Left</option>
                 <option value="center">Center</option>
@@ -92,29 +234,63 @@ function SectionElement({
             </label>
           </div>
           <div>
-            <span className="text-lg font-semibold text-gray-700">Border:</span>
+            <span className="text-sm font-semibold text-gray-700">Border:</span>
             <div className="grid grid-cols-2">
               <label className="flex items-center space-x-3">
                 <span className="text-sm font-semibold text-gray-700">TOP</span>
-                <input type="radio" />
+                <input
+                  type="radio"
+                  value={"borderTop"}
+                  onChange={(e) =>
+                    handleInputChange("SectionBorder", e.target.value)
+                  }
+                />
               </label>
               <label className="flex items-center space-x-3">
                 <span className="text-sm font-semibold text-gray-700">
                   LEFT
                 </span>
-                <input type="radio" />
+                <input
+                  type="radio"
+                  value={"borderLeft"}
+                  onChange={(e) =>
+                    handleInputChange("SectionBorder", e.target.value)
+                  }
+                />
               </label>
               <label className="flex items-center space-x-3">
                 <span className="text-sm font-semibold text-gray-700">
                   BOTTOM
                 </span>
-                <input type="radio" />
+                <input
+                  type="radio"
+                  value={"borderBottom"}
+                  onChange={(e) =>
+                    handleInputChange("SectionBorder", e.target.value)
+                  }
+                />
               </label>
               <label className="flex items-center space-x-3">
                 <span className="text-sm font-semibold text-gray-700">
                   RIGHT
                 </span>
-                <input type="radio" />
+                <input
+                  type="radio"
+                  value={"borderRight"}
+                  onChange={(e) =>
+                    handleInputChange("SectionBorder", e.target.value)
+                  }
+                />
+              </label>
+              <label className="flex items-center space-x-3">
+                <span className="text-sm font-semibold text-gray-700">All</span>
+                <input
+                  type="radio"
+                  value={"border"}
+                  onChange={(e) =>
+                    handleInputChange("SectionBorder", e.target.value)
+                  }
+                />
               </label>
             </div>
           </div>

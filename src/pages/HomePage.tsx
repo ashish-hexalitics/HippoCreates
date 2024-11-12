@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Landing/Header";
 import Testimonials from "../components/Landing/Testimonials";
 import Footer from "../components/Landing/Footer";
@@ -36,9 +36,9 @@ function Home() {
     }, 800);
   }
 
-  const [showLoginButton, setShowLoginButton] = useState<boolean>(true)
+  const [showLoginButton, setShowLoginButton] = useState<boolean>(true);
   useEffect(() => {
-    gsap.utils.toArray(".section").forEach((section:any) => {
+    gsap.utils.toArray(".section").forEach((section: any) => {
       gsap.fromTo(
         section,
         { opacity: 0, y: 50 },
@@ -56,9 +56,9 @@ function Home() {
       );
     });
   }, []);
-  
+
   useEffect(() => {
-    setShowLoginButton(localStorage.getItem("access_token") ?false:true)
+    setShowLoginButton(localStorage.getItem("access_token") ? false : true);
     document.addEventListener("mousemove", animateCircle);
     return () => {
       document.removeEventListener("mousemove", animateCircle);

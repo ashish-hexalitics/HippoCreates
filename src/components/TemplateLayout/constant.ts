@@ -1,5 +1,5 @@
 export const pixelsToCm = (pixels: number, dpi = 5.7) => {
-  return (pixels / dpi) * 2.54;
+  return (pixels / dpi) * 6;
 };
 
 interface IfilterStyles {

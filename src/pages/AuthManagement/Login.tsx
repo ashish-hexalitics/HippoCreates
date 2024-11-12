@@ -66,6 +66,12 @@ const Login: React.FC = (): React.ReactElement => {
           </p>
           <form>
             <div className="relative mb-6">
+              <label
+                htmlFor="exampleInputUsername"
+                className="pointer-events-none mb-2 text-gray-500 dark:text-gray-400"
+              >
+                Username
+              </label>
               <input
                 type="text"
                 className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
@@ -74,14 +80,14 @@ const Login: React.FC = (): React.ReactElement => {
                 name="email"
                 onChange={handleChange}
               />
-              <label
-                htmlFor="exampleInputUsername"
-                className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
-              >
-                Username
-              </label>
             </div>
             <div className="relative mb-6">
+              <label
+                htmlFor="exampleInputPassword1"
+                className="pointer-events-none mb-2 text-gray-500 dark:text-gray-400"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
@@ -90,12 +96,6 @@ const Login: React.FC = (): React.ReactElement => {
                 onChange={handleChange}
                 name="password"
               />
-              <label
-                htmlFor="exampleInputPassword1"
-                className="pointer-events-none absolute left-4 top-0 mb-0 pt-3 leading-6 text-gray-500 transition-all duration-200 ease-out peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary dark:text-gray-400"
-              >
-                Password
-              </label>
             </div>
             <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center">

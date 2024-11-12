@@ -1,8 +1,16 @@
 export interface TemplateStyle {
   fontWeight?: string;
+  labelsFontWeight?: string;
+  SectionBgColor?: string;
+  SectionTextAlignMent?: string;
+  SectionBorder?: string;
+  paddingPosition?: string;
+  paddingPx?: number;
   fontSize?: number;
   color?: string;
   labelsColor?: string;
+  ShowlabelsColor?: string;
+  ShowSectionBgColor?: string;
   labelsFontSize?: number;
   backgroundColor?: string;
   x: number;
