@@ -1,5 +1,14 @@
-// import React from "react";
+import { useState } from "react";
 import { TemplateStyle } from "../../../dto/templateStyle.dto";
+import { icons } from "../../../Icons/constant";
+import { paddingPositionOptions } from "./utills";
+const {
+  TbBorderBottomPlus,
+  TbBorderLeftPlus,
+  TbBorderTopPlus,
+  TbBorderRightPlus,
+  TbBorderOuter,
+} = icons;
 
 function SectionElement({
   element,
@@ -11,87 +20,175 @@ function SectionElement({
     value: string | number
   ) => void;
 }) {
+  const [options, setOptions] = useState([
+    {
+      value: { paddingTop: element.paddingPx },
+      label: "Padding Top",
+    },
+    {
+      value: { paddingLeft: element.paddingPx },
+      label: "Padding Left",
+    },
+    {
+      value: { paddingRight: element.paddingPx },
+      label: "Padding Right",
+    },
+    {
+      value: { paddingBottom: element.paddingPx },
+      label: "Padding Bottom",
+    },
+    {
+      value: {
+        paddingTop: element.paddingPx,
+        paddingLeft: element.paddingPx,
+      },
+      label: "Padding Top Left",
+    },
+    {
+      value: {
+        paddingBottom: element.paddingPx,
+        paddingLeft: element.paddingPx,
+      },
+      label: "Padding Top Right",
+    },
+    {
+      value: {
+        paddingRight: element.paddingPx,
+        paddingTop: element.paddingPx,
+      },
+      label: "Padding Right Top",
+    },
+    {
+      value: {
+        paddingBottom: element.paddingPx,
+        paddingRight: element.paddingPx,
+      },
+      label: "Padding Bottom Right",
+    },
+    {
+      value: { padding: element.paddingPx },
+      label: "Padding All",
+    },
+  ]);
+  console.log(element, element.sectionType, "handleInputChange");
+
   return (
     <>
       {element.content.startsWith("Section") && (
-        <div className="w-full rounded-lg space-y-4">
-          <div>
-            <span className="text-sm font-semibold text-gray-700">Label:</span>
-            <label className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
-              <span className="text-sm font-semibold text-gray-700">
-                Color:
-              </span>
-              <input
-                type="color"
-                name="labelsColor"
-                className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
-                value={element.labelsColor}
-                onChange={(e) =>
-                  handleInputChange("labelsColor", e.target.value)
-                }
-              />
-
-              <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4">
-                {[
-                  { label: "For All", value: "forAll" },
-                  { label: "Only For This", value: "onlyForThis" },
-                ].map((colorLabel, key) => (
-                  <label key={key} className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="ShowlabelsColor"
-                      checked={element.ShowlabelsColor === colorLabel.value}
-                      onChange={() =>
-                        handleInputChange("ShowlabelsColor", colorLabel.value)
-                      }
-                      className="cursor-pointer"
-                    />
-                    <span className="text-sm font-semibold text-gray-700">
-                      {colorLabel.label}
-                    </span>
-                  </label>
-                ))}
+        <div className="w-full rounded-lg">
+          <span className="text-sm font-semibold text-gray-700">Label:</span>
+          <div className="w-full grid grid-cols-1 space-y-2 py-2 ">
+            <div className="grid grid-cols-2">
+              <div>
+                <label className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
+                  <span className="text-sm font-semibold text-gray-700">
+                    Color:
+                  </span>
+                  <input
+                    type="color"
+                    name="labelsColor"
+                    className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
+                    value={element.labelsColor}
+                    onChange={(e) =>
+                      handleInputChange("labelsColor", e.target.value)
+                    }
+                  />
+                </label>
               </div>
-            </label>
-          </div>
-
-          <div>
-            <label className="flex items-center space-x-3">
-              <span className="text-sm font-semibold text-gray-700">
-                Font Size:
-              </span>
-              <input
-                type="number"
-                name="labelsFontSize"
-                min="10"
-                max="36"
-                defaultValue="16"
-                className="w-16 px-2 py-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-                onChange={(e) =>
-                  handleInputChange("labelsFontSize", e.target.value)
-                }
-              />
-            </label>
-          </div>
-
-          <div>
-            <label className="flex items-center space-x-3">
-              <span className="text-sm font-semibold text-gray-700">
-                Font Weight:
-              </span>
-              <select
-                name="fontWeight"
-                className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-                onChange={(e) =>
-                  handleInputChange("labelsFontWeight", e.target.value)
-                }
-              >
-                <option value="normal">Normal</option>
-                <option value="thin">Medium</option>
-                <option value="bolder">Bolder</option>
-                <option value="lighter">Lighter</option>
-              </select>
-            </label>
+              <div>
+                <label className="flex items-center space-x-3">
+                  <span className="text-sm font-semibold text-gray-700">
+                    Font Size:
+                  </span>
+                  <input
+                    type="number"
+                    name="labelsFontSize"
+                    min="10"
+                    max="36"
+                    defaultValue="16"
+                    value={element.labelsFontSize}
+                    className="w-16 px-2 py-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                    onChange={(e) =>
+                      handleInputChange("labelsFontSize", e.target.value)
+                    }
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="grid grid-cols-1">
+              <label className="flex items-center space-x-3">
+                <span className="text-sm font-semibold text-gray-700">
+                  Font Weight:
+                </span>
+                <select
+                  name="labelsFontWeight"
+                  className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                  value={element.labelsFontWeight}
+                  onChange={(e) =>
+                    handleInputChange("labelsFontWeight", e.target.value)
+                  }
+                >
+                  <option value="normal">Normal</option>
+                  <option value="thin">Medium</option>
+                  <option value="bolder">Bolder</option>
+                  <option value="lighter">Lighter</option>
+                </select>
+              </label>
+            </div>
+            <div className="grid grid-cols-2">
+              {[
+                {
+                  label: "Underline",
+                  value: "underline",
+                },
+                {
+                  label: "None",
+                  value: "none",
+                },
+              ].map((item, key) => (
+                <>
+                  <label className="flex items-center space-x-3" key={key}>
+                    <button
+                      className={`text-sm font-semibold text-gray-700 ${
+                        item.value === element.SectionLabelUnderline
+                          ? "underline"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleInputChange("SectionLabelUnderline", item.value)
+                      }
+                    >
+                      {item.label}
+                    </button>
+                  </label>
+                </>
+              ))}
+            </div>
+            <div className="grid grid-cols-2">
+              {[
+                {
+                  label: "Dot",
+                  value: true,
+                },
+                {
+                  label: "None",
+                  value: false,
+                },
+              ].map((item, key) => (
+                <>
+                  <label className="flex items-center space-x-3" key={key}>
+                    <button
+                      className={`text-sm font-semibold text-gray-700 ${
+                        item.value === element.showDot ? "underline" : ""
+                      }`}
+                      onClick={() => handleInputChange("showDot", item.value)}
+                    >
+                      {item.label}
+                    </button>
+                  </label>
+                </>
+              ))}
+            </div>
           </div>
 
           <div>
@@ -100,100 +197,34 @@ function SectionElement({
             </span>
             <label className="flex items-center space-x-3">
               <span className="text-sm font-semibold text-gray-700">
-               Color:
+                Color:
               </span>
               <input
                 type="color"
+                value={element.SectionBgColor}
                 onChange={(e) =>
                   handleInputChange("SectionBgColor", e.target.value)
                 }
                 name="backgroundColor"
                 className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
               />
-              {[
-                { label: "For All", value: "forAll" },
-                { label: "Only For This", value: "onlyForThis" },
-              ].map((colorLabel, key) => (
-                <label key={key} className="flex items-center space-x-2">
-                  <input
-                    type="radio"
-                    name="ShowSectionBgColor"
-                    checked={element.ShowSectionBgColor === colorLabel.value}
-                    onChange={() =>
-                      handleInputChange("ShowSectionBgColor", colorLabel.value)
-                    }
-                    className="cursor-pointer"
-                  />
-                  <span className="text-sm font-semibold text-gray-700">
-                    {colorLabel.label}
-                  </span>
-                </label>
-              ))}
             </label>
           </div>
 
           <div>
             <label className="flex items-center space-x-3">
               <span className="text-sm font-semibold text-gray-700">
-                Margin:
+                Spaceing:
               </span>
               <select
                 name="paddingPosition"
                 className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-                onChange={(e) =>
-                  handleInputChange("paddingPosition", e.target.value)
-                }
+                onChange={(e) => {
+                  handleInputChange("paddingPosition", e.target.value);
+                }}
+                value={element.paddingPosition}
               >
-                {[
-                  {
-                    value: { paddingTop: element.paddingPx },
-                    label: "Padding Top",
-                  },
-                  {
-                    value: { paddingLeft: element.paddingPx },
-                    label: "Padding Left",
-                  },
-                  {
-                    value: { paddingRight: element.paddingPx },
-                    label: "Padding Right",
-                  },
-                  {
-                    value: { paddingBottom: element.paddingPx },
-                    label: "Padding Bottom",
-                  },
-                  {
-                    value: {
-                      paddingTop: element.paddingPx,
-                      paddingLeft: element.paddingPx,
-                    },
-                    label: "Padding Top Left",
-                  },
-                  {
-                    value: {
-                      paddingBottom: element.paddingPx,
-                      paddingLeft: element.paddingPx,
-                    },
-                    label: "Padding Top Right",
-                  },
-                  {
-                    value: {
-                      paddingRight: element.paddingPx,
-                      paddingTop: element.paddingPx,
-                    },
-                    label: "Padding Right Top",
-                  },
-                  {
-                    value: {
-                      paddingBottom: element.paddingPx,
-                      paddingRight: element.paddingPx,
-                    },
-                    label: "Padding Bottom Right",
-                  },
-                  {
-                    value: { padding: element.paddingPx },
-                    label: "Padding All",
-                  },
-                ].map((option, key) => (
+                {options.map((option, key) => (
                   <option key={key} value={JSON.stringify(option.value)}>
                     {option.label}
                   </option>
@@ -201,9 +232,24 @@ function SectionElement({
               </select>
               <input
                 type="number"
-                onChange={(e) =>
-                  handleInputChange("paddingPx", e.target.value + "px")
-                }
+                onChange={(e) => {
+                  // const paddingPosition =  element.paddingPosition && JSON.parse(element.paddingPosition)
+                  // const paddingKeys = Object.keys(paddingPosition)
+                  // const newSpaceing:any = {}
+                  // paddingKeys.forEach((prop)=>{
+                  //   newSpaceing[prop]=e.target.value + "px"
+                  // })
+                  // const newpaddingPosition = JSON.stringify(newSpaceing)
+                  // const paddingPosition =
+                  //   element.paddingPosition &&
+                  //   options.filter(
+                  //     (optn) =>
+                  //       element.paddingPosition === JSON.stringify(optn.value)
+                  //   );
+              //  console.log(paddingPosition,"paddingPosition",element.paddingPosition)
+                  handleInputChange("paddingPx", e.target.value + "px");
+                  // handleInputChange("paddingPosition", newpaddingPosition)
+                }}
                 value={
                   element.paddingPx?.includes("px")
                     ? Number(element.paddingPx.replace("px", ""))
@@ -235,62 +281,202 @@ function SectionElement({
           </div>
           <div>
             <span className="text-sm font-semibold text-gray-700">Border:</span>
+            <div className=" space-y-2 py-2">
+              <div className="grid grid-cols-5">
+                {[
+                  {
+                    label: "TOP",
+                    value: "borderTop",
+                    icon: <TbBorderTopPlus size={20} />,
+                  },
+                  {
+                    label: "LEFT",
+                    value: "borderLeft",
+                    icon: <TbBorderLeftPlus size={20} />,
+                  },
+                  {
+                    label: "BOTTOM",
+                    value: "borderBottom",
+                    icon: <TbBorderBottomPlus size={20} />,
+                  },
+                  {
+                    label: "RIGHT",
+                    value: "borderRight",
+                    icon: <TbBorderRightPlus size={20} />,
+                  },
+                  {
+                    label: "All",
+                    value: "border",
+                    icon: <TbBorderOuter size={20} />,
+                  },
+                ].map((item, key) => (
+                  <>
+                    <label className="flex items-center space-x-3" key={key}>
+                      {/* <span className="text-sm font-semibold text-gray-700">
+                      {item.label}
+                    </span> */}
+                      {item.icon}
+                      <input
+                        type="radio"
+                        value={item.value}
+                        onChange={(e) =>
+                          handleInputChange("SectionBorder", e.target.value)
+                        }
+                      />
+                    </label>
+                  </>
+                ))}
+              </div>
+              <div className="grid grid-cols-2">
+                <label className="flex items-center space-x-3">
+                  <span className="text-sm font-semibold text-gray-700">
+                    Color:
+                  </span>
+                  <input
+                    type="color"
+                    onChange={(e) =>
+                      handleInputChange("SectionBorderColor", e.target.value)
+                    }
+                    name="SectionBorderColor"
+                    className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
+                  />
+                </label>
+                <label className="flex items-center space-x-3">
+                  <span className="text-sm font-semibold text-gray-700">
+                    Strock:
+                  </span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={20}
+                    onChange={(e) =>
+                      handleInputChange("SectionBorderWidth", e.target.value)
+                    }
+                    name="SectionBorderWidth"
+                    className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span className="text-sm font-semibold text-gray-700">
+              List Styles :
+            </span>
             <div className="grid grid-cols-2">
               <label className="flex items-center space-x-3">
-                <span className="text-sm font-semibold text-gray-700">TOP</span>
+                <span className="text-sm font-semibold text-gray-700">
+                  Color:
+                </span>
                 <input
-                  type="radio"
-                  value={"borderTop"}
+                  type="color"
                   onChange={(e) =>
-                    handleInputChange("SectionBorder", e.target.value)
+                    handleInputChange("listItemsColor", e.target.value)
                   }
+                  name="listItemsColor"
+                  className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
                 />
               </label>
               <label className="flex items-center space-x-3">
                 <span className="text-sm font-semibold text-gray-700">
-                  LEFT
+                  Font Size:
                 </span>
                 <input
-                  type="radio"
-                  value={"borderLeft"}
+                  type="number"
+                  name="listItemsFontSize"
+                  min="10"
+                  max="36"
+                  defaultValue="16"
+                  className="w-16 px-2 py-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                   onChange={(e) =>
-                    handleInputChange("SectionBorder", e.target.value)
+                    handleInputChange("listItemsFontSize", e.target.value)
                   }
                 />
+              </label>
+              {[
+                {
+                  label: "Underline",
+                  value: "underline",
+                },
+                {
+                  label: "None",
+                  value: "none",
+                },
+              ].map((item, key) => (
+                <>
+                  <label className="flex items-center space-x-3" key={key}>
+                    <button
+                      className={`text-sm font-semibold text-gray-700 ${
+                        item.value === element.listItemTextDecoration
+                          ? "underline"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleInputChange("listItemTextDecoration", item.value)
+                      }
+                    >
+                      {item.label}
+                    </button>
+                  </label>
+                </>
+              ))}
+              <label className="flex items-center space-x-3">
+                <span className="text-sm font-semibold text-gray-700">
+                  Font Weight:
+                </span>
+                <select
+                  name="listItemsFontWeight"
+                  className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                  onChange={(e) =>
+                    handleInputChange("listItemsFontWeight", e.target.value)
+                  }
+                >
+                  <option value="normal">Normal</option>
+                  <option value="thin">Medium</option>
+                  <option value="bolder">Bolder</option>
+                  <option value="lighter">Lighter</option>
+                </select>
               </label>
               <label className="flex items-center space-x-3">
                 <span className="text-sm font-semibold text-gray-700">
-                  BOTTOM
+                  Font Weight:
                 </span>
-                <input
-                  type="radio"
-                  value={"borderBottom"}
+                <select
+                  name="listItemsFontWeight"
+                  className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                   onChange={(e) =>
-                    handleInputChange("SectionBorder", e.target.value)
+                    handleInputChange("listItemsFontWeight", e.target.value)
                   }
-                />
+                >
+                  <option value="normal">Normal</option>
+                  <option value="thin">Medium</option>
+                  <option value="bolder">Bolder</option>
+                  <option value="lighter">Lighter</option>
+                </select>
               </label>
               <label className="flex items-center space-x-3">
                 <span className="text-sm font-semibold text-gray-700">
-                  RIGHT
+                  List Type :
                 </span>
-                <input
-                  type="radio"
-                  value={"borderRight"}
+                <select
+                  name="listItemType"
+                  className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                   onChange={(e) =>
-                    handleInputChange("SectionBorder", e.target.value)
+                    handleInputChange("listItemType", e.target.value)
                   }
-                />
-              </label>
-              <label className="flex items-center space-x-3">
-                <span className="text-sm font-semibold text-gray-700">All</span>
-                <input
-                  type="radio"
-                  value={"border"}
-                  onChange={(e) =>
-                    handleInputChange("SectionBorder", e.target.value)
-                  }
-                />
+                >
+                  <option value="disc">Disc</option>
+                  <option value="circle">Circle</option>
+                  <option value="square">Square</option>
+                  <option value="decimal">Decimal</option>
+                  <option value="decimal-leading-zero">
+                    Decimal Leading zero
+                  </option>
+                  <option value="lower-roman">Lower Roman</option>
+                  <option value="upper-roman">Upper Roman</option>
+                  <option value="lower-alpha">Lower Alpha</option>
+                  <option value="upper-alpha">Upper Alpha</option>
+                </select>
               </label>
             </div>
           </div>

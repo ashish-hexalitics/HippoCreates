@@ -4,8 +4,17 @@ export interface TemplateStyle {
   SectionBgColor?: string;
   SectionTextAlignMent?: string;
   SectionBorder?: string;
+  SectionBorderColor?: string;
+  SectionBorderWidth?: string;
+  SectionLabelUnderline?: string;
+  showDot?: boolean;
   paddingPosition?: string;
-  paddingPx?: number;
+  listItemsColor?: string;
+  listItemsFontSize?: number;
+  listItemsFontWeight?: string;
+  listItemType?: string;
+  listItemTextDecoration?: string;
+  paddingPx?: string;
   fontSize?: number;
   color?: string;
   labelsColor?: string;

@@ -51,6 +51,7 @@ import { GrDocumentUser } from "react-icons/gr";
 import { TfiWrite } from "react-icons/tfi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaObjectGroup } from "react-icons/fa";
+import { TbBorderBottomPlus, TbBorderLeftPlus, TbBorderTopPlus,TbBorderRightPlus ,TbBorderOuter } from "react-icons/tb";
 
 export const icons = {
   CiHome: CiHome,
@@ -108,4 +109,10 @@ export const icons = {
   TfiWrite:TfiWrite,
   IoMdArrowRoundBack:IoMdArrowRoundBack,
   FaObjectGroup: FaObjectGroup,
+  TbBorderTopPlus:TbBorderTopPlus,
+  TbBorderBottomPlus:TbBorderBottomPlus,
+  TbBorderLeftPlus:TbBorderLeftPlus,
+  TbBorderRightPlus:TbBorderRightPlus,
+  TbBorderOuter:TbBorderOuter
 };
+

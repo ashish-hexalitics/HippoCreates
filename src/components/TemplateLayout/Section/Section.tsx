@@ -1,5 +1,4 @@
 import React from "react";
-// import { Rnd } from "react-rnd";
 
 const Summary = {
   showSection: true,
@@ -65,7 +64,7 @@ const Education = {
       padding: "",
     },
   },
-  educationProperties: {
+  listProperties: {
     educations: [
       {
         degree: "Bachelor of Science",
@@ -85,7 +84,7 @@ const Education = {
       textAlign: "",
       fontWeight: "",
       textDecoration: "",
-      listStyle: "circle",
+      listStyleType: "circle",
       display: "flex",
       flexDirection: "column",
       padding: "",
@@ -117,7 +116,7 @@ const Employment = {
       padding: "",
     },
   },
-  employmentProperties: {
+  listProperties: {
     employments: [
       {
         company: "XYZ Company",
@@ -237,7 +236,7 @@ const CustomSection = {
   },
 };
 
-const Section: React.FC<any> = ({ element, handleContentChange }) => {
+const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
   const customElement: any = {
     ...element,
     section: {
@@ -258,7 +257,41 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
             style: {
               ...CustomSection.style,
               textAlign: element.SectionTextAlignMent,
-              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              [element.SectionBorder]:
+                element.SectionBorderWidth +
+                "px solid " +
+                element.SectionBorderColor,
+              ...(element.paddingPosition &&
+              typeof element.paddingPosition === "string" &&
+              typeof JSON.parse(element.paddingPosition) === "object"
+                ? JSON.parse(element.paddingPosition)
+                : {}),
+              [element.paddingPosition]: `${element.paddingPx}px`,
+              backgroundColor: element.SectionBgColor,
+            },
+          }
+        : {}),
+      ...(element.sectionType === "Contact"
+        ? {
+            ...CustomSection,
+            lableProperties: {
+              ...CustomSection.lableProperties,
+              style: {
+                ...CustomSection.lableProperties.style,
+                color: element.labelsColor,
+                fontSize: `${element.labelsFontSize}px`,
+                fontWeight: element.labelsFontWeight,
+                textDecoration: "",
+                textAlign: element.SectionTextAlignMent,
+              },
+            },
+            style: {
+              ...CustomSection.style,
+              textAlign: element.SectionTextAlignMent,
+              [element.SectionBorder]:
+                element.SectionBorderWidth +
+                "px solid " +
+                element.SectionBorderColor,
               ...(element.paddingPosition &&
               typeof element.paddingPosition === "string" &&
               typeof JSON.parse(element.paddingPosition) === "object"
@@ -285,7 +318,10 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
             },
             style: {
               ...Summary.style,
-              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              [element.SectionBorder]:
+                element.SectionBorderWidth +
+                "px solid " +
+                element.SectionBorderColor,
               ...(element.paddingPosition &&
               typeof element.paddingPosition === "string" &&
               Object.keys(JSON.parse(element.paddingPosition)) &&
@@ -309,11 +345,25 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
                 textAlign: element.SectionTextAlignMent,
                 fontWeight: element.labelsFontWeight,
                 fontSize: `${element.labelsFontSize}px`,
+                textDecoration: element.SectionLabelUnderline,
+              },
+            },
+            listProperties: {
+              ...Education.listProperties,
+              style: {
+                color: element.listItemsColor,
+                fontSize: `${element.listItemsFontSize}px`,
+                fontWeight: element.listItemsFontWeight,
+                textDecoration: element.listItemTextDecoration,
+                listStyleType: element.listItemType || "circle",
               },
             },
             style: {
               ...Education.style,
-              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              [element.SectionBorder]:
+                element.SectionBorderWidth +
+                "px solid " +
+                element.SectionBorderColor,
               ...(element.paddingPosition &&
               typeof element.paddingPosition === "string" &&
               Object.keys(JSON.parse(element.paddingPosition)) &&
@@ -339,9 +389,22 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
                 fontWeight: element.labelsFontWeight,
               },
             },
+            listProperties: {
+              ...Employment.listProperties,
+              style: {
+                color: element.listItemsColor,
+                fontSize: `${element.listItemsFontSize}px`,
+                fontWeight: element.listItemsFontWeight,
+                textDecoration: element.listItemTextDecoration,
+                listStyleType: element.listItemType || "circle",
+              },
+            },
             style: {
               ...Employment.style,
-              [element.SectionBorder]: "1px solid " + element.labelsColor,
+              [element.SectionBorder]:
+                element.SectionBorderWidth +
+                "px solid " +
+                element.SectionBorderColor,
               ...(element.paddingPosition &&
               typeof element.paddingPosition === "string" &&
               Object.keys(JSON.parse(element.paddingPosition)) &&
@@ -370,7 +433,9 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
             style: {
               ...Skills.style,
               [element.SectionBorder]:
-                "1px solid " + element.labelsColor || "#000",
+                element.SectionBorderWidth +
+                "px solid " +
+                element.SectionBorderColor,
               ...(element.paddingPosition &&
               typeof element.paddingPosition === "string" &&
               Object.keys(JSON.parse(element.paddingPosition)) &&
@@ -385,7 +450,6 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
     },
   };
 
-  console.log(customElement);
 
   return (
     <div>
@@ -395,12 +459,7 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
             onBlur={(e) =>
               handleContentChange && handleContentChange(e, customElement.id)
             }
-            style={{
-              color:
-                element.ShowlabelsColor === "onlyForThis"
-                  ? customElement?.section?.lableProperties?.style?.color
-                  : element.labelsColor,
-            }}
+            style={customElement.section.lableProperties.style}
           >
             Contact Information
           </h3>
@@ -418,38 +477,54 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
         customElement.section.showSection && (
           <div style={customElement.section.style}>
             {customElement.section.showLabel && (
-              <h3 
-              // style={customElement.section.lableProperties.style}
-              style={{
-                ...customElement.section.lableProperties.style,
-                color:
-                  element.ShowlabelsColor === "onlyForThis"
-                    ? customElement?.section?.lableProperties?.style?.color
-                    : element.labelsColor,
-              }}
-              >
-                {customElement.section.lableProperties.lable}
-              </h3>
+              <div className="flex items-center">
+                {element.showDot && (
+                  <div
+                    className={`me-2  rounded-full`}
+                    style={{
+                      width: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
+                      height: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
+                      backgroundColor:
+                        customElement.section.lableProperties.style.color,
+                    }}
+                  ></div>
+                )}
+                <h3
+                  style={customElement.section.lableProperties.style}
+                  className="flex"
+                >
+                  {customElement.section.lableProperties.lable}
+                </h3>
+              </div>
             )}
             {customElement.section.showEducation && (
               <>
-                {customElement.section.educationProperties.educations &&
-                  customElement.section.educationProperties.educations.map(
-                    (education: any, key: string) => {
-                      return (
-                        <ul key={key}>
+                <ul
+                  style={{
+                    marginLeft:
+                      customElement.section.listProperties.style
+                        .listStyleType === "none"
+                        ? "0"
+                        : `18px`,
+                    listStyleType:
+                      customElement.section.listProperties.style.listStyleType,
+                  }}
+                >
+                  {customElement.section.listProperties.educations &&
+                    customElement.section.listProperties.educations.map(
+                      (education: any, key: string) => {
+                        return (
                           <li
-                            style={
-                              customElement.section.educationProperties.style
-                            }
+                            key={key}
+                            style={customElement.section.listProperties.style}
                           >
                             <span>{education.institution}</span>
                             <span>{education.degree}</span>
                           </li>
-                        </ul>
-                      );
-                    }
-                  )}
+                        );
+                      }
+                    )}
+                </ul>
               </>
             )}
           </div>
@@ -465,14 +540,14 @@ const Section: React.FC<any> = ({ element, handleContentChange }) => {
             )}
             {customElement.section.showEmployment && (
               <>
-                {customElement.section.employmentProperties.employments &&
-                  customElement.section.employmentProperties.employments.map(
+                {customElement.section.listProperties.employments &&
+                  customElement.section.listProperties.employments.map(
                     (employment: any, key: string) => {
                       return (
                         <ul key={key}>
                           <li
                             style={
-                              customElement.section.employmentProperties.style
+                              customElement.section.listProperties.style
                             }
                           >
                             <span>{employment.company}</span>

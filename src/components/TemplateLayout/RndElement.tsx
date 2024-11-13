@@ -180,6 +180,7 @@ function RndElement({
                 <Section
                   handleContentChange={handleContentChange}
                   element={el}
+                  elements={elements}
                 />
               )}
             </div>
