@@ -21,10 +21,11 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   openThirdPartyUpload,
   roleName = null,
   addSection,
+  handleCopyStyle
 }) => {
   const handleInputChange = (
     field: keyof TemplateStyle,
-    value: string | number
+    value: string | number | boolean
   ) => {
     onChange({ [field]: value });
   };
@@ -90,6 +91,7 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
             <SectionElement
               element={element}
               handleInputChange={handleInputChange}
+              handleCopyStyle={handleCopyStyle}
             />
           )}
         </>

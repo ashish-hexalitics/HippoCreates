@@ -7,7 +7,8 @@ export interface TemplateStyle {
   SectionBorderColor?: string;
   SectionBorderWidth?: string;
   SectionLabelUnderline?: string;
-  showDot?: boolean;
+  showDot?: string;
+  labelStyleForAll?: string;
   paddingPosition?: string;
   listItemsColor?: string;
   listItemsFontSize?: number;
@@ -22,6 +23,15 @@ export interface TemplateStyle {
   ShowSectionBgColor?: string;
   labelsFontSize?: number;
   backgroundColor?: string;
+  // education?: {
+  // };
+  showEducationStartOrEndDate?: boolean;
+  showInstituteName?: boolean;
+  showCourseName?: boolean;
+  showEmploymentStartOrEndDate?: boolean;
+  showCompanyName: boolean;
+  // employment?: {
+  // };
   x: number;
   y: number;
   content: string;
@@ -55,6 +65,7 @@ export interface TemplateSideBarProps {
     tag: string;
     sectionType: string;
   }) => void;
+  handleCopyStyle?: (applyOn: string) => void;
 }
 
 export interface ITopBar {

@@ -13,8 +13,6 @@ const Summary = {
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   lableProperties: {
     lable: "Professional Summary",
@@ -51,8 +49,6 @@ const Education = {
     textAlign: "left",
     display: "flex",
     flexDirection: "column",
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   lableProperties: {
     lable: "Education",
@@ -79,6 +75,9 @@ const Education = {
         endDate: "2010-12-31",
       },
     ],
+    showStartOrEndDate: true,
+    showInstituteName: true,
+    showCourseName: true,
     style: {
       color: "",
       textAlign: "",
@@ -168,7 +167,7 @@ const Skills = {
       padding: "",
     },
   },
-  skillProperties: {
+  listProperties: {
     skills: [
       {
         name: "JavaScript",
@@ -190,6 +189,51 @@ const Skills = {
   },
 };
 
+const ContactSection = {
+  showSection: true,
+  sectionType: "Contact",
+  showLabel: true,
+  showSkill: true,
+  style: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "",
+    padding: 0,
+    textAlign: "left",
+    display: "flex",
+    flexDirection: "column",
+  },
+  lableProperties: {
+    lable: "Contact Information",
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      padding: "",
+    },
+  },
+  CustomProperties: {
+    skills: [
+      {
+        name: "JavaScript",
+      },
+      {
+        name: "React",
+      },
+    ],
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      listStyle: "circle",
+      display: "flex",
+      flexDirection: "column",
+      padding: "",
+    },
+  },
+};
 const CustomSection = {
   showSection: true,
   sectionType: "CustomSection",
@@ -236,7 +280,7 @@ const CustomSection = {
   },
 };
 
-const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
+const Section: React.FC<any> = ({ element }) => {
   const customElement: any = {
     ...element,
     section: {
@@ -250,8 +294,9 @@ const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
                 color: element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
-                textDecoration: "",
                 textAlign: element.SectionTextAlignMent,
+                textDecoration: element.SectionLabelUnderline,
+                listStyleType: element.listItemType || "circle",
               },
             },
             style: {
@@ -273,20 +318,21 @@ const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
         : {}),
       ...(element.sectionType === "Contact"
         ? {
-            ...CustomSection,
+            ...ContactSection,
             lableProperties: {
-              ...CustomSection.lableProperties,
+              ...ContactSection.lableProperties,
               style: {
-                ...CustomSection.lableProperties.style,
+                ...ContactSection.lableProperties.style,
                 color: element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
-                textDecoration: "",
                 textAlign: element.SectionTextAlignMent,
+                textDecoration: element.SectionLabelUnderline,
+                listStyleType: element.listItemType || "circle",
               },
             },
             style: {
-              ...CustomSection.style,
+              ...ContactSection.style,
               textAlign: element.SectionTextAlignMent,
               [element.SectionBorder]:
                 element.SectionBorderWidth +
@@ -313,7 +359,8 @@ const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
                 textAlign: "left",
-                textDecoration: "",
+                textDecoration: element.SectionLabelUnderline,
+                listStyleType: element.listItemType || "circle",
               },
             },
             style: {
@@ -345,6 +392,7 @@ const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
                 textAlign: element.SectionTextAlignMent,
                 fontWeight: element.labelsFontWeight,
                 fontSize: `${element.labelsFontSize}px`,
+                listStyleType: element.listItemType || "circle",
                 textDecoration: element.SectionLabelUnderline,
               },
             },
@@ -382,11 +430,13 @@ const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
             lableProperties: {
               ...Employment.lableProperties,
               style: {
-                fontSize: `${element.labelsFontSize}px`,
                 ...Employment.style,
                 color: element.labelsColor,
                 textAlign: "left",
                 fontWeight: element.labelsFontWeight,
+                fontSize: `${element.labelsFontSize}px`,
+                textDecoration: element.SectionLabelUnderline,
+                listStyleType: element.listItemType || "circle",
               },
             },
             listProperties: {
@@ -428,6 +478,18 @@ const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
                 textAlign: element.SectionTextAlignMent,
                 fontWeight: element.labelsFontWeight,
                 fontSize: `${element.labelsFontSize}px`,
+                textDecoration: element.SectionLabelUnderline,
+                listStyleType: element.listItemType || "circle",
+              },
+            },
+            listProperties: {
+              ...Skills.listProperties,
+              style: {
+                color: element.listItemsColor,
+                fontSize: `${element.listItemsFontSize}px`,
+                fontWeight: element.listItemsFontWeight,
+                textDecoration: element.listItemTextDecoration,
+                listStyleType: element.listItemType || "circle",
               },
             },
             style: {
@@ -450,174 +512,175 @@ const Section: React.FC<any> = ({ element, elements, handleContentChange }) => {
     },
   };
 
-
   return (
     <div>
-      {customElement.sectionType === "Contact" && (
-        <div className="w-full" style={customElement.section.style}>
-          <h3
-            onBlur={(e) =>
-              handleContentChange && handleContentChange(e, customElement.id)
-            }
-            style={customElement.section.lableProperties.style}
-          >
-            Contact Information
-          </h3>
-          <label className="block mb-2">
-            <span className="text-sm text-gray-600">Name:</span>
-          </label>
-          <label className="block">
-            <span className="text-sm text-gray-600">Email:</span>
-          </label>
-        </div>
-      )}
-
-      {/* Education Section */}
-      {customElement.sectionType === "Education" &&
-        customElement.section.showSection && (
-          <div style={customElement.section.style}>
-            {customElement.section.showLabel && (
-              <div className="flex items-center">
-                {element.showDot && (
-                  <div
-                    className={`me-2  rounded-full`}
-                    style={{
-                      width: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
-                      height: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
-                      backgroundColor:
-                        customElement.section.lableProperties.style.color,
-                    }}
-                  ></div>
-                )}
-                <h3
-                  style={customElement.section.lableProperties.style}
-                  className="flex"
-                >
-                  {customElement.section.lableProperties.lable}
-                </h3>
-              </div>
+      <div className="w-full" style={customElement.section.style}>
+        {/* Common Labels */}
+        {customElement.section.showLabel && (
+          <div className="flex items-center">
+            {element.showDot === "dot" && (
+              <div
+                className={`me-2  rounded-full`}
+                style={{
+                  width: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
+                  height: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
+                  backgroundColor:
+                    customElement.section.lableProperties.style.color,
+                }}
+              ></div>
             )}
-            {customElement.section.showEducation && (
-              <>
-                <ul
-                  style={{
-                    marginLeft:
-                      customElement.section.listProperties.style
-                        .listStyleType === "none"
-                        ? "0"
-                        : `18px`,
-                    listStyleType:
-                      customElement.section.listProperties.style.listStyleType,
-                  }}
-                >
-                  {customElement.section.listProperties.educations &&
-                    customElement.section.listProperties.educations.map(
-                      (education: any, key: string) => {
-                        return (
-                          <li
-                            key={key}
-                            style={customElement.section.listProperties.style}
-                          >
-                            <span>{education.institution}</span>
-                            <span>{education.degree}</span>
-                          </li>
-                        );
-                      }
-                    )}
-                </ul>
-              </>
-            )}
-          </div>
-        )}
-
-      {customElement.sectionType === "Employment" &&
-        customElement.section.showSection && (
-          <div style={customElement.section.style}>
-            {customElement.section.showLabel && (
-              <h3 style={customElement.section.lableProperties.style}>
-                {customElement.section.lableProperties.lable}
-              </h3>
-            )}
-            {customElement.section.showEmployment && (
-              <>
-                {customElement.section.listProperties.employments &&
-                  customElement.section.listProperties.employments.map(
-                    (employment: any, key: string) => {
-                      return (
-                        <ul key={key}>
-                          <li
-                            style={
-                              customElement.section.listProperties.style
-                            }
-                          >
-                            <span>{employment.company}</span>
-                            <span>{employment.position}</span>
-                          </li>
-                        </ul>
-                      );
-                    }
-                  )}
-              </>
-            )}
-          </div>
-        )}
-
-      {/* Summary Section */}
-      {customElement.sectionType === "Summary" &&
-        customElement.section.showSection && (
-          <div style={customElement.section.style}>
-            {customElement.section.showLabel && (
-              <h3 style={customElement.section.lableProperties.style}>
-                {customElement.section.lableProperties.lable}
-              </h3>
-            )}
-            {customElement.section.showSummary && (
-              <p style={customElement.section.summaryProperties.style}>
-                {customElement.section.summaryProperties.value}
-              </p>
-            )}
-          </div>
-        )}
-
-      {/* Skills Section */}
-      {customElement.sectionType === "Skills" &&
-        customElement.section.showSection && (
-          <div style={customElement.section.style}>
-            {customElement.section.showLabel && (
-              <h3 style={customElement.section.lableProperties.style}>
-                {customElement.section.lableProperties.lable}
-              </h3>
-            )}
-            {customElement.section.showSkill && (
-              <ul style={customElement.section.skillProperties.style}>
-                {customElement.section.skillProperties.skills &&
-                  customElement.section.skillProperties.skills.map(
-                    (skill: any, key: string) => {
-                      return (
-                        <li
-                          key={key}
-                          style={customElement.section.skillProperties.style}
-                        >
-                          <span>{skill.name}</span>
-                        </li>
-                      );
-                    }
-                  )}
-              </ul>
-            )}
-          </div>
-        )}
-
-      {/* Custom Section */}
-      {customElement.sectionType === "CustomSection" && (
-        <div className="w-full">
-          {customElement.section.showLabel && (
-            <h3 style={customElement.section.lableProperties.style}>
+            <h3
+              style={customElement.section.lableProperties.style}
+              className="flex"
+            >
               {customElement.section.lableProperties.lable}
             </h3>
+          </div>
+        )}
+        {/* Contact Section */}
+        {customElement.sectionType === "Contact" && (
+          <>
+            <label className="block mb-2">
+              <span className="text-sm text-gray-600">Name:</span>
+            </label>
+            <label className="block">
+              <span className="text-sm text-gray-600">Email:</span>
+            </label>
+          </>
+        )}
+        {/* Education Section */}
+        {customElement.sectionType === "Education" &&
+          customElement.section.showSection && (
+            <>
+              {customElement.section.showEducation && (
+                <>
+                  <ul
+                    style={{
+                      marginLeft:
+                        customElement.section.listProperties.style
+                          .listStyleType === "none"
+                          ? "0"
+                          : `18px`,
+                      listStyleType:
+                        customElement.section.listProperties.style
+                          .listStyleType,
+                    }}
+                  >
+                    {customElement.section.listProperties.educations &&
+                      customElement.section.listProperties.educations.map(
+                        (education: any, key: string) => {
+                          return (
+                            <li
+                              key={key}
+                              style={customElement.section.listProperties.style}
+                            >
+                              <span>{education.institution}</span>
+                              <span>{education.degree}</span>
+                              (<span>{education.startDate}</span>
+                              <span>{education.endDate}</span>)
+                            </li>
+                          );
+                        }
+                      )}
+                  </ul>
+                </>
+              )}
+            </>
           )}
-        </div>
-      )}
+        {/* Employment Section */}
+        {customElement.sectionType === "Employment" &&
+          customElement.section.showSection && (
+            <>
+              <ul
+                style={{
+                  marginLeft:
+                    customElement.section.listProperties.style.listStyleType ===
+                    "none"
+                      ? "0"
+                      : `18px`,
+                  listStyleType:
+                    customElement.section.listProperties.style.listStyleType,
+                }}
+              >
+                {customElement.section.showEmployment && (
+                  <>
+                    {customElement.section.listProperties.employments &&
+                      customElement.section.listProperties.employments.map(
+                        (employment: any, key: string) => {
+                          return (
+                            <li
+                              key={key}
+                              style={customElement.section.listProperties.style}
+                            >
+                              <span>{employment.company}</span>
+                              <span>{employment.position}</span>
+                            </li>
+                          );
+                        }
+                      )}
+                  </>
+                )}
+              </ul>
+            </>
+          )}
+        {/* Summary Section */}
+        {customElement.sectionType === "Summary" &&
+          customElement.section.showSection && (
+            <>
+              {customElement.section.showSummary && (
+                <p style={customElement.section.summaryProperties.style}>
+                  {customElement.section.summaryProperties.value}
+                </p>
+              )}
+            </>
+          )}
+        {/* Skills Section */}
+        {customElement.sectionType === "Skills" &&
+          customElement.section.showSection && (
+            <>
+              {customElement.section.showSkill && (
+                <>
+                  <ul
+                    style={{
+                      marginLeft:
+                        customElement.section.listProperties.style
+                          .listStyleType === "none"
+                          ? "0"
+                          : `18px`,
+                      listStyleType:
+                        customElement.section.listProperties.style
+                          .listStyleType,
+                    }}
+                  >
+                    {customElement.section.listProperties.skills &&
+                      customElement.section.listProperties.skills.map(
+                        (skill: any, key: string) => {
+                          return (
+                            <li
+                              key={key}
+                              style={customElement.section.listProperties.style}
+                            >
+                              <span>{skill.name}</span>
+                            </li>
+                          );
+                        }
+                      )}
+                  </ul>
+                </>
+              )}
+            </>
+          )}
+        {/* Custom Section */}
+        {customElement.sectionType === "CustomSection" && (
+          <div className="w-full">
+            {customElement.section.showLabel && (
+              <h3 style={customElement.section.lableProperties.style}>
+                {customElement.section.lableProperties.lable}
+              </h3>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

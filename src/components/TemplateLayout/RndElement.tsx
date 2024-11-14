@@ -79,7 +79,6 @@ function RndElement({
     );
   };
 
-
   return (
     <div
       id="template-container"

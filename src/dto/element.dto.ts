@@ -58,4 +58,5 @@ export interface IRNDElement {
   selectedElement?: Element;
   roleName: string | null;
   addSection?:(el: { name: string; value: string }) => void;
+  // copyLabelStyle?: string|number;
 }

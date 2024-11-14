@@ -20,6 +20,7 @@ import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
 import ViewModal from "../../components/Common/Modal/ViewModal";
 import TemplateView from "../../components/TemplateLayout/TemplateView";
+import { TemplateStyle } from "../../dto/templateStyle.dto";
 
 function ConfigureTemplate() {
   const params = useParams();
@@ -114,7 +115,7 @@ function ConfigureTemplate() {
   const updateElement = (id: number, data: Partial<Element>) => {
     setElements(elements.map((el) => (el.id === id ? { ...el, ...data } : el)));
   };
-  
+
   const handleDrag = (x: number, y: number) => {
     const threshold = 5;
     const newGuideLines: { x: number | null; y: number | null } = {
@@ -256,10 +257,51 @@ function ConfigureTemplate() {
   };
 
   const handleAction = () => {};
-  const selectedElement =
+  const selectedElement: TemplateStyle | undefined | any =
     elements && Array.isArray(elements)
       ? elements.find((el) => el.id === selectedElementId)
       : undefined;
+
+  const handleCopyStyle = (applyOn: string) => {
+    setElements(
+      elements.map((el: Element) =>
+        el.id === selectedElementId
+          ? { ...el }
+          : {
+              ...el,
+              ...(selectedElement &&
+                applyOn === "label" && {
+                  labelsColor: selectedElement.labelsColor,
+                  labelsFontSize: selectedElement.labelsFontSize,
+                  labelsFontWeight: selectedElement.labelsFontWeight,
+                  SectionLabelUnderline: selectedElement.SectionLabelUnderline,
+                  showDot: selectedElement.showDot,
+                }),
+              ...(selectedElement &&
+                applyOn === "SectionBackground" && {
+                  SectionBgColor: selectedElement.SectionBgColor,
+                  paddingPosition: selectedElement.paddingPosition,
+                  paddingPx: selectedElement.paddingPx,
+                  textAlign: selectedElement.textAlign,
+                }),
+              ...(selectedElement &&
+                applyOn === "SectionBorder" && {
+                  SectionBorder: selectedElement.SectionBorder,
+                  SectionBorderColor: selectedElement.SectionBorderColor,
+                  SectionBorderWidth: selectedElement.SectionBorderWidth,
+                }),
+              ...(selectedElement &&
+                applyOn === "SectionList" && {
+                  listItemsColor: selectedElement.listItemsColor,
+                  listItemsFontSize: selectedElement.listItemsFontSize,
+                  listItemsFontWeight: selectedElement.listItemsFontWeight,
+                  listItemType: selectedElement.listItemType,
+                  listItemTextDecoration: selectedElement.listItemTextDecoration
+                }),
+            }
+      )
+    );
+  };
 
   return (
     <div className="h-full w-full bg-gray-100 flex relative">
@@ -340,6 +382,7 @@ function ConfigureTemplate() {
           openThirdPartyUpload={openThirdPartyUpload}
           roleName={roleName}
           addSection={addSection}
+          handleCopyStyle={handleCopyStyle}
         />
       )}
       <PDFSizeModal
