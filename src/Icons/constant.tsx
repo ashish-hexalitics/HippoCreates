@@ -52,6 +52,10 @@ import { TfiWrite } from "react-icons/tfi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaObjectGroup } from "react-icons/fa";
 import { TbBorderBottomPlus, TbBorderLeftPlus, TbBorderTopPlus,TbBorderRightPlus ,TbBorderOuter } from "react-icons/tb";
+import { BsGrid3X2Gap } from "react-icons/bs";
+import { CiBoxList } from "react-icons/ci";
+import { MdOutlineArrowRightAlt,MdOutlineArrowDownward} from "react-icons/md";
+import { IoReturnDownBack } from "react-icons/io5";
 
 export const icons = {
   CiHome: CiHome,
@@ -113,6 +117,11 @@ export const icons = {
   TbBorderBottomPlus:TbBorderBottomPlus,
   TbBorderLeftPlus:TbBorderLeftPlus,
   TbBorderRightPlus:TbBorderRightPlus,
-  TbBorderOuter:TbBorderOuter
+  TbBorderOuter:TbBorderOuter,
+  BsGrid3X2Gap:BsGrid3X2Gap,
+  CiBoxList:CiBoxList,
+  MdOutlineArrowRightAlt,
+  MdOutlineArrowDownward,
+  IoReturnDownBack
 };
 

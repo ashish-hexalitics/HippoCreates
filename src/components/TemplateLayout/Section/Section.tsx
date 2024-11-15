@@ -1,4 +1,5 @@
 import React from "react";
+import DynamicEducationSection from "./DynamicEducationSection";
 
 const Summary = {
   showSection: true,
@@ -41,6 +42,9 @@ const Education = {
   sectionType: "Education",
   showLabel: true,
   showEducation: true,
+  showEducationStartOrEndDate: "yes",
+  showInstituteName: "yes",
+  showCourseName: "yes",
   style: {
     width: "100%",
     height: "100%",
@@ -75,9 +79,6 @@ const Education = {
         endDate: "2010-12-31",
       },
     ],
-    showStartOrEndDate: true,
-    showInstituteName: true,
-    showCourseName: true,
     style: {
       color: "",
       textAlign: "",
@@ -384,6 +385,9 @@ const Section: React.FC<any> = ({ element }) => {
       ...(element.sectionType === "Education"
         ? {
             ...Education,
+            showInstituteName: element.showInstituteName,
+            showCourseName: element.showCourseName,
+            showEducationStartOrEndDate: element.showEducationStartOrEndDate,
             lableProperties: {
               ...Education.lableProperties,
               style: {
@@ -490,6 +494,7 @@ const Section: React.FC<any> = ({ element }) => {
                 fontWeight: element.listItemsFontWeight,
                 textDecoration: element.listItemTextDecoration,
                 listStyleType: element.listItemType || "circle",
+                marginRight: "18px",
               },
             },
             style: {
@@ -511,6 +516,15 @@ const Section: React.FC<any> = ({ element }) => {
         : {}),
     },
   };
+
+  const formatString = (template: any, values: any) => {
+    return template.replace(
+      /{(.*?)}/g,
+      (_: string, key: string) => values[key] || ""
+    );
+  };
+
+  console.log(element.educationTemplateString, customElement.sectionType);
 
   return (
     <div>
@@ -551,41 +565,10 @@ const Section: React.FC<any> = ({ element }) => {
         {/* Education Section */}
         {customElement.sectionType === "Education" &&
           customElement.section.showSection && (
-            <>
-              {customElement.section.showEducation && (
-                <>
-                  <ul
-                    style={{
-                      marginLeft:
-                        customElement.section.listProperties.style
-                          .listStyleType === "none"
-                          ? "0"
-                          : `18px`,
-                      listStyleType:
-                        customElement.section.listProperties.style
-                          .listStyleType,
-                    }}
-                  >
-                    {customElement.section.listProperties.educations &&
-                      customElement.section.listProperties.educations.map(
-                        (education: any, key: string) => {
-                          return (
-                            <li
-                              key={key}
-                              style={customElement.section.listProperties.style}
-                            >
-                              <span>{education.institution}</span>
-                              <span>{education.degree}</span>
-                              (<span>{education.startDate}</span>
-                              <span>{education.endDate}</span>)
-                            </li>
-                          );
-                        }
-                      )}
-                  </ul>
-                </>
-              )}
-            </>
+            <DynamicEducationSection
+              element={element}
+              customElement={customElement}
+            />
           )}
         {/* Employment Section */}
         {customElement.sectionType === "Employment" &&
@@ -647,9 +630,12 @@ const Section: React.FC<any> = ({ element }) => {
                           .listStyleType === "none"
                           ? "0"
                           : `18px`,
-                      listStyleType:
-                        customElement.section.listProperties.style
-                          .listStyleType,
+                      display: "flex",
+                      flexDirection: element.listDirection,
+                      flexWrap:
+                        element.listDirection === "wrap" ? "wrap" : "nowrap",
+                      justifyContent: element.listAlignment,
+                      alignItems: element.listAlignment,
                     }}
                   >
                     {customElement.section.listProperties.skills &&

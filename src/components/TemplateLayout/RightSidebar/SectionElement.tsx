@@ -7,7 +7,35 @@ const {
   TbBorderTopPlus,
   TbBorderRightPlus,
   TbBorderOuter,
+  IoReturnDownBack,
+  MdOutlineArrowRightAlt,
+  MdOutlineArrowDownward,
 } = icons;
+
+const educationDropdownOptions: string[] = [
+  "{degree} completed at {institution} from {startDate} to {endDate}.",
+  "{degree} at {institution} ({startDate} - {endDate}).",
+  "{institution}: {degree} ({startDate} - {endDate}).",
+  "{degree}, {institution}, ({startDate} - {endDate}).",
+  "Earned a {degree} from {institution} between {startDate} and {endDate}.",
+  "Studied {degree} at {institution} during {startDate} to {endDate}.",
+  "Achieved {degree} ({startDate} - {endDate}) at {institution}.",
+  "- {degree}, {institution} ({startDate} - {endDate})",
+  "{degree}, completed at {institution} ({startDate} - {endDate})",
+  "Degree: {degree} | Institution: {institution} | Duration: {startDate} - {endDate}",
+  "{institution}, {degree} | ({startDate} - {endDate})",
+  "Education: {degree}, {institution} ({startDate} - {endDate})",
+  "{degree} | {institution} | {startDate} - {endDate}",
+  "Proud graduate of {institution} with a {degree} ({startDate} - {endDate}).",
+  "{degree} from {institution}, shaping my journey from {startDate} to {endDate}.",
+  "{degree} ({startDate} to {endDate}) | Alma Mater: {institution}",
+  "{degree} acquired at {institution} between {startDate} and {endDate}.",
+  "{degree} ({startDate} - {endDate}) from the prestigious {institution}.",
+  "Completed {degree} at {institution} during {startDate} to {endDate}.",
+  "{institution}: {startDate} to {endDate} ({degree}).",
+  "({startDate} - {endDate}): {institution}, {degree}.",
+  "{startDate} - {endDate} | {degree} | {institution}.",
+];
 
 function SectionElement({
   element,
@@ -72,6 +100,10 @@ function SectionElement({
       label: "Padding All",
     },
   ];
+
+  //   const formatString = (template:any, values:any) => {
+  //   return template.replace(/{(.*?)}/g, (_, key) => values[key] || '')
+  // };
 
   return (
     <>
@@ -441,6 +473,8 @@ function SectionElement({
                   onChange={(e) =>
                     handleInputChange("listItemsColor", e.target.value)
                   }
+                  value={element.listItemsColor}
+                  defaultValue={"#000"}
                   name="listItemsColor"
                   className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
                 />
@@ -455,6 +489,7 @@ function SectionElement({
                   min="10"
                   max="36"
                   defaultValue="16"
+                  value={element.listItemsFontSize}
                   className="w-16 px-2 py-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                   onChange={(e) =>
                     handleInputChange("listItemsFontSize", e.target.value)
@@ -471,9 +506,10 @@ function SectionElement({
                   onChange={(e) =>
                     handleInputChange("listItemsFontWeight", e.target.value)
                   }
+                  value={element.listItemsFontWeight}
                 >
                   <option value="normal">Normal</option>
-                  <option value="thin">Medium</option>
+                  <option value="bold">Medium</option>
                   <option value="bolder">Bolder</option>
                   <option value="lighter">Lighter</option>
                 </select>
@@ -488,6 +524,7 @@ function SectionElement({
                   onChange={(e) =>
                     handleInputChange("listItemType", e.target.value)
                   }
+                  value={element.listItemType}
                 >
                   <option value="disc">Disc</option>
                   <option value="circle">Circle</option>
@@ -569,43 +606,88 @@ function SectionElement({
             <span className="text-sm font-semibold text-gray-700 me-2">
               Education :
             </span>
+            <select
+              onChange={(e) =>
+                handleInputChange("educationTemplate", e.target.value)
+              }
+              value={element.educationTemplate}
+            >
+              <option value="default">Use Default</option>
+              <option value="template">Template</option>
+            </select>
             <div className="w-full grid grid-cols-1  bg-gray-100 rounded-md p-2">
-              <label className="flex mb-2">
-                <span className="text-sm text-gray-600 me-2">
-                  Show Institute Name :
-                </span>
-                <input
-                  type="checkbox"
-                  className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
-                  onChange={() =>
-                    handleInputChange("showInstituteName", true)
+              {element.educationTemplate === "default" ? (
+                <>
+                  <label className="flex mb-2">
+                    <span className="text-sm text-gray-600 me-2">
+                      Show Institute Name :
+                    </span>
+                    <input
+                      type="checkbox"
+                      value={element.showInstituteName}
+                      checked={element.showInstituteName == "yes"}
+                      className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+                      onChange={() =>
+                        handleInputChange(
+                          "showInstituteName",
+                          element.showInstituteName === "yes" ? "no" : "yes"
+                        )
+                      }
+                    />
+                  </label>
+                  <label className="flex mb-2">
+                    <span className="text-sm text-gray-600 me-2">
+                      Show Course Name:
+                    </span>
+                    <input
+                      type="checkbox"
+                      value={element.showCourseName}
+                      checked={element.showCourseName == "yes"}
+                      className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+                      onChange={() =>
+                        handleInputChange(
+                          "showCourseName",
+                          element.showCourseName === "yes" ? "no" : "yes"
+                        )
+                      }
+                    />
+                  </label>
+                  <label className="flex mb-2">
+                    <span className="text-sm text-gray-600 me-2">
+                      Show Start And Ending Date:
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={element.showEducationStartOrEndDate == "yes"}
+                      value={element.showEducationStartOrEndDate}
+                      className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+                      onChange={() =>
+                        handleInputChange(
+                          "showEducationStartOrEndDate",
+                          element.showEducationStartOrEndDate === "yes"
+                            ? "no"
+                            : "yes"
+                        )
+                      }
+                    />
+                  </label>
+                </>
+              ) : (
+                <select
+                  onChange={(e) =>
+                    handleInputChange("educationTemplateString", e.target.value)
                   }
-                />
-              </label>
-              <label className="flex mb-2">
-                <span className="text-sm text-gray-600 me-2">
-                  Show Course Name:
-                </span>
-                <input
-                  type="checkbox"
-                  className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
-                  onChange={() =>
-                    handleInputChange("showCourseName", true)
-                  }
-                />
-              </label>
-              <label className="flex mb-2">
-                <span className="text-sm text-gray-600 me-2">
-                  Show Start And Ending Date:
-                </span>
-                <input
-                  type="checkbox"
-                  className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
-                  onChange={() =>
-                    handleInputChange("showEducationStartOrEndDate", true)
-                  }
-                />
-              </label>
+                  value={element.educationTemplateString}
+                >
+                  {educationDropdownOptions.map(
+                    (educationDropdownOption, key) => (
+                      <option value={educationDropdownOption} key={key}>
+                        {educationDropdownOption}
+                      </option>
+                    )
+                  )}
+                </select>
+              )}
             </div>
           </div>
         )}
@@ -642,6 +724,109 @@ function SectionElement({
             className="mt-1 block w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
             rows={4}
           />
+        </div>
+      )}
+      {element.sectionType === "Skills" && (
+        <div className="w-full">
+          <span className="text-sm font-semibold text-gray-700 me-2">
+            Auto Layout
+          </span>
+          <div className="w-full grid grid-cols-2 space-y-2  bg-gray-100 rounded-md p-2">
+            <span className="text-sm font-semibold text-gray-700 me-2">
+              Direction
+            </span>
+            <div className="flex">
+              {[
+                {
+                  label: "Horizontal",
+                  value: "column",
+                  icon: (
+                    <MdOutlineArrowDownward
+                      size={20}
+                      onClick={() =>
+                        handleInputChange("listDirection", "column")
+                      }
+                    />
+                  ),
+                },
+                {
+                  label: "Verticle",
+                  value: "row",
+                  icon: (
+                    <MdOutlineArrowRightAlt
+                      size={20}
+                      onClick={() => handleInputChange("listDirection", "row")}
+                    />
+                  ),
+                },
+                {
+                  label: "Wrap",
+                  value: "wrap",
+                  icon: (
+                    <IoReturnDownBack
+                      size={20}
+                      onClick={() => handleInputChange("listDirection", "wrap")}
+                    />
+                  ),
+                },
+              ].map((list, key) => (
+                <>
+                  <div
+                    key={key}
+                    className={`flex items-center justify-center space-x-2 w-[30px] h-[30px] ${
+                      element.listDirection === list.value
+                        ? "bg-gray-800"
+                        : "bg-gray-500"
+                    } text-white`}
+                  >
+                    {list.icon}
+                  </div>
+                </>
+              ))}
+            </div>
+            <span className="text-sm font-semibold text-gray-700 me-2">
+              Alignment
+            </span>
+            <div className="grid grid-cols-3">
+              {[
+                {
+                  label: "Start",
+                  value: "flex-start",
+                },
+                {
+                  label: "Between",
+                  value: "space-between",
+                },
+                {
+                  label: "End",
+                  value: "flex-end",
+                },
+              ].map((list, key) => (
+                <>
+                  <div
+                    key={key}
+                    className={`flex items-center justify-center w-[30px] h-[30px] ${
+                      element.listAlignment === list.value
+                        ? "bg-gray-800"
+                        : "bg-gray-500"
+                    } text-white`}
+                    onClick={() =>
+                      handleInputChange("listAlignment", list.value)
+                    }
+                  >
+                    .
+                  </div>
+                </>
+              ))}
+            </div>
+          </div>
+          {/* <input
+              type="number"
+              min="10"
+              max="36"
+              defaultValue="16"
+              className="w-16 px-2 py-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+            /> */}
         </div>
       )}
     </>

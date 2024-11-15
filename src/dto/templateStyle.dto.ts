@@ -1,3 +1,4 @@
+
 export interface TemplateStyle {
   fontWeight?: string;
   labelsFontWeight?: string;
@@ -15,6 +16,8 @@ export interface TemplateStyle {
   listItemsFontWeight?: string;
   listItemType?: string;
   listItemTextDecoration?: string;
+  listDirection?: string;
+  listAlignment?: string;
   paddingPx?: string;
   fontSize?: number;
   color?: string;
@@ -25,9 +28,11 @@ export interface TemplateStyle {
   backgroundColor?: string;
   // education?: {
   // };
-  showEducationStartOrEndDate?: boolean;
-  showInstituteName?: boolean;
-  showCourseName?: boolean;
+  educationTemplate?: string;
+  educationTemplateString?: string;
+  showEducationStartOrEndDate?: string;
+  showInstituteName?: string;
+  showCourseName?: string;
   showEmploymentStartOrEndDate?: boolean;
   showCompanyName: boolean;
   // employment?: {
