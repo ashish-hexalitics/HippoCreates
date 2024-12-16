@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../store/slices/userSlice/apiSlice";
 import { useAppDispatch } from "../../store/hooks";
 import { setLoggedInUser } from "../../store/slices/userSlice/userSlice";
+import { Toaster } from "react-hot-toast";
+import errorHandler from "../../_helpers/errorHandler";
+import toastHandler from "../../_helpers/toastHandler";
+
 interface LoginRequest {
   email: string;
   password: string;
@@ -39,15 +43,17 @@ const Login: React.FC = (): React.ReactElement => {
           navigate(`/${response.data.user.role}/dashboard`);
         }
         dispatch(setLoggedInUser(response.data));
+        toastHandler(data.message);
       }
-    } catch (error) {
+    } catch (error: any) {
+      errorHandler(error.data.message);
       console.error("Failed to login:", error);
     }
   };
 
-  console.log("Error:", isError, data);
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6 dark:bg-[#fbf8f1]">
+      <Toaster />
       <div className="flex w-full max-w-4xl overflow-hidden rounded-lg bg-[#fbf8f1] shadow-lg dark:bg-white">
         <div className="hidden p-16 w-1/2 lg:block">
           <div
@@ -61,9 +67,9 @@ const Login: React.FC = (): React.ReactElement => {
           <h2 className="mb-4 text-2xl font-bold text-center text-gray dark:text-gray">
             Login
           </h2>
-          <p className="mb-6 text-center text-gray-600 dark:text-gray-600">
+          {/* <p className="mb-6 text-center text-gray-600 dark:text-gray-600">
             How to get started? Lorem ipsum dolor at?
-          </p>
+          </p> */}
           <form>
             <div className="relative mb-6">
               <label
@@ -74,7 +80,7 @@ const Login: React.FC = (): React.ReactElement => {
               </label>
               <input
                 type="text"
-                className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
+                className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500  dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
                 id="exampleInputUsername"
                 placeholder="Username"
                 name="email"
@@ -90,7 +96,7 @@ const Login: React.FC = (): React.ReactElement => {
               </label>
               <input
                 type="password"
-                className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
+                className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500  dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
                 id="exampleInputPassword1"
                 placeholder="Password"
                 onChange={handleChange}
@@ -111,7 +117,7 @@ const Login: React.FC = (): React.ReactElement => {
                   Remember me
                 </label>
               </div>
-              <Link to="/register">Register</Link>
+              <Link to="/register" className="text-gray-700 font-medium hover:text-gray-900 underline">Register</Link>
             </div>
             <button
               type="submit"
@@ -120,8 +126,8 @@ const Login: React.FC = (): React.ReactElement => {
             >
               {isLoading ? "Logging in..." : "Login"}
             </button>
-            <div className="mt-4 text-center text-gray-500 dark:text-gray-500">
-              or login with
+            <div className="mt-4 text-center text-gray-700 font-medium">
+              Or Login With
             </div>
             <div className="mt-4 flex justify-center space-x-2">
               <button

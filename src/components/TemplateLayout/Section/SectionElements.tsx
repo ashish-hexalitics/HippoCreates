@@ -43,25 +43,44 @@ const sectionOptions: {
   tag: string;
   sectionType: string;
   section?: any;
+  key?: any;
 }[] = [
-  { label: "Add Contact Section", tag: "section", sectionType: "Contact" },
-  { label: "Add Education Section", tag: "section", sectionType: "Education" },
+  {
+    label: "Add Contact Section",
+    tag: "section",
+    sectionType: "Contact",
+    key: "data.userInfo",
+  },
+  {
+    label: "Add Education Section",
+    tag: "section",
+    sectionType: "Education",
+    key: "data.educations",
+  },
   {
     label: "Add Employment Section",
     tag: "section",
     sectionType: "Employment",
+    key: "data.employments",
   },
-  { label: "Add Summary Section", tag: "section", sectionType: "Summary" },
+  {
+    label: "Add Summary Section",
+    tag: "section",
+    sectionType: "Summary",
+    key: "data.userInfo",
+  },
   {
     label: "Add Skills Section",
     tag: "section",
     sectionType: "Skills",
     section: section,
+    key: "data.skills",
   },
   {
     label: "Add Your Custom Section",
     tag: "section",
     sectionType: "CustomSection",
+    key: "data.userInfo",
   },
 ];
 

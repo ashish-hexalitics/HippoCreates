@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import business3dYoungWomenStanding from "../../assets/images/business-3d-young-women-standing.png";
+// import business3dYoungWomenStanding from "../../assets/images/business-3d-young-women-standing.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../store/slices/userSlice/apiSlice";
-import toast, { Toaster } from "react-hot-toast";
-
+import { Toaster } from "react-hot-toast";
+import errorHandler from "../../_helpers/errorHandler";
+import toastHandler from "../../_helpers/toastHandler";
 interface RegisterRequest {
   email: string;
   password: string;
@@ -41,7 +42,6 @@ const Register: React.FC = (): React.ReactElement => {
     role: "utilizer",
   });
   const navigate = useNavigate();
-  const notify = (message: string) => toast(message);
 
   const [register, { isError, data }] = useRegisterMutation();
 
@@ -56,11 +56,11 @@ const Register: React.FC = (): React.ReactElement => {
       const response = await register(userCredentials).unwrap();
       if (response.user) {
         !isError && navigate("/login");
-        notify(data.message);
+        toastHandler(data.message);
       }
     } catch (error: any) {
-      console.log(error);
-      notify(error.data.message);
+      errorHandler(error.data.message);
+      console.error("Failed to login:", error);
     }
   };
 
@@ -82,7 +82,7 @@ const Register: React.FC = (): React.ReactElement => {
               </label>
               <input
                 type="email"
-                className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
+                className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
                 id="exampleInputEmail"
                 placeholder="Email"
                 name="email"
@@ -98,7 +98,7 @@ const Register: React.FC = (): React.ReactElement => {
               </label>
               <input
                 type="text"
-                className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
+                className="peer block w-full rounded border-0 bg-gray-500 px-4 py-3 text-gray-700 placeholder-gray-500 dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
                 id="exampleInputFullName"
                 placeholder="Enter Full Name"
                 onChange={handleChange}
@@ -114,7 +114,7 @@ const Register: React.FC = (): React.ReactElement => {
               </label>
               <input
                 type="password"
-                className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500 focus:bg-white focus:outline-none dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
+                className="peer block w-full rounded border-0 bg-gray-100 px-4 py-3 text-gray-700 placeholder-gray-500 dark:bg-gray-100 dark:text-gray dark:placeholder-gray-400"
                 id="exampleInputPassword"
                 placeholder="Password"
                 onChange={handleChange}
@@ -125,28 +125,44 @@ const Register: React.FC = (): React.ReactElement => {
               <label className="block text-gray-600 dark:text-gray-500">
                 Why Are You Here ?.
               </label>
-              <div className="flex flex-col space-y-4 mt-2">
+              <div className="row-span-2 space-x-2 space-y-4 mt-2">
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    className="form-radio"
+                    className="form-radio appearance-none"
                     name="role"
                     value={"designer"}
                     checked={user.role === "designer"}
                     onChange={handleChange}
                   />
-                  <span className="ml-2">To Design The Template</span>
+                  <span
+                    className={`rounded w-full p-2 ${
+                      user.role === "designer"
+                        ? "border-2 border-[#55bab9]"
+                        : ""
+                    }`}
+                  >
+                    To Design The Template
+                  </span>
                 </label>
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    className="form-radio"
+                    className="form-radio appearance-none"
                     name="role"
                     value={"utilizer"}
                     checked={user.role === "utilizer"}
                     onChange={handleChange}
                   />
-                  <span className="ml-2">To Utilize The Template</span>
+                  <span
+                    className={`rounded w-full p-2 ${
+                      user.role === "utilizer"
+                        ? "border-2 border-[#55bab9]"
+                        : ""
+                    }`}
+                  >
+                    To Utilize The Template
+                  </span>
                 </label>
               </div>
             </div>
@@ -164,7 +180,12 @@ const Register: React.FC = (): React.ReactElement => {
                   Remember me
                 </label>
               </div>
-              <Link to="/login">Login</Link>
+              <Link
+                to="/login"
+                className="text-gray-700 font-medium hover:text-gray-900 underline"
+              >
+                Login
+              </Link>
             </div>
             <button
               type="submit"

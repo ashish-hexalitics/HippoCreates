@@ -9,8 +9,8 @@ const baseQueryWithInterceptor: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const result = await fetchBaseQuery({
-    // baseUrl: "http://localhost:3000/api",
-    baseUrl: "http://ec2-16-170-243-143.eu-north-1.compute.amazonaws.com:3000/api",
+    baseUrl: "http://localhost:3000/api",
+    // baseUrl: "http://ec2-16-170-243-143.eu-north-1.compute.amazonaws.com:3000/api",
   })(args, api, extraOptions);
 
   // Check for 403 status

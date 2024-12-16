@@ -238,7 +238,7 @@ function ExperiencePage() {
                   <input
                     type="text"
                     name="state"
-                    value={formik.values.city}
+                    value={formik.values.state}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className={`w-full border-2 p-4 rounded-lg bg-white shadow-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400 ${

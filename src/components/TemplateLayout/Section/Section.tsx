@@ -26,7 +26,8 @@ const Summary = {
     },
   },
   summaryProperties: {
-    value: "lorem Ipsum is just rep elit sed diam non pro id elit. Lorem Ipsum",
+    summary:
+      "lorem Ipsum is just rep elit sed diam non pro id elit. Lorem Ipsum",
     style: {
       color: "",
       textAlign: "",
@@ -214,15 +215,18 @@ const ContactSection = {
       padding: "",
     },
   },
-  CustomProperties: {
-    skills: [
-      {
-        name: "JavaScript",
-      },
-      {
-        name: "React",
-      },
-    ],
+  contactProperties: {
+    contactDetail: {
+      firstName: "john",
+      lastName: "doe",
+      country: "India",
+      city: "New York",
+      state: "NY",
+      zipCode: "12345",
+      email: "john@gmail.com",
+      otherEmail: "johnOtherMail@gmail.com",
+      phone: "1234567891",
+    },
     style: {
       color: "",
       textAlign: "",
@@ -280,8 +284,8 @@ const CustomSection = {
     },
   },
 };
-
 const Section: React.FC<any> = ({ element }) => {
+  console.log(element);
   const customElement: any = {
     ...element,
     section: {
@@ -332,6 +336,21 @@ const Section: React.FC<any> = ({ element }) => {
                 listStyleType: element.listItemType || "circle",
               },
             },
+            contactProperties: {
+              ...ContactSection.contactProperties,
+              contactDetail:
+                element.data && element.data
+                  ? element.data
+                  : ContactSection.contactProperties.contactDetail,
+              style: {
+                ...ContactSection.contactProperties.style,
+                color: element.labelsColor,
+                fontSize: `${element.labelsFontSize}px`,
+                fontWeight: element.labelsFontWeight,
+                textAlign: "left",
+                textDecoration: element.SectionLabelUnderline,
+              },
+            },
             style: {
               ...ContactSection.style,
               textAlign: element.SectionTextAlignMent,
@@ -356,6 +375,22 @@ const Section: React.FC<any> = ({ element }) => {
               ...Summary.lableProperties,
               style: {
                 ...Summary.lableProperties.style,
+                color: element.labelsColor,
+                fontSize: `${element.labelsFontSize}px`,
+                fontWeight: element.labelsFontWeight,
+                textAlign: "left",
+                textDecoration: element.SectionLabelUnderline,
+                listStyleType: element.listItemType || "circle",
+              },
+            },
+            summaryProperties: {
+              ...Summary.summaryProperties,
+              summary:
+                element.data && element.data.length
+                  ? element.data
+                  : Summary.summaryProperties.summary,
+              style: {
+                ...Summary.summaryProperties.style,
                 color: element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
@@ -402,6 +437,10 @@ const Section: React.FC<any> = ({ element }) => {
             },
             listProperties: {
               ...Education.listProperties,
+              educations:
+                element.data && element.data.length
+                  ? element.data
+                  : Education.listProperties.educations,
               style: {
                 color: element.listItemsColor,
                 fontSize: `${element.listItemsFontSize}px`,
@@ -445,6 +484,10 @@ const Section: React.FC<any> = ({ element }) => {
             },
             listProperties: {
               ...Employment.listProperties,
+              employments:
+                element.data && element.data.length
+                  ? element.data
+                  : Employment.listProperties.employments,
               style: {
                 color: element.listItemsColor,
                 fontSize: `${element.listItemsFontSize}px`,
@@ -524,8 +567,6 @@ const Section: React.FC<any> = ({ element }) => {
     );
   };
 
-  console.log(element.educationTemplateString, customElement.sectionType);
-
   return (
     <div>
       <div className="w-full" style={customElement.section.style}>
@@ -552,16 +593,30 @@ const Section: React.FC<any> = ({ element }) => {
           </div>
         )}
         {/* Contact Section */}
-        {customElement.sectionType === "Contact" && (
-          <>
-            <label className="block mb-2">
-              <span className="text-sm text-gray-600">Name:</span>
-            </label>
-            <label className="block">
-              <span className="text-sm text-gray-600">Email:</span>
-            </label>
-          </>
-        )}
+        {customElement.sectionType === "Contact" &&
+          customElement.section.contactProperties.contactDetail && (
+            <>
+              <label className="block mb-2">
+                <span className="text-sm text-gray-600">
+                  Name : {" "}
+                  {customElement.section.contactProperties.contactDetail
+                    .firstName +
+                    " " +
+                    customElement.section.contactProperties.contactDetail
+                      .lastName}
+                </span>
+              </label>
+              <label className="block">
+                <span className="text-sm text-gray-600">
+                  Email : {" "}
+                  {
+                    customElement.section.contactProperties.contactDetail
+                      .otherEmail
+                  }
+                </span>
+              </label>
+            </>
+          )}
         {/* Education Section */}
         {customElement.sectionType === "Education" &&
           customElement.section.showSection && (
@@ -612,7 +667,7 @@ const Section: React.FC<any> = ({ element }) => {
             <>
               {customElement.section.showSummary && (
                 <p style={customElement.section.summaryProperties.style}>
-                  {customElement.section.summaryProperties.value}
+                  {customElement.section.summaryProperties.summary}
                 </p>
               )}
             </>

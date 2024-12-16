@@ -68,17 +68,28 @@ function UseTemplate() {
       if (data?.template?.layer && Array.isArray(data?.template?.layer)) {
         const modifiedTemplateData = data?.template?.layer.map(
           (layer: Element) => {
+            console.log(layer.key && userResume.data.employments ,layer.key,"layer.key ? userResume[layer?.key] : {}");
             return {
               ...layer,
               value: layer?.name ? userJson[layer?.name] : userJson.value,
+              data: layer.key ? getNestedProperty(userResume, layer.key) : null,
             };
           }
         );
         setElements(modifiedTemplateData);
       }
-      // console.log(data?.template?.layer, userJson);
     }
   }, [data?.template, userResume]);
+
+  const getNestedProperty = (obj: any, path: string) => {
+console.log(obj)
+    return path
+      .split('.')
+      .reduce((acc, part) => acc && acc[part], obj); 
+  };
+
+  // console.log(data?.template,userJson.value)
+  // console.log(data?.template?.layer, userJson);
 
   const addElement = (el: { name: string; value: string }) => {
     const newElement = {
@@ -249,6 +260,8 @@ function UseTemplate() {
       ? elements.find((el) => el.id === selectedElementId)
       : undefined;
 
+  console.log(elements, "elements");
+
   return (
     <div className="h-full w-full bg-gray-100 flex relative">
       <div
@@ -267,7 +280,7 @@ function UseTemplate() {
               addElement: addElement,
               openThirdPartyUpload: openThirdPartyUpload,
               onUpload: handleUpload,
-              addShape:addShape
+              addShape: addShape,
             })}
             setIsModalOpen={setIsModalOpen}
             setIsViewModalOpen={setIsViewModalOpen}

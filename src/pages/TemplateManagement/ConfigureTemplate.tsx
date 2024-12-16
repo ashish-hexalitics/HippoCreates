@@ -302,6 +302,7 @@ function ConfigureTemplate() {
       )
     );
   };
+  // console.log(elements,"elements")
 
   return (
     <div className="h-full w-full bg-gray-100 flex relative">

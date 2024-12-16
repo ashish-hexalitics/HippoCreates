@@ -39,6 +39,8 @@ export interface Element {
   overlay?: boolean;
   blur?: number;
   sectionType?: string;
+  key?: string;
+  data?:any
 }
 
 export interface IRNDElement {
