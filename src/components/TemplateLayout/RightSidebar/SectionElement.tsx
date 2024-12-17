@@ -72,7 +72,7 @@ function SectionElement({
   element: TemplateStyle;
   handleInputChange: (
     field: keyof TemplateStyle,
-    value: string | number | boolean | any[]
+    value: string | number | boolean | { label: string; name: string; showField: boolean }[]
   ) => void;
   handleCopyStyle?: (applyOn: string) => void;
 }) {

@@ -25,7 +25,7 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
 }) => {
   const handleInputChange = (
     field: keyof TemplateStyle,
-    value: string | number | boolean
+    value: string | number | boolean | { label: string; name: string; showField: boolean }[]
   ) => {
     onChange({ [field]: value });
   };
