@@ -68,7 +68,6 @@ function UseTemplate() {
       if (data?.template?.layer && Array.isArray(data?.template?.layer)) {
         const modifiedTemplateData = data?.template?.layer.map(
           (layer: Element) => {
-            console.log(layer.key && userResume.data.employments ,layer.key,"layer.key ? userResume[layer?.key] : {}");
             return {
               ...layer,
               value: layer?.name ? userJson[layer?.name] : userJson.value,
@@ -76,13 +75,13 @@ function UseTemplate() {
             };
           }
         );
+        console.log(modifiedTemplateData,"modifiedTemplateData")
         setElements(modifiedTemplateData);
       }
     }
   }, [data?.template, userResume]);
 
   const getNestedProperty = (obj: any, path: string) => {
-console.log(obj)
     return path
       .split('.')
       .reduce((acc, part) => acc && acc[part], obj); 
@@ -255,12 +254,10 @@ console.log(obj)
   };
 
   const handleAction = () => {};
-  const selectedElement =
+  const selectedElement:Element|undefined =
     elements && Array.isArray(elements)
       ? elements.find((el) => el.id === selectedElementId)
       : undefined;
-
-  console.log(elements, "elements");
 
   return (
     <div className="h-full w-full bg-gray-100 flex relative">
@@ -335,7 +332,7 @@ console.log(obj)
           selectedElementId && updateElement(selectedElementId, data)
         }
         roleName={roleName}
-      />
+      />      
       <PDFSizeModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

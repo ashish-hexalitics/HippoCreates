@@ -1,5 +1,5 @@
-
 export interface TemplateStyle {
+  [key: string]: any;
   fontWeight?: string;
   labelsFontWeight?: string;
   SectionBgColor?: string;
@@ -26,17 +26,19 @@ export interface TemplateStyle {
   ShowSectionBgColor?: string;
   labelsFontSize?: number;
   backgroundColor?: string;
-  // education?: {
-  // };
-  educationTemplate?: string;
-  educationTemplateString?: string;
-  showEducationStartOrEndDate?: string;
-  showInstituteName?: string;
-  showCourseName?: string;
+  educationTemplate?: string | "default" | "template";
+  showEducationStartOrEndDate?: string | "yes" | "no";
+  showInstituteName?: string | "yes" | "no";
+  showCourseName?: string | "yes" | "no";
   showEmploymentStartOrEndDate?: boolean;
-  showCompanyName: boolean;
-  // employment?: {
-  // };
+  educationTemplateString?: string;
+  showCompanyName?: boolean;
+  showOrganizationName?: string | "yes" | "no";
+  showRoleInCompany?: string | "yes" | "no";
+  showCompanyStartOrEndDate?: string | "yes" | "no";
+  employmentTemplate?: string | "default" | "template";
+  employmentTemplateString?: string;
+  personalDetailFields?: { label: string; name: string; showField: boolean }[];
   x: number;
   y: number;
   content: string;
@@ -57,6 +59,8 @@ export interface TemplateStyle {
   overlay?: boolean;
   blur?: number;
   sectionType?: string;
+  data?: any;
+  key?: string;
 }
 
 export interface TemplateSideBarProps {

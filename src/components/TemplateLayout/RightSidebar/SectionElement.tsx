@@ -37,6 +37,33 @@ const educationDropdownOptions: string[] = [
   "{startDate} - {endDate} | {degree} | {institution}.",
 ];
 
+const employmentDropdownOptions: string[] = [
+  "{title} at {company} from {startDate} to {endDate}.",
+  "{title} ({startDate} - {endDate}) at {company}.",
+  "{company}: Worked as {title} ({startDate} - {endDate}).",
+  "{title}, {company}, ({startDate} - {endDate}).",
+  "Served as {title} at {company} between {startDate} and {endDate}.",
+  "Held the position of {title} at {company} during {startDate} to {endDate}.",
+  "{title} | {company} | Duration: {startDate} - {endDate}.",
+  "{company}: {title} | ({startDate} - {endDate})",
+  "Position: {title} | Company: {company} | Duration: {startDate} - {endDate}.",
+  "Employed as {title} at {company} from {startDate} to {endDate}.",
+  "Worked as {title} at {company} ({startDate} - {endDate}).",
+  "Role: {title} at {company} during {startDate} to {endDate}.",
+  "Professional Experience: {title}, {company} ({startDate} - {endDate}).",
+  "Proudly held the role of {title} at {company} ({startDate} - {endDate}).",
+  "{title} ({startDate} to {endDate}) | Employer: {company}.",
+  "{title} at {company} between {startDate} and {endDate}.",
+  "{company} ({startDate} - {endDate}): {title}.",
+  "Worked as {title} ({startDate} - {endDate}) at {company}.",
+  "Held the title of {title} at {company} during {startDate} to {endDate}.",
+  "Position: {title}, Company: {company}, Timeframe: {startDate} - {endDate}.",
+  "{title} from {startDate} to {endDate} at {company}.",
+  "{startDate} - {endDate} | {title} | {company}.",
+  "Employment: {title}, {company} ({startDate} - {endDate}).",
+  "{company}: {title} ({startDate} - {endDate}).",
+];
+
 function SectionElement({
   element,
   handleInputChange,
@@ -45,11 +72,26 @@ function SectionElement({
   element: TemplateStyle;
   handleInputChange: (
     field: keyof TemplateStyle,
-    value: string | number | boolean
+    value: string | number | boolean | any[]
   ) => void;
   handleCopyStyle?: (applyOn: string) => void;
 }) {
   const [paddingPix, setPaddingPix] = useState(element.paddingPx);
+  const [fields, setFields] = useState<
+    { label: string; name: string; showField: boolean }[]
+  >([
+    { label: "First Name", name: "firstName", showField: false },
+    { label: "Last Name", name: "lastName", showField: false },
+    { label: "Name", name: "name", showField: false },
+    { label: "Email", name: "email", showField: false },
+    { label: "Phone", name: "phone", showField: false },
+    { label: "Address", name: "address", showField: false },
+    { label: "Gender", name: "gender", showField: false },
+    { label: "Married Status", name: "marriedStatus", showField: false },
+  ]);
+
+  console.log(element,element.sectionType,"eeeeeee")
+
   const options = [
     {
       value: { paddingTop: paddingPix },
@@ -100,6 +142,14 @@ function SectionElement({
       label: "Padding All",
     },
   ];
+
+  const handleCheckboxChange = (index: number) => {
+    const modifiedField = fields.map((field, i) =>
+      i === index ? { ...field, showField: !field.showField } : field
+    );
+    setFields(modifiedField);
+    handleInputChange("personalDetailFields", modifiedField);
+  };
 
   //   const formatString = (template:any, values:any) => {
   //   return template.replace(/{(.*?)}/g, (_, key) => values[key] || '')
@@ -577,26 +627,25 @@ function SectionElement({
 
       {element.content.startsWith("Section") &&
         element.sectionType === "Contact" && (
-          <div className="w-full">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Contact Information
-            </h3>
-            <label className="block mb-2">
-              <span className="text-sm text-gray-600">Name:</span>
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="mt-1 block w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
-              />
-            </label>
-            <label className="block">
-              <span className="text-sm text-gray-600">Email:</span>
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="mt-1 block w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
-              />
-            </label>
+          <div className="w-full space-y-2 pt-2">
+            <span className="text-sm font-semibold text-gray-700 me-2">
+              Contact Information :
+            </span>
+            <div className="w-full grid grid-cols-1  bg-gray-100 rounded-md p-2">
+              {fields.map((field, index) => (
+                <label key={index} className="flex mb-2 items-center">
+                  <span className="text-sm text-gray-600 me-2 capitalize">
+                    Show {field.label}:
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={element.personalDetailFields?.find(f=>f.name===field.name)?.showField} 
+                    onChange={() => handleCheckboxChange(index)}
+                    className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+                  />
+                </label>
+              ))}
+            </div>
           </div>
         )}
 
@@ -692,7 +741,93 @@ function SectionElement({
           </div>
         )}
       {element.sectionType === "Employment" && (
-        <div className="w-full">
+        <div className="w-full space-y-2 pt-2">
+          <span className="text-sm font-semibold text-gray-700 me-2">
+            Employment :
+          </span>
+          <select
+            onChange={(e) =>
+              handleInputChange("employmentTemplate", e.target.value)
+            }
+            value={element.employmentTemplate}
+          >
+            <option value="default">Use Default</option>
+            <option value="template">Template</option>
+          </select>
+          <div className="w-full grid grid-cols-1  bg-gray-100 rounded-md p-2">
+            {element.employmentTemplate === "default" ? (
+              <>
+                <label className="flex mb-2">
+                  <span className="text-sm text-gray-600 me-2">
+                    Show Comany Name :
+                  </span>
+                  <input
+                    type="checkbox"
+                    value={element.showOrganizationName}
+                    checked={element.showOrganizationName == "yes"}
+                    className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+                    onChange={() =>
+                      handleInputChange(
+                        "showOrganizationName",
+                        element.showOrganizationName === "yes" ? "no" : "yes"
+                      )
+                    }
+                  />
+                </label>
+                <label className="flex mb-2">
+                  <span className="text-sm text-gray-600 me-2">
+                    Show Your Role in Company:
+                  </span>
+                  <input
+                    type="checkbox"
+                    value={element.showRoleInCompany}
+                    checked={element.showRoleInCompany == "yes"}
+                    className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+                    onChange={() =>
+                      handleInputChange(
+                        "showRoleInCompany",
+                        element.showRoleInCompany === "yes" ? "no" : "yes"
+                      )
+                    }
+                  />
+                </label>
+                <label className="flex mb-2">
+                  <span className="text-sm text-gray-600 me-2">
+                    Show Start And Ending Date:
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={element.showCompanyStartOrEndDate == "yes"}
+                    value={element.showCompanyStartOrEndDate}
+                    className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+                    onChange={() =>
+                      handleInputChange(
+                        "showCompanyStartOrEndDate",
+                        element.showCompanyStartOrEndDate === "yes"
+                          ? "no"
+                          : "yes"
+                      )
+                    }
+                  />
+                </label>
+              </>
+            ) : (
+              <select
+                onChange={(e) =>
+                  handleInputChange("employmentTemplateString", e.target.value)
+                }
+                value={element.employmentTemplateString}
+              >
+                {employmentDropdownOptions.map(
+                  (employmentDropdownOption, key) => (
+                    <option value={employmentDropdownOption} key={key}>
+                      {employmentDropdownOption}
+                    </option>
+                  )
+                )}
+              </select>
+            )}
+          </div>
           <h3 className="text-lg font-semibold text-gray-700 mb-2">
             Employment History
           </h3>

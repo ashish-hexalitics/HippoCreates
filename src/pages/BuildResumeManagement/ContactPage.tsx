@@ -17,7 +17,7 @@ import toastHandler from "../../_helpers/toastHandler";
 import { Toaster } from "react-hot-toast";
 
 function ContactPage() {
-  const { data, refetch } = useGetUserResumeInfoQuery();
+  const { data } = useGetUserResumeInfoQuery();
   const [updateUserResumeInfo] = useUpdateUserResumeInfoMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

@@ -1,5 +1,6 @@
 import React from "react";
 import DynamicEducationSection from "./DynamicEducationSection";
+import DynamicEmployementSection from "./DynamicEmployementSection";
 
 const Summary = {
   showSection: true,
@@ -215,6 +216,16 @@ const ContactSection = {
       padding: "",
     },
   },
+  personalDetailFields: [
+    { label: "First Name", name: "firstName", showField: false },
+    { label: "Last Name", name: "lastName", showField: false },
+    { label: "Name", name: "name", showField: false },
+    { label: "Email", name: "email", showField: false },
+    { label: "Phone", name: "phone", showField: false },
+    { label: "Address", name: "address", showField: false },
+    { label: "Gender", name: "gender", showField: false },
+    { label: "Married Status", name: "marriedStatus", showField: false },
+  ],
   contactProperties: {
     contactDetail: {
       firstName: "john",
@@ -285,7 +296,6 @@ const CustomSection = {
   },
 };
 const Section: React.FC<any> = ({ element }) => {
-  console.log(element);
   const customElement: any = {
     ...element,
     section: {
@@ -470,6 +480,9 @@ const Section: React.FC<any> = ({ element }) => {
       ...(element.sectionType === "Employment"
         ? {
             ...Employment,
+            showOrganizationName: element.showOrganizationName,
+            showRoleInCompany: element.showRoleInCompany,
+            showCompanyStartOrEndDate: element.showCompanyStartOrEndDate,
             lableProperties: {
               ...Employment.lableProperties,
               style: {
@@ -560,13 +573,6 @@ const Section: React.FC<any> = ({ element }) => {
     },
   };
 
-  const formatString = (template: any, values: any) => {
-    return template.replace(
-      /{(.*?)}/g,
-      (_: string, key: string) => values[key] || ""
-    );
-  };
-
   return (
     <div>
       <div className="w-full" style={customElement.section.style}>
@@ -595,27 +601,39 @@ const Section: React.FC<any> = ({ element }) => {
         {/* Contact Section */}
         {customElement.sectionType === "Contact" &&
           customElement.section.contactProperties.contactDetail && (
-            <>
-              <label className="block mb-2">
-                <span className="text-sm text-gray-600">
-                  Name : {" "}
-                  {customElement.section.contactProperties.contactDetail
-                    .firstName +
-                    " " +
-                    customElement.section.contactProperties.contactDetail
-                      .lastName}
-                </span>
-              </label>
-              <label className="block">
-                <span className="text-sm text-gray-600">
-                  Email : {" "}
-                  {
-                    customElement.section.contactProperties.contactDetail
-                      .otherEmail
-                  }
-                </span>
-              </label>
-            </>
+            <div className="w-full grid grid-cols-3">
+              {customElement?.personalDetailFields &&
+                customElement?.personalDetailFields
+                  .filter(
+                    (detail: {
+                      label: string;
+                      name: string;
+                      showField: boolean;
+                    }) => detail.showField
+                  )
+                  .map(
+                    (
+                      detail: {
+                        label: string;
+                        name: string;
+                        showField: boolean;
+                      },
+                      key: React.Key
+                    ) => {
+                      return (
+                        <label className="block mb-2" key={key}>
+                          <span className="text-sm text-gray-600">
+                            {detail.label} :
+                            {
+                              customElement.section.contactProperties
+                                .contactDetail[detail.name]
+                            }
+                          </span>
+                        </label>
+                      );
+                    }
+                  )}
+            </div>
           )}
         {/* Education Section */}
         {customElement.sectionType === "Education" &&
@@ -628,38 +646,10 @@ const Section: React.FC<any> = ({ element }) => {
         {/* Employment Section */}
         {customElement.sectionType === "Employment" &&
           customElement.section.showSection && (
-            <>
-              <ul
-                style={{
-                  marginLeft:
-                    customElement.section.listProperties.style.listStyleType ===
-                    "none"
-                      ? "0"
-                      : `18px`,
-                  listStyleType:
-                    customElement.section.listProperties.style.listStyleType,
-                }}
-              >
-                {customElement.section.showEmployment && (
-                  <>
-                    {customElement.section.listProperties.employments &&
-                      customElement.section.listProperties.employments.map(
-                        (employment: any, key: string) => {
-                          return (
-                            <li
-                              key={key}
-                              style={customElement.section.listProperties.style}
-                            >
-                              <span>{employment.company}</span>
-                              <span>{employment.position}</span>
-                            </li>
-                          );
-                        }
-                      )}
-                  </>
-                )}
-              </ul>
-            </>
+            <DynamicEmployementSection
+              element={element}
+              customElement={customElement}
+            />
           )}
         {/* Summary Section */}
         {customElement.sectionType === "Summary" &&

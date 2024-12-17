@@ -22,7 +22,7 @@ const Login: React.FC = (): React.ReactElement => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [login, { isLoading, isError, data }] = useLoginMutation();
+  const [login, { isLoading, data }] = useLoginMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
