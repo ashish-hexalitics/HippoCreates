@@ -15,7 +15,7 @@ import Loading from "../../components/Common/Loader/index";
 import AppModal from "../../components/Common/Modal";
 import DeleteModal from "../../components/Common/Modal/DeleteModal";
 import TemplateGrid from "../../components/TemplateLayout/TemplateGrid";
-function Template() {
+function TemplateList() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [deleteTemplate] = useDeleteTemplateMutation();
@@ -147,4 +147,4 @@ function Template() {
   );
 }
 
-export default Template;
+export default TemplateList;

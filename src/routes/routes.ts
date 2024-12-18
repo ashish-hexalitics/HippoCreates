@@ -20,8 +20,10 @@ import SkillsPage from "../pages/BuildResumeManagement/SkillsPage";
 import SummaryPage from "../pages/BuildResumeManagement/SummaryPage";
 import AdditonalDetailsPage from "../pages/BuildResumeManagement/AdditonalDetailsPage";
 import Educationpage from "../pages/BuildResumeManagement/EducationPage";
+import CheckProfileStatus from "../pages/BuildResumeManagement/CheckProfileStatus";
 
-export const publicRoutes = [ // these routes are accessable without auth
+export const publicRoutes = [
+  // these routes are accessable without auth
   {
     path: "/",
     component: HomePage,
@@ -40,7 +42,8 @@ export const publicRoutes = [ // these routes are accessable without auth
   },
 ];
 
-export const protectedRoutes = [ // these routes are accessable with auth or layout for diffrent roles
+export const protectedRoutes = [
+  // these routes are accessable with auth or layout for diffrent roles
   {
     path: "/admin/*",
     component: AdminLayout,
@@ -55,7 +58,8 @@ export const protectedRoutes = [ // these routes are accessable with auth or lay
   },
 ];
 
-export const authRoutes = [ // these routes are accessable without auth but not accessable with auth
+export const authRoutes = [
+  // these routes are accessable without auth but not accessable with auth
   {
     path: "/login",
     component: Login,
@@ -66,7 +70,8 @@ export const authRoutes = [ // these routes are accessable without auth but not 
   },
 ];
 
-export const adminRoutes = [ // these routes are accessable with auth or child routes of admin/*  routes
+export const adminRoutes = [
+  // these routes are accessable with auth or child routes of admin/*  routes
   {
     path: "dashboard",
     component: Dashboard,
@@ -117,7 +122,12 @@ export const adminRoutes = [ // these routes are accessable with auth or child r
   },
 ];
 
-export const utilizerRoutes = [ // these routes are accessable with auth or child routes of build-resume/*  routes
+export const utilizerRoutes = [
+  // these routes are accessable with auth or child routes of build-resume/*  routes
+  {
+    path: "profile-status",
+    component: CheckProfileStatus,
+  },
   {
     path: "contact",
     component: ContactPage,

@@ -20,7 +20,7 @@ function TemplateGrid({ template, handleDelete }: any) {
     <>
       <div
         key={template?._id}
-        style={{ transform: "scale(.7)", transformOrigin: "top left" }}
+        style={{ transform: "scale(.4)", transformOrigin: "top left" }}
         className="bg-white shadow-md rounded-lg overflow-hidden flex items-center flex-col  border-[#ddd] border-2 relative p-2 hover:border-blue-500"
       >
         <div

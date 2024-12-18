@@ -1,6 +1,7 @@
 import React from "react";
 import DynamicEducationSection from "./DynamicEducationSection";
 import DynamicEmployementSection from "./DynamicEmployementSection";
+import { sectionType } from "../../../constant/sectionType";
 
 const Summary = {
   showSection: true,
@@ -227,6 +228,7 @@ const ContactSection = {
     { label: "Married Status", name: "marriedStatus", showField: false },
   ],
   contactProperties: {
+    alignPersonalDetailGrid: 3,
     contactDetail: {
       firstName: "john",
       lastName: "doe",
@@ -244,8 +246,7 @@ const ContactSection = {
       fontWeight: "",
       textDecoration: "",
       listStyle: "circle",
-      display: "flex",
-      flexDirection: "column",
+      display: "grid",
       padding: "",
     },
   },
@@ -299,7 +300,7 @@ const Section: React.FC<any> = ({ element }) => {
   const customElement: any = {
     ...element,
     section: {
-      ...(element.sectionType === "CustomSection"
+      ...(element.sectionType === sectionType.customSection
         ? {
             ...CustomSection,
             lableProperties: {
@@ -331,7 +332,7 @@ const Section: React.FC<any> = ({ element }) => {
             },
           }
         : {}),
-      ...(element.sectionType === "Contact"
+      ...(element.sectionType === sectionType.contact
         ? {
             ...ContactSection,
             lableProperties: {
@@ -348,17 +349,24 @@ const Section: React.FC<any> = ({ element }) => {
             },
             contactProperties: {
               ...ContactSection.contactProperties,
+              ...(element?.alignPersonalDetailGrid
+                ? {
+                    alignPersonalDetailGrid: Number(
+                      element?.alignPersonalDetailGrid
+                    ),
+                  }
+                : {}),
               contactDetail:
                 element.data && element.data
                   ? element.data
                   : ContactSection.contactProperties.contactDetail,
               style: {
                 ...ContactSection.contactProperties.style,
-                color: element.labelsColor,
-                fontSize: `${element.labelsFontSize}px`,
-                fontWeight: element.labelsFontWeight,
+                color: element.listItemsColor,
+                fontSize: `${element.listItemsFontSize}px`,
+                fontWeight: element.listItemsFontWeight,
                 textAlign: "left",
-                textDecoration: element.SectionLabelUnderline,
+                textDecoration: element.listItemTextDecoration,
               },
             },
             style: {
@@ -378,7 +386,7 @@ const Section: React.FC<any> = ({ element }) => {
             },
           }
         : {}),
-      ...(element.sectionType === "Summary"
+      ...(element.sectionType === sectionType.summary
         ? {
             ...Summary,
             lableProperties: {
@@ -401,12 +409,11 @@ const Section: React.FC<any> = ({ element }) => {
                   : Summary.summaryProperties.summary,
               style: {
                 ...Summary.summaryProperties.style,
-                color: element.labelsColor,
-                fontSize: `${element.labelsFontSize}px`,
-                fontWeight: element.labelsFontWeight,
-                textAlign: "left",
-                textDecoration: element.SectionLabelUnderline,
-                listStyleType: element.listItemType || "circle",
+                color: element.listItemsColor,
+                fontSize: `${element.listItemsFontSize}px`,
+                fontWeight: element.listItemsFontWeight,
+                // textAlign: "left",
+                textDecoration: element.listItemTextDecoration,
               },
             },
             style: {
@@ -427,7 +434,7 @@ const Section: React.FC<any> = ({ element }) => {
             },
           }
         : {}),
-      ...(element.sectionType === "Education"
+      ...(element.sectionType === sectionType.education
         ? {
             ...Education,
             showInstituteName: element.showInstituteName,
@@ -477,7 +484,7 @@ const Section: React.FC<any> = ({ element }) => {
             },
           }
         : {}),
-      ...(element.sectionType === "Employment"
+      ...(element.sectionType === sectionType.employment
         ? {
             ...Employment,
             showOrganizationName: element.showOrganizationName,
@@ -527,7 +534,7 @@ const Section: React.FC<any> = ({ element }) => {
             },
           }
         : {}),
-      ...(element.sectionType === "Skills"
+      ...(element.sectionType === sectionType.skills
         ? {
             ...Skills,
             lableProperties: {
@@ -573,6 +580,7 @@ const Section: React.FC<any> = ({ element }) => {
     },
   };
 
+  console.log(customElement, customElement.sectionType);
   return (
     <div>
       <div className="w-full" style={customElement.section.style}>
@@ -599,9 +607,11 @@ const Section: React.FC<any> = ({ element }) => {
           </div>
         )}
         {/* Contact Section */}
-        {customElement.sectionType === "Contact" &&
+        {customElement.sectionType === sectionType.contact &&
           customElement.section.contactProperties.contactDetail && (
-            <div className="w-full grid grid-cols-3">
+            <ul
+              className={`w-full grid grid-cols-${customElement.alignPersonalDetailGrid}`}
+            >
               {customElement?.personalDetailFields &&
                 customElement?.personalDetailFields
                   .filter(
@@ -621,22 +631,23 @@ const Section: React.FC<any> = ({ element }) => {
                       key: React.Key
                     ) => {
                       return (
-                        <label className="block mb-2" key={key}>
-                          <span className="text-sm text-gray-600">
-                            {detail.label} :
-                            {
-                              customElement.section.contactProperties
-                                .contactDetail[detail.name]
-                            }
-                          </span>
-                        </label>
+                        <li
+                          style={customElement.section.contactProperties.style}
+                          key={key}
+                        >
+                          {detail.label} :
+                          {
+                            customElement.section.contactProperties
+                              .contactDetail[detail.name]
+                          }
+                        </li>
                       );
                     }
                   )}
-            </div>
+            </ul>
           )}
         {/* Education Section */}
-        {customElement.sectionType === "Education" &&
+        {customElement.sectionType === sectionType.education &&
           customElement.section.showSection && (
             <DynamicEducationSection
               element={element}
@@ -644,7 +655,7 @@ const Section: React.FC<any> = ({ element }) => {
             />
           )}
         {/* Employment Section */}
-        {customElement.sectionType === "Employment" &&
+        {customElement.sectionType === sectionType.employment &&
           customElement.section.showSection && (
             <DynamicEmployementSection
               element={element}
@@ -652,18 +663,20 @@ const Section: React.FC<any> = ({ element }) => {
             />
           )}
         {/* Summary Section */}
-        {customElement.sectionType === "Summary" &&
+        {customElement.sectionType === sectionType.summary &&
           customElement.section.showSection && (
             <>
               {customElement.section.showSummary && (
-                <p style={customElement.section.summaryProperties.style}>
-                  {customElement.section.summaryProperties.summary}
-                </p>
+                <ul style={customElement.section.summaryProperties.style}>
+                  <li style={customElement.section.summaryProperties.style}>
+                    {customElement.section.summaryProperties.summary}
+                  </li>
+                </ul>
               )}
             </>
           )}
         {/* Skills Section */}
-        {customElement.sectionType === "Skills" &&
+        {customElement.sectionType === sectionType.skills &&
           customElement.section.showSection && (
             <>
               {customElement.section.showSkill && (
@@ -702,7 +715,7 @@ const Section: React.FC<any> = ({ element }) => {
             </>
           )}
         {/* Custom Section */}
-        {customElement.sectionType === "CustomSection" && (
+        {customElement.sectionType === sectionType.customSection && (
           <div className="w-full">
             {customElement.section.showLabel && (
               <h3 style={customElement.section.lableProperties.style}>

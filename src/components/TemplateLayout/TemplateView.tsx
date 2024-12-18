@@ -37,7 +37,7 @@ function TemplateView({ template }: any) {
         <div className="w-full h-full bg-gray-100 bg-opacity-70 absolute flex items-center justify-center">
           <button
             onClick={() => {
-              navigate(`/build-resume/contact`);
+              navigate(`/build-resume/profile-status`);
             }}
             className="bg-blue-900 text-white px-4 py-2 rounded-md"
           >

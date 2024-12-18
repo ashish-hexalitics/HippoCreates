@@ -78,7 +78,7 @@ function RndElement({
       )
     );
   };
-
+  
   return (
     <div
       id="template-container"
@@ -108,27 +108,27 @@ function RndElement({
             size={{ width: el.width, height: el.height }}
             position={{ x: el.x, y: el.y }}
             onDrag={(e, d) => {
-              console.log(e)
+              console.log(e);
               handleDrag(d.x, d.y);
               if (isSelected && selectedElementIds.length > 1) {
                 moveGroup(d.deltaX, d.deltaY);
               }
             }}
             onDragStop={(e, d) => {
-              console.log(e)
+              console.log(e);
               handleDragStop(el.id, d.x, d.y);
               setSelectedElementId(el.id);
             }}
             onResize={(e, direction, ref, delta, position) => {
-              console.log(e, direction, ref, delta, position)
+              console.log(e, direction, ref, delta, position);
               handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
             }}
             onResizeStop={(e, direction, ref, delta, position) => {
-              console.log(e, direction, ref, delta, position)
+              console.log(e, direction, ref, delta, position);
               handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
             }}
             onContextMenu={(e: any) => handleContextMenu(e, el.id)}
-            onClick={(e:any) => handleElementClick(e, el.id)}
+            onClick={(e: any) => handleElementClick(e, el.id)}
             bounds="parent"
             disableDragging={roleName === "utilizer"}
           >

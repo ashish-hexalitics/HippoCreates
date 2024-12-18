@@ -22,10 +22,12 @@ function ContactPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+
   const resumeDetailsSlice = useAppSelector(
     (state: RootState) => state.resumeDetailsSlice
   );
 
+  
   const validationSchema = Yup.object({
     firstName: Yup.string()
       .max(15, "Must be 15 characters or less")
@@ -79,19 +81,18 @@ function ContactPage() {
   });
 
   useEffect(() => {
-    if (data?.data) {
-      dispatch(getUserResumeData(data?.data));
+    if (resumeDetailsSlice) {
       formik.setValues({
-        firstName: data?.data?.userInfo?.firstName || "",
-        lastName: data?.data?.userInfo?.lastName || "",
-        city: data?.data?.userInfo?.city || "",
-        country: data?.data?.userInfo?.country || "",
-        zipCode: data?.data?.userInfo?.zipCode || "",
-        phone: data?.data?.userInfo?.phone || "",
-        otherEmail: data?.data?.userInfo?.otherEmail || "",
+        firstName: resumeDetailsSlice?.userInfo?.firstName || "",
+        lastName: resumeDetailsSlice?.userInfo?.lastName || "",
+        city: resumeDetailsSlice?.userInfo?.city || "",
+        country: resumeDetailsSlice?.userInfo?.country || "",
+        zipCode: resumeDetailsSlice?.userInfo?.zipCode || "",
+        phone: resumeDetailsSlice?.userInfo?.phone || "",
+        otherEmail: resumeDetailsSlice?.userInfo?.otherEmail || "",
       });
     }
-  }, [data, dispatch]);
+  }, [resumeDetailsSlice, dispatch]);
 
   const nextPage = () => {
     navigate(`/build-resume/experience`);

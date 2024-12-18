@@ -46,15 +46,15 @@ export const userResumeApi: any = createApi({
         },
       }),
     }),
-    // getUserResumeSkills: builder.query<any, void>({
-    //   query: () => ({
-    //     url: `/skills/get/user-skill`,
-    //     method: "GET",
-    //     headers: {
-    //       authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    //     },
-    //   }),
-    // }),
+    getUserCompletionStatus: builder.query<any, void>({
+      query: () => ({
+        url: `/users/step/completion/status`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }),
+    }),
     createUserResumeSkills: builder.mutation<any, IUserEmployment>({
       query: (credentials) => ({
         url: `/skills/add/user-skill`,
@@ -74,5 +74,5 @@ export const {
   useCreateUserResumeEmploymentsMutation,
   useCreateUserResumeEducationsMutation,
   useCreateUserResumeSkillsMutation,
-  // useGetUserResumeSkillsQuery
+  useGetUserCompletionStatusQuery
 } = userResumeApi;

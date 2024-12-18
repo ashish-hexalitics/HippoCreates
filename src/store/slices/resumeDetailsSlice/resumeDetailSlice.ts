@@ -7,6 +7,12 @@ interface IState {
   employments?: any[];
   skills?: any[];
   userInfo?: IUserInfo;
+  step?: {
+    route: string;
+    step: number;
+    field: string;
+    completed: boolean;
+  }[];
 }
 
 const initialState: IState = {
@@ -30,6 +36,38 @@ const initialState: IState = {
     description: "",
     title: "",
   },
+  step: [
+    {
+      route: "build-resume/contact",
+      step: 1,
+      field: "userInfo",
+      completed: false,
+    },
+    {
+      route: "build-resume/experience",
+      step: 2,
+      field: "employments",
+      completed: false,
+    },
+    {
+      route: "build-resume/education",
+      step: 3,
+      field: "educations",
+      completed: false,
+    },
+    {
+      route: "build-resume/skills",
+      step: 4,
+      field: "skills",
+      completed: false,
+    },
+    {
+      route: "build-resume/additional-details",
+      step: 5,
+      field: "additionalDetails",
+      completed: false,
+    },
+  ],
 };
 
 export const createResumeDetailsSlice = createSlice({
@@ -37,20 +75,22 @@ export const createResumeDetailsSlice = createSlice({
   initialState,
   reducers: {
     getUserResumeData: (state: IState, action: PayloadAction<any>) => {
-      state = action.payload;
-      return state;
+      return { ...state, ...action.payload };
     },
     updateUserResumeData: (state: IState | any, action: PayloadAction<any>) => {
-      state[action.payload.key] = {
-        ...state[action.payload.key],
-        ...action.payload
+      return {
+        ...state,
+        ...(action.payload.key
+          ? { [action.payload.key]: action.payload }
+          : action.payload),
       };
-      return state;
     },
   },
 });
 
-export const { getUserResumeData, updateUserResumeData } =
-  createResumeDetailsSlice.actions;
+export const {
+  getUserResumeData,
+  updateUserResumeData,
+} = createResumeDetailsSlice.actions;
 
 export default createResumeDetailsSlice.reducer;
