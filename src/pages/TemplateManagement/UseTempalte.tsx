@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   useGetTemplateQuery,
-  useUpdateTemplateMutation,
+  // useUpdateTemplateMutation,
 } from "../../store/slices/userSlice/apiSlice";
 // import { getUserResumeData } from "../../store/slices/resumeDetailsSlice/resumeDetailSlice";
 import { getTemplateSlice } from "../../store/slices/userSlice/userSlice";
@@ -9,14 +9,18 @@ import TemplateSideBar from "../../components/TemplateLayout/RightSidebar/Templa
 import PDFSizeModal from "../../components/TemplateLayout/PDFSizeModal";
 import TopBar from "../../components/TemplateLayout/TopMenu/TopBar";
 import RndElement from "../../components/TemplateLayout/RndElement";
-import { useCreateTemplatesMutation } from "../../store/slices/userSlice/apiSlice";
-import {
-  createTemplatesSlice,
-  updateTemplateSlice,
-} from "../../store/slices/userSlice/userSlice";
+// import { useCreateTemplatesMutation } from "../../store/slices/userSlice/apiSlice";
+// import {
+//   createTemplatesSlice,
+//   updateTemplateSlice,
+// } from "../../store/slices/userSlice/userSlice";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import { useGetUserResumeInfoQuery } from "../../store/slices/resumeDetailsSlice/apiSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useNavigate, useParams } from "react-router-dom";
+// import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
 import ViewModal from "../../components/Common/Modal/ViewModal";
@@ -25,7 +29,7 @@ import TemplateView from "../../components/TemplateLayout/TemplateView";
 function UseTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { data: userResume } = useGetUserResumeInfoQuery();
   const roleName: string | null = localStorage.getItem("role");
 
@@ -52,12 +56,13 @@ function UseTemplate() {
   const { data } = useGetTemplateQuery(params?.templateId, {
     skip: !params?.templateId,
   });
-  const [createTemplates] = useCreateTemplatesMutation();
-  const [updateTemplate] = useUpdateTemplateMutation();
+  // const [createTemplates] = useCreateTemplatesMutation();
+  // const [updateTemplate] = useUpdateTemplateMutation();
 
   useEffect(() => {
     if (params?.templateId) {
       setIsEdit(true);
+      console.log(isEdit)
     }
   }, [params?.templateId]);
 
@@ -75,16 +80,13 @@ function UseTemplate() {
             };
           }
         );
-        console.log(modifiedTemplateData,"modifiedTemplateData")
         setElements(modifiedTemplateData);
       }
     }
   }, [data?.template, userResume]);
 
   const getNestedProperty = (obj: any, path: string) => {
-    return path
-      .split('.')
-      .reduce((acc, part) => acc && acc[part], obj); 
+    return path.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
 
   // console.log(data?.template,userJson.value)
@@ -152,22 +154,44 @@ function UseTemplate() {
         layer: elements,
         categoryId: params.categoryId,
       };
-      try {
-        if (isEdit) {
-          const response = await updateTemplate({
-            ...payload,
-            templateId: template._id,
-          }).unwrap();
-          dispatch(updateTemplateSlice(response.template));
-        } else {
-          const response = await createTemplates(payload).unwrap();
-          dispatch(createTemplatesSlice(response.template));
-        }
-      } catch (error) {
-        console.error("Error saving template:", error);
-      } finally {
-        navigate(-1);
+      console.log(payload);
+      await generatePdf(htmlString);
+    }
+  };
+
+  const generatePdf = async (doc: any) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = doc;
+    tempDiv.style.position = "relative";
+    tempDiv.style.width = "1000px";
+    tempDiv.style.height = "1000px";
+    document.body.appendChild(tempDiv);
+    try {
+      const canvas = await html2canvas(tempDiv, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+      });
+
+      console.log("Canvas:", canvas);
+      const imgData = canvas.toDataURL("image/png");
+
+      if (!imgData || imgData === "data:,") {
+        throw new Error(
+          "Canvas rendering failed or resulted in empty image data."
+        );
       }
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("document.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      document.body.removeChild(tempDiv);
     }
   };
 
@@ -254,7 +278,7 @@ function UseTemplate() {
   };
 
   const handleAction = () => {};
-  const selectedElement:Element|undefined =
+  const selectedElement: Element | undefined =
     elements && Array.isArray(elements)
       ? elements.find((el) => el.id === selectedElementId)
       : undefined;
@@ -332,7 +356,7 @@ function UseTemplate() {
           selectedElementId && updateElement(selectedElementId, data)
         }
         roleName={roleName}
-      />      
+      />
       <PDFSizeModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

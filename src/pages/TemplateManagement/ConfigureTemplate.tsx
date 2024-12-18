@@ -13,6 +13,8 @@ import {
   createTemplatesSlice,
   updateTemplateSlice,
 } from "../../store/slices/userSlice/userSlice";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import { updateLayout } from "../../store/slices/adminLayoutSlice/adminLayoutSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate, useParams } from "react-router-dom";
@@ -155,22 +157,63 @@ function ConfigureTemplate() {
         layer: elements,
         categoryId: params.categoryId,
       };
-      try {
-        if (isEdit) {
-          const response = await updateTemplate({
-            ...payload,
-            templateId: template._id,
-          }).unwrap();
-          dispatch(updateTemplateSlice(response.template));
-        } else {
-          const response = await createTemplates(payload).unwrap();
-          dispatch(createTemplatesSlice(response.template));
+      
+      if (roleName === "admin") {
+        try {
+          if (isEdit) {
+            const response = await updateTemplate({
+              ...payload,
+              templateId: template._id,
+            }).unwrap();
+            dispatch(updateTemplateSlice(response.template));
+          } else {
+            const response = await createTemplates(payload).unwrap();
+            dispatch(createTemplatesSlice(response.template));
+          }
+        } catch (error) {
+          console.error("Error saving template:", error);
+        } finally {
+          navigate(-1);
         }
-      } catch (error) {
-        console.error("Error saving template:", error);
-      } finally {
-        navigate(-1);
+      } else {
+        await generatePdf(payload.document);
       }
+    }
+  };
+
+  const generatePdf = async (doc: any) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = doc;
+    tempDiv.style.position = "relative";
+    tempDiv.style.width = "1000px";
+    tempDiv.style.height = "1000px";
+    document.body.appendChild(tempDiv);
+    try {
+      const canvas = await html2canvas(tempDiv, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+      });
+
+      console.log("Canvas:", canvas);
+      const imgData = canvas.toDataURL("image/png");
+
+      if (!imgData || imgData === "data:,") {
+        throw new Error(
+          "Canvas rendering failed or resulted in empty image data."
+        );
+      }
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("document.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      document.body.removeChild(tempDiv);
     }
   };
 
@@ -296,13 +339,13 @@ function ConfigureTemplate() {
                   listItemsFontSize: selectedElement.listItemsFontSize,
                   listItemsFontWeight: selectedElement.listItemsFontWeight,
                   listItemType: selectedElement.listItemType,
-                  listItemTextDecoration: selectedElement.listItemTextDecoration
+                  listItemTextDecoration:
+                    selectedElement.listItemTextDecoration,
                 }),
             }
       )
     );
   };
-  console.log(elements,"elements")
 
   return (
     <div className="h-full w-full bg-gray-100 flex relative">
