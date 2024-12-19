@@ -77,6 +77,12 @@ const sectionOptions: {
     key: "data.skills",
   },
   {
+    label: "Add Profile Image",
+    tag: "section",
+    sectionType: "ProfileImage",
+    key: "data.user",
+  },
+  {
     label: "Add Your Custom Section",
     tag: "section",
     sectionType: "CustomSection",

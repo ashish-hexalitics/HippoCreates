@@ -2,6 +2,7 @@ import React from "react";
 import DynamicEducationSection from "./DynamicEducationSection";
 import DynamicEmployementSection from "./DynamicEmployementSection";
 import { sectionType } from "../../../constant/sectionType";
+import Icons from "../Icons/Icon";
 
 const Summary = {
   showSection: true,
@@ -296,6 +297,48 @@ const CustomSection = {
     },
   },
 };
+
+const ProfileImageSection = {
+  showSection: true,
+  sectionType: "ProfileImage",
+  showLabel: true,
+  showSkill: true,
+  style: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "",
+    padding: 0,
+    textAlign: "left",
+    display: "flex",
+    flexDirection: "column",
+  },
+  iconProperties: {
+    lable: "Upload Image",
+    ProfileIcon: "iconify~gg:profile",
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      padding: "",
+    },
+  },
+  imageProperties: {
+    imageUrl: "https://example.com/image1.jpg",
+    // https://via.placeholder.com/150
+    style: {
+      color: "",
+      textAlign: "",
+      fontWeight: "",
+      textDecoration: "",
+      listStyle: "circle",
+      display: "flex",
+      flexDirection: "column",
+      padding: "",
+    },
+  },
+};
+
 const Section: React.FC<any> = ({ element }) => {
   const customElement: any = {
     ...element,
@@ -577,6 +620,47 @@ const Section: React.FC<any> = ({ element }) => {
             },
           }
         : {}),
+      ...(element.sectionType && sectionType.profileImage
+        ? {
+            ...ProfileImageSection,
+            iconProperties: {
+              ...ProfileImageSection.iconProperties,
+              ProfileIcon: element?.ProfileIcon
+                ? element?.ProfileIcon
+                : ProfileImageSection.iconProperties.ProfileIcon,
+              style: {
+                ...ProfileImageSection.style,
+                color: element?.IconColor,
+                fontSize: `${element.labelsFontSize}px`,
+              },
+            },
+            imageProperties: {
+              ...ProfileImageSection.imageProperties,
+              imageUrl: element?.data?.image
+                ? element.data?.image
+                : ProfileImageSection.imageProperties.imageUrl,
+              style: {
+                borderRadius: "",
+                border: "2px solid #999",
+              },
+            },
+            style: {
+              ...Skills.style,
+              [element.SectionBorder]:
+                element.SectionBorderWidth +
+                "px solid " +
+                element.SectionBorderColor,
+              ...(element.paddingPosition &&
+              typeof element.paddingPosition === "string" &&
+              Object.keys(JSON.parse(element.paddingPosition)) &&
+              typeof JSON.parse(element.paddingPosition) === "object"
+                ? JSON.parse(element.paddingPosition)
+                : {}),
+              textAlign: element.SectionTextAlignMent,
+              backgroundColor: element.SectionBgColor,
+            },
+          }
+        : {}),
     },
   };
 
@@ -585,27 +669,28 @@ const Section: React.FC<any> = ({ element }) => {
     <div>
       <div className="w-full" style={customElement.section.style}>
         {/* Common Labels */}
-        {customElement.section.showLabel && (
-          <div className="flex items-center">
-            {element.showDot === "dot" && (
-              <div
-                className={`me-2  rounded-full`}
-                style={{
-                  width: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
-                  height: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
-                  backgroundColor:
-                    customElement.section.lableProperties.style.color,
-                }}
-              ></div>
-            )}
-            <h3
-              style={customElement.section.lableProperties.style}
-              className="flex"
-            >
-              {customElement.section.lableProperties.lable}
-            </h3>
-          </div>
-        )}
+        {customElement.section.showLabel &&
+          customElement.section?.lableProperties && (
+            <div className="flex items-center">
+              {element.showDot === "dot" && (
+                <div
+                  className={`me-2  rounded-full`}
+                  style={{
+                    width: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
+                    height: `calc(${customElement.section.lableProperties.style.fontSize} - 9px)`,
+                    backgroundColor:
+                      customElement.section.lableProperties.style.color,
+                  }}
+                ></div>
+              )}
+              <h3
+                style={customElement.section?.lableProperties?.style}
+                className="flex"
+              >
+                {customElement.section.lableProperties.lable}
+              </h3>
+            </div>
+          )}
         {/* Contact Section */}
         {customElement.sectionType === sectionType.contact &&
           customElement.section.contactProperties.contactDetail && (
@@ -721,6 +806,24 @@ const Section: React.FC<any> = ({ element }) => {
               <h3 style={customElement.section.lableProperties.style}>
                 {customElement.section.lableProperties.lable}
               </h3>
+            )}
+          </div>
+        )}
+        {/* profileImage */}
+        {customElement.sectionType === sectionType.profileImage && (
+          <div className="w-full">
+            {customElement.section.imageProperties.imageUrl ? (
+              <img src={customElement.section.imageProperties.imageUrl} />
+            ) : (
+              <Icons
+                element={{
+                  ...element,
+                  content: customElement.section.iconProperties.ProfileIcon,
+                  width: customElement.section.iconProperties.style.fontSize,
+                  height: customElement.section.iconProperties.style.fontSize,
+                  color: customElement.section.iconProperties.style.color,
+                }}
+              />
             )}
           </div>
         )}

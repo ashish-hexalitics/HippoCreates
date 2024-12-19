@@ -26,8 +26,8 @@ function TopBar({
   addShape,
   setIsViewModalOpen,
   openThirdPartyUpload,
-  // roleName,
-}: ITopBar) {
+}: // roleName,
+ITopBar) {
   const [showShapeDropdown, setShowShapeDropdown] = useState(false);
   const [selectedShape, setSelectedShape] = useState<string | null>(null);
 
@@ -70,7 +70,9 @@ function TopBar({
       />
       <div className="flex justify-end">
         <button
-          onClick={() => setIsViewModalOpen(true)}
+          onClick={() => {
+            setIsViewModalOpen(true);
+          }}
           className="text-white rounded-md hover:bg-gray-600 transition py-2 px-4"
         >
           <FaArrowsToEye style={{ fontSize: "20px", margin: "0 10px" }} />

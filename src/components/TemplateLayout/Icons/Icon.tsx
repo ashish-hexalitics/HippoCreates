@@ -8,8 +8,8 @@ function Icons({ element }: IconProps) {
   const iconName = element.content.split("~")[1];
   const iconStyle = {
     color: element.color || "black",
-    width: element.color || 24,
-    height: element.color || 24,
+    width: element.width || 24,
+    height: element.height || 24,
   };
   return (
     <div style={{color:iconStyle.color}}>

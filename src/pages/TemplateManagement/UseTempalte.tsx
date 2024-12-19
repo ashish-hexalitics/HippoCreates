@@ -23,8 +23,8 @@ import { useParams } from "react-router-dom";
 
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
-import ViewModal from "../../components/Common/Modal/ViewModal";
-import TemplateView from "../../components/TemplateLayout/TemplateView";
+// import ViewModal from "../../components/Common/Modal/ViewModal";
+import TemplatePreView from "../../components/TemplateLayout/TemplatePreView";
 
 function UseTemplate() {
   const params = useParams();
@@ -62,7 +62,7 @@ function UseTemplate() {
   useEffect(() => {
     if (params?.templateId) {
       setIsEdit(true);
-      console.log(isEdit)
+      console.log(isEdit);
     }
   }, [params?.templateId]);
 
@@ -84,6 +84,22 @@ function UseTemplate() {
       }
     }
   }, [data?.template, userResume]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setIsViewModalOpen(false);
+      }
+    };
+
+    // Add fullscreenchange event listener
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   const getNestedProperty = (obj: any, path: string) => {
     return path.split(".").reduce((acc, part) => acc && acc[part], obj);
@@ -277,100 +293,94 @@ function UseTemplate() {
     setSelectedElementId(newElement.id);
   };
 
-  const handleAction = () => {};
   const selectedElement: Element | undefined =
     elements && Array.isArray(elements)
       ? elements.find((el) => el.id === selectedElementId)
       : undefined;
 
   return (
-    <div className="h-full w-full bg-gray-100 flex relative">
-      <div
-        style={{ width: "calc(100% - 300px)", height: "100%" }}
-        className="relative"
-      >
-        <div style={{ height: "60px" }}>
-          <TopBar
-            isPortrait={isPortrait}
-            toggleOrientation={toggleOrientation}
-            zoomLevel={zoomLevel}
-            resetZoom={resetZoom}
-            zoomIn={zoomIn}
-            zoomOut={zoomOut}
-            {...(roleName === "admin" && {
-              addElement: addElement,
-              openThirdPartyUpload: openThirdPartyUpload,
-              onUpload: handleUpload,
-              addShape: addShape,
-            })}
-            setIsModalOpen={setIsModalOpen}
-            setIsViewModalOpen={setIsViewModalOpen}
-            roleName={roleName}
-          />
-        </div>
+    <>
+      <div className="h-full w-full bg-gray-100 flex relative">
         <div
-          className="py-10 relative overflow-y-scroll"
-          style={{
-            backgroundImage: "radial-gradient(#3d3d3d 1px, transparent 0)",
-            backgroundSize: "20px 20px",
-            backgroundPosition: "-19px -19px",
-            height: "calc(100% - 120px)",
-            perspective: "3000px",
-          }}
+          style={{ width: "calc(100% - 300px)", height: "100%" }}
+          className="relative"
         >
-          <RndElement
-            isPortrait={isPortrait}
-            zoomLevel={zoomLevel}
-            elements={elements}
-            handleDrag={handleDrag}
-            handleDragStop={handleDragStop}
-            setSelectedElementId={setSelectedElementId}
-            handleResizeStop={handleResizeStop}
-            handleContentChange={handleContentChange}
-            guideLines={guideLines}
-            setElements={setElements}
-            selectedElement={selectedElement}
-            roleName={roleName}
-          />
+          <div style={{ height: "60px" }}>
+            <TopBar
+              isPortrait={isPortrait}
+              toggleOrientation={toggleOrientation}
+              zoomLevel={zoomLevel}
+              resetZoom={resetZoom}
+              zoomIn={zoomIn}
+              zoomOut={zoomOut}
+              {...(roleName === "admin" && {
+                addElement: addElement,
+                openThirdPartyUpload: openThirdPartyUpload,
+                onUpload: handleUpload,
+                addShape: addShape,
+              })}
+              setIsModalOpen={setIsModalOpen}
+              setIsViewModalOpen={setIsViewModalOpen}
+              roleName={roleName}
+            />
+          </div>
+          <div
+            className="py-10 relative overflow-y-scroll"
+            style={{
+              backgroundImage: "radial-gradient(#3d3d3d 1px, transparent 0)",
+              backgroundSize: "20px 20px",
+              backgroundPosition: "-19px -19px",
+              height: "calc(100% - 120px)",
+              perspective: "3000px",
+            }}
+          >
+            <RndElement
+              isPortrait={isPortrait}
+              zoomLevel={zoomLevel}
+              elements={elements}
+              handleDrag={handleDrag}
+              handleDragStop={handleDragStop}
+              setSelectedElementId={setSelectedElementId}
+              handleResizeStop={handleResizeStop}
+              handleContentChange={handleContentChange}
+              guideLines={guideLines}
+              setElements={setElements}
+              selectedElement={selectedElement}
+              roleName={roleName}
+            />
+          </div>
+          {/* Zoom Slider */}
+          <div
+            style={{ height: "60px" }}
+            className="absolute bottom-0 left-0 w-full p-4 bg-gray-200 flex justify-center"
+          >
+            <input
+              type="range"
+              min="0.1"
+              max="3"
+              step="0.1"
+              value={zoomLevel}
+              onChange={handleZoomChange}
+              className="w-3/4"
+            />
+          </div>
         </div>
-        {/* Zoom Slider */}
-        <div
-          style={{ height: "60px" }}
-          className="absolute bottom-0 left-0 w-full p-4 bg-gray-200 flex justify-center"
-        >
-          <input
-            type="range"
-            min="0.1"
-            max="3"
-            step="0.1"
-            value={zoomLevel}
-            onChange={handleZoomChange}
-            className="w-3/4"
-          />
-        </div>
+        <TemplateSideBar
+          element={selectedElement}
+          addElement={addElement}
+          onChange={(data) =>
+            selectedElementId && updateElement(selectedElementId, data)
+          }
+          roleName={roleName}
+        />
+        <PDFSizeModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSaveTemplate}
+        />
       </div>
-      <TemplateSideBar
-        element={selectedElement}
-        addElement={addElement}
-        onChange={(data) =>
-          selectedElementId && updateElement(selectedElementId, data)
-        }
-        roleName={roleName}
-      />
-      <PDFSizeModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveTemplate}
-      />
-      <ViewModal
-        isOpen={isViewModalOpen}
-        onClose={() => setIsViewModalOpen(false)}
-        handleAction={handleAction}
-        title="View Template"
-      >
-        <TemplateView template={template} />
-      </ViewModal>
-    </div>
+      {isViewModalOpen && <TemplatePreView template={template} />}
+    </>
   );
 }
 

@@ -30,10 +30,10 @@ function ChooseResumePage() {
   const handleChooseTemplate = (data: any) => {
     setTemplateData(data);
     setIsViewModalOpen(true);
-    updateQuery(data)
+    updateQuery(data);
   };
 
-  const updateQuery = (data: any)  => {
+  const updateQuery = (data: any) => {
     localStorage.setItem("categoryId", data.categoryId);
     localStorage.setItem("templateId", data._id);
   };
@@ -85,47 +85,56 @@ function ChooseResumePage() {
         </div>
 
         {/* Template List */}
-        <div className="flex flex-wrap gap-4">
-          {templates.map((template: { document: string; id: Key | null | undefined; }) => {
-            const sanitizedDocument = template.document.replace(
-              /contenteditable\s*=\s*["]?true["]?/gi,
-              "contentEditable='false'"
-            );
-            return (
-              <div
-                key={template.id}
-                className="relative bg-white shadow-md rounded-lg overflow-hidden border-[#ddd] border-2 hover:border-blue-500 transition duration-300 ease-in-out"
-              >
-                {/* Template Preview */}
+        <div className="flex flex-wrap">
+          {templates.map(
+            (template: { document: string; id: Key | null | undefined }) => {
+              const sanitizedDocument = template.document.replace(
+                /contenteditable\s*=\s*["]?true["]?/gi,
+                "contentEditable='false'"
+              );
+              return (
                 <div
-                  dangerouslySetInnerHTML={{ __html: sanitizedDocument }}
-                  className="border border-gray-300 bg-white relative overflow-hidden"
+                  key={template.id}
                   style={{
-                    width: `${a4Portrait.width}px`,
-                    height: `${a4Portrait.height}px`,
-                    transform: "scale(1)",
+                    transform: "scale(.5)",
                     transformOrigin: "top left",
-                    margin: "auto",
                   }}
-                />
+                  className="relative bg-white shadow-md rounded-lg overflow-hidden border-[#ddd] border-2 hover:border-blue-500 transition duration-300 ease-in-out"
+                >
+                  {/* Template Preview */}
+                  <div
+                    dangerouslySetInnerHTML={{ __html: sanitizedDocument }}
+                    className="border border-gray-300 bg-white relative overflow-hidden"
+                    style={{
+                      width: `${a4Portrait.width}px`,
+                      height: `${a4Portrait.height}px`,
+                      transform: "scale(1)",
+                      transformOrigin: "top left",
+                      margin: "auto",
+                    }}
+                  />
 
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 ease-in-out">
-                  <button
-                    onClick={() => handleChooseTemplate(template)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                  >
-                    Choose Template
-                  </button>
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                    <button
+                      onClick={() => handleChooseTemplate(template)}
+                      // className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                      className="bg-blue-900 h-[80px] text-white text-2xl font-medium px-4 py-2 rounded-md w-[80%] absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%]"
+                    >
+                      Choose Template
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
           <ViewModal
             isOpen={isViewModalOpen}
             onClose={handleclose}
             title="View Template"
           >
-            <TemplateView template={templateData} />
+            <div className="max-h-96 overflow-hidden">
+              <TemplateView template={templateData} />
+            </div>
           </ViewModal>
         </div>
       </div>

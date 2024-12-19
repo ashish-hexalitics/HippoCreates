@@ -157,7 +157,7 @@ function ConfigureTemplate() {
         layer: elements,
         categoryId: params.categoryId,
       };
-      
+
       if (roleName === "admin") {
         try {
           if (isEdit) {
@@ -440,7 +440,9 @@ function ConfigureTemplate() {
         handleAction={handleAction}
         title="View Template"
       >
-        <TemplateView template={template} />
+        <div className="max-h-96 overflow-hidden">
+          <TemplateView template={template} />
+        </div>
       </ViewModal>
     </div>
   );

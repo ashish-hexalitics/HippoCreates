@@ -60,7 +60,7 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
           roleName={roleName}
         />
       )}
-      {roleName === "admin" && (
+      {roleName == "admin" && (
         <>
           {element.content.startsWith("rectangle") && (
             <RectangleElement
@@ -92,6 +92,19 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
               element={element}
               handleInputChange={handleInputChange}
               handleCopyStyle={handleCopyStyle}
+              roleName={roleName}
+            />
+          )}
+        </>
+      )}
+      {roleName == "utilizer" && (
+        <>
+          {element.content.startsWith("Section") && (
+            <SectionElement
+              element={element}
+              handleInputChange={handleInputChange}
+              handleCopyStyle={handleCopyStyle}
+              roleName={"utilizer"}
             />
           )}
         </>

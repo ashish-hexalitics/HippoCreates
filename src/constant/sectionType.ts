@@ -5,4 +5,5 @@ export const sectionType = {
     summary:"Summary",
     skills:"Skills",
     customSection:"CustomSection",
+    profileImage:"ProfileImage"
 };

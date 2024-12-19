@@ -29,7 +29,7 @@ const ViewModal: React.FC<ViewModalProps> = ({
             &#x2715;
           </button>
         </div>
-        <div className="px-6 py-2">{children}</div>
+        <div className="px-6 py-2 overflow-scroll">{children}</div>
         <div className="flex items-center justify-end px-6 py-2 bg-gray-100 border-t space-x-4">
           <button
             onClick={onClose}

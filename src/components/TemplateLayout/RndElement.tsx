@@ -78,7 +78,7 @@ function RndElement({
       )
     );
   };
-  
+
   return (
     <div
       id="template-container"
@@ -115,7 +115,7 @@ function RndElement({
               }
             }}
             onDragStop={(e, d) => {
-              console.log(e);
+              console.log(e.target);
               handleDragStop(el.id, d.x, d.y);
               setSelectedElementId(el.id);
             }}

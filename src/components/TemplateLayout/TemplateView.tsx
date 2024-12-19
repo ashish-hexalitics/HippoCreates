@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { pixelsToCm } from "./constant";
 const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 
-function TemplateView({ template }: any) {
+function TemplateView({ template, showTemplateHover = true }: any) {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -33,13 +33,13 @@ function TemplateView({ template }: any) {
           transformOrigin: "top left",
         }}
       />
-      {isHovered && (
-        <div className="w-full h-full bg-gray-100 bg-opacity-70 absolute flex items-center justify-center">
+      {isHovered && showTemplateHover && (
+        <div className="w-full h-full bg-gray-100 bg-opacity-70 absolute">
           <button
             onClick={() => {
               navigate(`/build-resume/profile-status`);
             }}
-            className="bg-blue-900 text-white px-4 py-2 rounded-md"
+            className="bg-blue-900 h-[50px] text-white px-4 py-2 rounded-md w-[80%] absolute top-[15%] left-[50%] -translate-x-[50%]"
           >
             Use This Template
           </button>
