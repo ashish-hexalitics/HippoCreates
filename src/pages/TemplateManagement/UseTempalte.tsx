@@ -23,7 +23,6 @@ import { useParams } from "react-router-dom";
 
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
-// import ViewModal from "../../components/Common/Modal/ViewModal";
 import TemplatePreView from "../../components/TemplateLayout/TemplatePreView";
 
 function UseTemplate() {

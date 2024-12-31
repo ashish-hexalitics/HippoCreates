@@ -20,8 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
-import ViewModal from "../../components/Common/Modal/ViewModal";
-import TemplateView from "../../components/TemplateLayout/TemplateView";
+import TemplatePreView from "../../components/TemplateLayout/TemplatePreView";
 import { TemplateStyle } from "../../dto/templateStyle.dto";
 
 function ConfigureTemplate() {
@@ -72,6 +71,22 @@ function ConfigureTemplate() {
       setElements(data?.template?.layer);
     }
   }, [data?.template]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setIsViewModalOpen(false);
+      }
+    };
+
+    // Add fullscreenchange event listener
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   const addElement = (el: {
     name: string;
@@ -299,7 +314,7 @@ function ConfigureTemplate() {
     setSelectedElementId(newElement.id);
   };
 
-  const handleAction = () => {};
+  // const handleAction = () => {};
   const selectedElement: TemplateStyle | undefined | any =
     elements && Array.isArray(elements)
       ? elements.find((el) => el.id === selectedElementId)
@@ -434,16 +449,7 @@ function ConfigureTemplate() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveTemplate}
       />
-      <ViewModal
-        isOpen={isViewModalOpen}
-        onClose={() => setIsViewModalOpen(false)}
-        handleAction={handleAction}
-        title="View Template"
-      >
-        <div className="max-h-96 overflow-hidden">
-          <TemplateView template={template} />
-        </div>
-      </ViewModal>
+      {isViewModalOpen && <TemplatePreView template={template} />}
     </div>
   );
 }

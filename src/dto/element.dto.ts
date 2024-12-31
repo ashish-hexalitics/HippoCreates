@@ -47,16 +47,16 @@ export interface IRNDElement {
   isPortrait: React.ComponentState;
   elements: Element[];
   zoomLevel: number;
-  handleDrag: (x: number, y: number) => void;
-  handleDragStop: (id: number, x: number, y: number) => void;
-  setSelectedElementId: React.ComponentState;
-  handleResizeStop: (id: number, x: number, y: number) => void;
+  handleDrag?: (x: number, y: number) => void;
+  handleDragStop?: (id: number, x: number, y: number) => void;
+  setSelectedElementId?: React.ComponentState;
+  handleResizeStop?: (id: number, x: number, y: number) => void;
   handleContentChange?: (
     e: React.FormEvent<HTMLDivElement>,
     id: number
   ) => void;
-  guideLines: React.ComponentState;
-  setElements: React.ComponentState;
+  guideLines?: React.ComponentState;
+  setElements?: React.ComponentState;
   selectedElement?: Element;
   roleName: string | null;
   addSection?:(el: { name: string; value: string }) => void;

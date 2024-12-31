@@ -86,6 +86,10 @@ body {
 }
 
 /* resize */
+.resizeable-element {
+  transition: transform 0.2s ease-in-out, width 0.2s ease, height 0.2s ease;
+}
+
 .resizeable-element.selected .react-resizable-handle {
   display: block;
   border: 2px solid #3498db;

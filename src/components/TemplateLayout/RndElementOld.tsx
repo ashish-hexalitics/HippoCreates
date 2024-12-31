@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Rnd } from "react-rnd";
 import { pixelsToCm } from "./constant";
 import Shaps from "./Shaps/index";
@@ -34,6 +34,22 @@ function RndElement({
     elementId: number | null;
   }>({ visible: false, x: 0, y: 0, elementId: null });
   const [selectedElementIds, setSelectedElementIds] = useState<number[]>([]);
+  // const [positions, setPositions] = useState<{ [key: number]: number }>({});
+
+  // useEffect(() => {
+  //   const updatedPositions: { [key: number]: number } = {};
+  //   let cumulativeHeight = 0;
+
+  //   elements.forEach((el) => {
+  //     const elementHeight:any = document.getElementById(`element-${el.id}`)
+  //       ?.offsetHeight || el.height;
+  //     updatedPositions[el.id] = cumulativeHeight;
+  //     cumulativeHeight += elementHeight + 20;
+  //   });
+
+  //   setPositions(updatedPositions);
+  // }, [elements]);
+
 
   const handleContextMenu = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
@@ -66,11 +82,11 @@ function RndElement({
       setSelectedElementIds([id]);
     }
 
-    setSelectedElementId && setSelectedElementId(id);
+    setSelectedElementId(id);
   };
 
   const moveGroup = (dx: number, dy: number) => {
-    setElements && setElements((prevElements: { id: number; x: number; y: number }[]) =>
+    setElements((prevElements: { id: number; x: number; y: number }[]) =>
       prevElements.map((el: { id: number; x: number; y: number }) =>
         selectedElementIds.includes(el.id)
           ? { ...el, x: el.x + dx, y: el.y + dy }
@@ -96,7 +112,7 @@ function RndElement({
       }}
       onClick={(e) => {
         e.stopPropagation();
-        setSelectedElementId && setSelectedElementId(null);
+        setSelectedElementId(null);
         closeContextMenu();
       }}
     >
@@ -106,28 +122,27 @@ function RndElement({
           <Rnd
             key={el.id}
             size={{ width: el.width, height: el.height }}
+            // position={{ x: 0, y: positions[el.id] || el.y }}
             position={{ x: el.x, y: el.y }}
             onDrag={(e, d) => {
               console.log(e);
-              handleDrag && handleDrag(d.x, d.y);
+              handleDrag(d.x, d.y);
               if (isSelected && selectedElementIds.length > 1) {
                 moveGroup(d.deltaX, d.deltaY);
               }
             }}
             onDragStop={(e, d) => {
               console.log(e.target);
-              handleDragStop && handleDragStop(el.id, d.x, d.y);
-              setSelectedElementId && setSelectedElementId(el.id);
+              handleDragStop(el.id, d.x, d.y);
+              setSelectedElementId(el.id);
             }}
             onResize={(e, direction, ref, delta, position) => {
               console.log(e, direction, ref, delta, position);
-              handleResizeStop &&
-                handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
+              handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
             }}
             onResizeStop={(e, direction, ref, delta, position) => {
               console.log(e, direction, ref, delta, position);
-              handleResizeStop &&
-                handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
+              handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
             }}
             onContextMenu={(e: any) => handleContextMenu(e, el.id)}
             onClick={(e: any) => handleElementClick(e, el.id)}
@@ -195,7 +210,7 @@ function RndElement({
         elements={elements}
         setElements={setElements}
       />
-      {guideLines && <GuideLines guideLines={guideLines} />}
+      <GuideLines guideLines={guideLines} />
     </div>
   );
 }

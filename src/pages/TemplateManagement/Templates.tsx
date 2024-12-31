@@ -97,18 +97,17 @@ function TemplateList() {
           Create Your Template
         </button>
       </div>
-      <div className="flex flex-wrap">
+      <div className="grid grid-cols-3 gap-6">
         {Array.isArray(templates) &&
-          templates.map((template: any) => {
-            return (
-              <TemplateGrid
-                key={template?._id}
-                template={template}
-                handleDelete={handleDelete}
-              />
-            );
-          })}
+          templates.map((template: any) => (
+            <TemplateGrid
+              key={template?._id}
+              template={template}
+              handleDelete={handleDelete}
+            />
+          ))}
       </div>
+
       <AppModal
         isOpen={isModalOpen}
         onClose={toggleModal}
