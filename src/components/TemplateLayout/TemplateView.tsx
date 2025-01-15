@@ -14,25 +14,33 @@ function TemplateView({ template, showTemplateHover = true }: any) {
 
   return (
     <div
-      style={{ transform: "scale(1)", transformOrigin: "top left" }}
-      className="bg-blue-200 shadow-md overflow-hidden flex items-center justify-center relative"
+      // style={{ transform: "scale(1)", transformOrigin: "top left" }}
+      // className="bg-blue-200 shadow-md overflow-hidden flex items-center justify-center relative"
+      className="relative bg-white max-h-[400px] shadow-md rounded-lg overflow-hidden border-[#ddd] border-2 hover:border-blue-500 transition duration-300 ease-in-out"
+
+      id="preview-container"
+      // className="h-screen w-screen overflow-y-scroll absolute"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        dangerouslySetInnerHTML={{ __html: sanitizedDocument }}
-        className="border-2 border-gray-300 bg-white relative overflow-hidden box-border hover:border-blue-500"
-        style={{
-          width: `${a4Portrait.width}px`,
-          height: `${a4Portrait.height}px`,
-          position: "relative",
-          overflowY: "auto",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          transformOrigin: "top left",
-        }}
-      />
+        // style={{ transform: "scale(1)", transformOrigin: "top center" }}
+        className="bg-blue-200 shadow-md overflow-hidden flex items-center justify-center relative"
+      >
+        <div
+          dangerouslySetInnerHTML={{ __html: sanitizedDocument }}
+          className="border border-gray-300 bg-white relative overflow-hidden flex items-center justify-center mx-auto"
+          style={{
+            width: `${a4Portrait.width}px`,
+            height: `${a4Portrait.height}px`,
+            transform: "scale(.4)",
+            transformOrigin: "top left",
+            marginLeft: "8px",
+            display:"flex",
+            overflow: "hidden"
+          }}
+        />
+
       {isHovered && showTemplateHover && (
         <div className="w-full h-full bg-gray-100 bg-opacity-70 absolute">
           <button
@@ -45,6 +53,7 @@ function TemplateView({ template, showTemplateHover = true }: any) {
           </button>
         </div>
       )}
+      </div>
     </div>
   );
 }

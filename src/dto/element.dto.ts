@@ -15,8 +15,8 @@ export interface Element {
   width: number | string;
   height: number | string;
   content: string;
-  textVarient?: string ;
-  imageVarient?: string ;
+  textVarient?: string;
+  imageVarient?: string;
   color?: string;
   backgroundColor?: string;
   borderRadius?: number;
@@ -40,7 +40,7 @@ export interface Element {
   blur?: number;
   sectionType?: string;
   key?: string;
-  data?:any
+  data?: any;
 }
 
 export interface IRNDElement {
@@ -58,7 +58,7 @@ export interface IRNDElement {
   guideLines?: React.ComponentState;
   setElements?: React.ComponentState;
   selectedElement?: Element;
-  roleName: string | null;
-  addSection?:(el: { name: string; value: string }) => void;
+  roleName: string | null | "admin" | "utilizer";
+  addSection?: (el: { name: string; value: string }) => void;
   // copyLabelStyle?: string|number;
 }

@@ -9,6 +9,7 @@ import Section from "./Section/Section";
 import RightClickedHandle from "./ElementHandlers/RightClickedHandle";
 import ResizeHandler from "./ElementHandlers/ResizeHandler";
 import { IRNDElement } from "../../dto/element.dto";
+import GuideLines from "./GuideLines";
 
 const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 const a4Landscape = { width: pixelsToCm(1123), height: pixelsToCm(794) };
@@ -34,6 +35,11 @@ function RndElement({
     elementId: number | null;
   }>({ visible: false, x: 0, y: 0, elementId: null });
   const [selectedElementIds, setSelectedElementIds] = useState<number[]>([]);
+  // const [isResizing, setIsResizing] = useState(false);
+
+  const [height, setHeight] = useState<number>(
+    (isPortrait ? a4Portrait.height : a4Landscape.height) * zoomLevel
+  ); // Initial height
 
   const handleContextMenu = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
@@ -70,26 +76,31 @@ function RndElement({
   };
 
   const moveGroup = (dx: number, dy: number) => {
-    setElements && setElements((prevElements: { id: number; x: number; y: number }[]) =>
-      prevElements.map((el: { id: number; x: number; y: number }) =>
-        selectedElementIds.includes(el.id)
-          ? { ...el, x: el.x + dx, y: el.y + dy }
-          : el
-      )
-    );
+    setElements &&
+      setElements((prevElements: { id: number; x: number; y: number }[]) =>
+        prevElements.map((el: { id: number; x: number; y: number }) =>
+          selectedElementIds.includes(el.id)
+            ? { ...el, x: el.x + dx, y: el.y + dy }
+            : el
+        )
+      );
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setHeight((prevHeight) => Math.max(50, prevHeight + e.movementY));
+  };
+
+  // console.log(height)
   return (
     <div
       id="template-container"
-      className="border border-gray-300 bg-white relative overflow-hidden"
+      className="border border-gray-300 bg-white relative overflow-x-hidden"
       style={{
         width: `${
           (isPortrait ? a4Portrait.width : a4Landscape.width) * zoomLevel
         }px`,
-        height: `${
-          (isPortrait ? a4Portrait.height : a4Landscape.height) * zoomLevel
-        }px`,
+        height: `${height}px`,
+        resize: "vertical",
         margin: "auto",
         transformOrigin: "top left",
         transform: `transalate(-50%,-50%) scale(${zoomLevel})`,
@@ -99,6 +110,7 @@ function RndElement({
         setSelectedElementId && setSelectedElementId(null);
         closeContextMenu();
       }}
+      onMouseDown={handleMouseDown}
     >
       {elements.map((el) => {
         const isSelected = selectedElementIds.includes(el.id);
@@ -167,6 +179,7 @@ function RndElement({
                     element={el}
                     zoomLevel={zoomLevel}
                     handleContentChange={handleContentChange}
+                    roleName={roleName ? roleName : ""}
                   />
                 )}
               {el.content.startsWith("data:image/") ||
@@ -201,34 +214,3 @@ function RndElement({
 }
 
 export default RndElement;
-
-const GuideLines = ({ guideLines }: { guideLines: React.ComponentState }) => {
-  return (
-    <>
-      {guideLines.x !== null && (
-        <div
-          className="absolute bg-blue-500"
-          style={{
-            left: `${guideLines.x}px`,
-            top: 0,
-            width: "2px",
-            height: "100%",
-            zIndex: 10,
-          }}
-        />
-      )}
-      {guideLines.y !== null && (
-        <div
-          className="absolute bg-blue-500"
-          style={{
-            top: `${guideLines.y}px`,
-            left: 0,
-            width: "100%",
-            height: "2px",
-            zIndex: 10,
-          }}
-        />
-      )}
-    </>
-  );
-};

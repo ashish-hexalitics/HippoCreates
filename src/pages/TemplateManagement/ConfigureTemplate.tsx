@@ -16,6 +16,10 @@ import {
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { updateLayout } from "../../store/slices/adminLayoutSlice/adminLayoutSlice";
+import {
+  updateIsPortraitValue,
+  zoomInAndOut,
+} from "../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
@@ -29,6 +33,9 @@ function ConfigureTemplate() {
   const navigate = useNavigate();
   const roleName: string | null = localStorage.getItem("role");
   const layout = useAppSelector((state) => state.adminLayoutSlice.layout);
+  const configration = useAppSelector(
+    (state) => state.resumeDetailSlice.configration
+  );
   const { template } = useAppSelector((state: RootState) => state.userSlice);
   const [elements, setElements] = useState<Element[]>([]);
 
@@ -43,8 +50,7 @@ function ConfigureTemplate() {
     x: null,
     y: null,
   });
-  const [isPortrait, setIsPortrait] = useState(true);
-  const [zoomLevel, setZoomLevel] = useState(1); // Zoom state
+
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -111,7 +117,6 @@ function ConfigureTemplate() {
   };
 
   const addSection = (el: any) => {
-    console.log(el);
     const newElement = {
       id: Date.now(),
       x: 0,
@@ -167,7 +172,7 @@ function ConfigureTemplate() {
       const htmlString = templateElement.innerHTML;
       const payload = {
         document: htmlString,
-        orientation: isPortrait ? "portrait" : "landscape",
+        orientation: configration.isPortrait ? "portrait" : "landscape",
         size: size,
         layer: elements,
         categoryId: params.categoryId,
@@ -233,23 +238,23 @@ function ConfigureTemplate() {
   };
 
   const toggleOrientation = () => {
-    setIsPortrait(!isPortrait);
+    dispatch(updateIsPortraitValue(!configration.isPortrait));
   };
 
   const zoomIn = () => {
-    setZoomLevel(zoomLevel + 0.1);
+    dispatch(zoomInAndOut(configration.zoomLevel + 0.1));
   };
 
   const zoomOut = () => {
-    setZoomLevel(Math.max(0.1, zoomLevel - 0.1));
+    dispatch(zoomInAndOut(configration.zoomLevel - 0.1));
   };
 
   const resetZoom = () => {
-    setZoomLevel(1);
+    dispatch(zoomInAndOut(1));
   };
 
   const handleZoomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setZoomLevel(parseFloat(e.target.value));
+    dispatch(zoomInAndOut(parseFloat(e.target.value)));
   };
 
   const handleContentChange = (
@@ -297,6 +302,7 @@ function ConfigureTemplate() {
     setElements([...elements, newElement]);
     setSelectedElementId(newElement.id);
   };
+
   const addShape = (shape: string) => {
     const newElement = {
       id: Date.now(),
@@ -375,9 +381,9 @@ function ConfigureTemplate() {
       >
         <div style={{ height: "60px" }}>
           <TopBar
-            isPortrait={isPortrait}
+            isPortrait={configration.isPortrait}
             toggleOrientation={toggleOrientation}
-            zoomLevel={zoomLevel}
+            zoomLevel={configration.zoomLevel}
             resetZoom={resetZoom}
             zoomIn={zoomIn}
             zoomOut={zoomOut}
@@ -401,8 +407,8 @@ function ConfigureTemplate() {
           }}
         >
           <RndElement
-            isPortrait={isPortrait}
-            zoomLevel={zoomLevel}
+            isPortrait={configration.isPortrait}
+            zoomLevel={configration.zoomLevel}
             elements={elements}
             handleDrag={handleDrag}
             handleDragStop={handleDragStop}
@@ -425,7 +431,7 @@ function ConfigureTemplate() {
             min="0.1"
             max="2"
             step="0.1"
-            value={zoomLevel}
+            value={configration.zoomLevel}
             onChange={handleZoomChange}
             className="w-3/4"
           />

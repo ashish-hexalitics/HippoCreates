@@ -8,6 +8,8 @@ import {
 } from "../../../constant/dropDownOption";
 import { getPaddingOptions } from "../../../utills/UtillsFunc";
 import IconifySearch from "../TopMenu/IconifySearch";
+import { useGenerateSumaryWithAiMutation } from "../../../store/slices/ai/aiApi";
+import { useUpdateUserResumeInfoMutation } from "../../../store/slices/resumeDetailsSlice/apiSlice";
 
 const {
   TbBorderBottomPlus,
@@ -52,7 +54,14 @@ function SectionElement({
     { label: "Married Status", name: "marriedStatus", showField: false },
   ]);
 
+  const [aiSuggetions, setAiSuggetions] = useState<{ text: string }[]>([]);
+
+  const [generateSumaryWithAi, {isLoading: isAILoading }] = useGenerateSumaryWithAiMutation();
+
   const options = getPaddingOptions(paddingPix);
+  // const dispatch = useAppDispatch();
+  const [updateUserResumeInfo, { isLoading: isloadingUpdate }] =
+    useUpdateUserResumeInfoMutation();
 
   const handleCheckboxChange = (index: number) => {
     const modifiedField = fields.map((field, i) =>
@@ -66,7 +75,28 @@ function SectionElement({
     handleInputChange("ProfileIcon", url);
   };
 
-  // console.log(element, element.data.image, "element");
+  const generatePrompt = async () => {
+    const result = await generateSumaryWithAi({
+      promt: element?.data?.summary,
+    }).unwrap();
+
+    setAiSuggetions(result.data.options);
+  };
+
+  const onSubmit = async () => {
+    await updateUserResumeInfo({
+      summary: element?.data?.summary,
+      userId: element?.data.userId,
+      key: "userInfo",
+    }).unwrap();
+  };
+
+  const handleSelectSuggestion = (text: string) => {
+    handleInputChange("data", {
+      ...element.data,
+      summary: text,
+    });
+  };
 
   return (
     <>
@@ -777,17 +807,76 @@ function SectionElement({
         </div>
       )}
       {element.sectionType === sectionType.summary && (
-        <div className="w-full">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
+        <div className="w-full p-4 bg-white rounded-lg shadow-md">
+          {/* Heading */}
+          <h3 className="text-xl font-bold text-gray-800 mb-4">
             Professional Summary
           </h3>
+
+          {/* Textarea */}
           <textarea
-            placeholder="A brief summary of your professional background..."
-            className="mt-1 block w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
+            placeholder="Write a brief summary of your professional background..."
+            className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
             rows={4}
+            value={element?.data?.summary}
+            onChange={(e) =>
+              handleInputChange("data", {
+                ...element.data,
+                summary: e.target.value,
+              })
+            }
           />
+
+          {/* Button Section */}
+          <div className="flex items-center gap-4 mt-4">
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-300"
+              onClick={generatePrompt}
+            >
+              {isAILoading? "saving...":" Generate Suggestions"}
+            </button>
+            <button
+              className={`${
+                isloadingUpdate
+                  ? "bg-green-400"
+                  : "bg-green-500 hover:bg-green-600"
+              } text-white px-4 py-2 rounded-lg transition-colors duration-300`}
+              onClick={onSubmit}
+              disabled={isloadingUpdate}
+            >
+              {isloadingUpdate ? "Saving..." : "Save"}
+            </button>
+          </div>
+
+          {/* AI Suggestions Section */}
+          {aiSuggetions.length > 0 && (
+            <div className="mt-6">
+              <h4 className="text-lg font-semibold text-gray-700 mb-3">
+                AI Suggestions
+              </h4>
+              <ul className="space-y-3">
+                {aiSuggetions.map((aiSuggetion, key) => (
+                  <li
+                    key={key}
+                    className="p-3 bg-gray-100 border border-gray-200 rounded-lg flex items-center"
+                  >
+                    <div className="text-gray-800 flex-1">
+                      {aiSuggetion.text}
+                    </div>
+                    <button
+                      className="ml-4 text-blue-500 hover:underline text-sm"
+                      onClick={() => handleSelectSuggestion(aiSuggetion.text)}
+                    >
+                      Use this
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
+
       {element.sectionType === sectionType.skills && (
         <div className="w-full">
           <span className="text-sm font-semibold text-gray-700 me-2">

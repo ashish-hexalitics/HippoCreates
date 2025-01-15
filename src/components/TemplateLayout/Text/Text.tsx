@@ -1,16 +1,22 @@
 import React from "react";
-import { Element,Textvarient } from "../../../dto/element.dto";
+import { Element, Textvarient } from "../../../dto/element.dto";
 import TextElement from "./TextElement";
 interface TextProps {
   element: Element;
   zoomLevel: number;
   text: string;
+  roleName?: string;
   handleContentChange?: (
     e: React.FormEvent<HTMLDivElement>,
     id: number
   ) => void;
 }
-function Text({ element, zoomLevel, handleContentChange }: TextProps) {
+function Text({
+  element,
+  zoomLevel,
+  handleContentChange,
+  roleName = "admin",
+}: TextProps) {
   return (
     <>
       {element.name ? (
@@ -22,7 +28,7 @@ function Text({ element, zoomLevel, handleContentChange }: TextProps) {
               element.textVarient === Textvarient.Link ? "blue" : element.color,
           }}
         >
-          <span>{element.name} : </span>
+          {roleName==='admin' && <span>{element.name} : </span>}
           <div
             contentEditable={
               !element.content.startsWith("data:image/") &&

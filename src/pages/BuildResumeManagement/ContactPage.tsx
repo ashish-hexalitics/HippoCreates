@@ -2,11 +2,9 @@ import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  getUserResumeData,
   updateUserResumeData,
 } from "../../store/slices/resumeDetailsSlice/resumeDetailSlice";
 import {
-  useGetUserResumeInfoQuery,
   useUpdateUserResumeInfoMutation,
 } from "../../store/slices/resumeDetailsSlice/apiSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -17,7 +15,6 @@ import toastHandler from "../../_helpers/toastHandler";
 import { Toaster } from "react-hot-toast";
 
 function ContactPage() {
-  const { data } = useGetUserResumeInfoQuery();
   const [updateUserResumeInfo] = useUpdateUserResumeInfoMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

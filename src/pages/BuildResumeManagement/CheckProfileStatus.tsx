@@ -14,9 +14,13 @@ function CheckProfileStatus() {
   );
 
   useEffect(() => {
+    const categoryId = localStorage.getItem("categoryId");
+    const templateId = localStorage.getItem("templateId");
     const resume = resumeDetailsSlice.step.filter((res: any) => !res.completed);
     if (resume && resume.length > 0 && !isLoading) {
       navigate(`/${resume[0].route}`);
+    }else{
+      navigate(`/view/template/${categoryId}/${templateId}`)
     }
   }, [resumeDetailsSlice, isLoading]);
 

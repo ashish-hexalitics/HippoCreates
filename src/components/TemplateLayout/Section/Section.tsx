@@ -447,8 +447,8 @@ const Section: React.FC<any> = ({ element }) => {
             summaryProperties: {
               ...Summary.summaryProperties,
               summary:
-                element.data && element.data.length
-                  ? element.data
+                element.data && element.data.summary
+                  ? element.data.summary
                   : Summary.summaryProperties.summary,
               style: {
                 ...Summary.summaryProperties.style,
@@ -664,7 +664,6 @@ const Section: React.FC<any> = ({ element }) => {
     },
   };
 
-  console.log(customElement, customElement.sectionType);
   return (
     <div>
       <div className="w-full" style={customElement.section.style}>
