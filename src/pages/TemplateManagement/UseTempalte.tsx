@@ -1,24 +1,14 @@
 import { useState, useEffect } from "react";
-import {
-  useGetTemplateQuery,
-  // useUpdateTemplateMutation,
-} from "../../store/slices/userSlice/apiSlice";
-// import { getUserResumeData } from "../../store/slices/resumeDetailsSlice/resumeDetailSlice";
+import { useGetTemplateQuery } from "../../store/slices/userSlice/apiSlice";
 import { getTemplateSlice } from "../../store/slices/userSlice/userSlice";
 import TemplateSideBar from "../../components/TemplateLayout/RightSidebar/TemplateSideBar";
 import PDFSizeModal from "../../components/TemplateLayout/PDFSizeModal";
 import TopBar from "../../components/TemplateLayout/TopMenu/TopBar";
 import RndElement from "../../components/TemplateLayout/RndElement";
-// import { useCreateTemplatesMutation } from "../../store/slices/userSlice/apiSlice";
-// import {
-//   createTemplatesSlice,
-//   updateTemplateSlice,
-// } from "../../store/slices/userSlice/userSlice";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useGetUserResumeInfoQuery } from "../../store/slices/resumeDetailsSlice/apiSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-// import { useNavigate, useParams } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import { Element } from "../../dto/element.dto";
@@ -28,10 +18,8 @@ import TemplatePreView from "../../components/TemplateLayout/TemplatePreView";
 function UseTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
   const { data: userResume } = useGetUserResumeInfoQuery();
   const roleName: string | null = localStorage.getItem("role");
-
   const { template } = useAppSelector((state: RootState) => state.userSlice);
   const [elements, setElements] = useState<Element[]>([]);
 
@@ -50,20 +38,13 @@ function UseTemplate() {
   const [zoomLevel, setZoomLevel] = useState(1); // Zoom state
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
 
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const configration = useAppSelector(
+    (state) => state.resumeDetailSlice.configration
+  );
 
   const { data } = useGetTemplateQuery(params?.templateId, {
     skip: !params?.templateId,
   });
-  // const [createTemplates] = useCreateTemplatesMutation();
-  // const [updateTemplate] = useUpdateTemplateMutation();
-
-  useEffect(() => {
-    if (params?.templateId) {
-      setIsEdit(true);
-      console.log(isEdit);
-    }
-  }, [params?.templateId]);
 
   useEffect(() => {
     if (params?.templateId && data && data?.template && userResume) {
@@ -103,9 +84,6 @@ function UseTemplate() {
   const getNestedProperty = (obj: any, path: string) => {
     return path.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
-
-  // console.log(data?.template,userJson.value)
-  // console.log(data?.template?.layer, userJson);
 
   const addElement = (el: { name: string; value: string }) => {
     const newElement = {
@@ -337,6 +315,7 @@ function UseTemplate() {
               isPortrait={isPortrait}
               zoomLevel={zoomLevel}
               elements={elements}
+              configration={configration}
               handleDrag={handleDrag}
               handleDragStop={handleDragStop}
               setSelectedElementId={setSelectedElementId}

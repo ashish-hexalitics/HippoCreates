@@ -45,10 +45,8 @@ function DynamicEmployementSection({ customElement, element }: any) {
               customElement.section.listProperties.style.listStyleType,
           }}
         >
-          {customElement.section.showEmployment && (
             <>
               {customElement.section.listProperties.employments &&
-                customElement.section.showOrganizationName === "yes" &&
                 customElement.section.listProperties.employments.map(
                   (employment: any, key: string) => {
                     const val = element?.employmentTemplateString;
@@ -56,34 +54,36 @@ function DynamicEmployementSection({ customElement, element }: any) {
                       val &&
                       element.employmentTemplate === "template" &&
                       formatString(val, employment);
-
                     return (
                       <li
                         key={key}
                         style={customElement.section.listProperties.style}
                       >
                         {formattedString && formattedString}
-                        {!formattedString && (
-                          <>
-                            <span>{employment.company}</span>&nbsp;
-                            {customElement?.section?.showRoleInCompany ===
-                              "yes" && <span>{employment.title}&nbsp;</span>}
-                            {customElement?.section
-                              .showCompanyStartOrEndDate === "yes" && (
-                              <>
-                                (<span>{formatDate(employment.startDate)}</span>
-                                &nbsp;-&nbsp;
-                                <span>{formatDate(employment.endDate)}</span>)
-                              </>
-                            )}
-                          </>
-                        )}
+                        {!formattedString &&
+                          customElement.showOrganizationName === "yes" && (
+                            <>
+                              <span>{employment.company}</span>&nbsp;
+                              {customElement?.section?.showRoleInCompany ===
+                                "yes" && <span>{employment.title}&nbsp;</span>}
+                              {customElement?.section
+                                .showCompanyStartOrEndDate === "yes" && (
+                                <>
+                                  (
+                                  <span>
+                                    {formatDate(employment.startDate)}
+                                  </span>
+                                  &nbsp;-&nbsp;
+                                  <span>{formatDate(employment.endDate)}</span>)
+                                </>
+                              )}
+                            </>
+                          )}
                       </li>
                     );
                   }
                 )}
             </>
-          )}
         </ul>
       )}
     </>

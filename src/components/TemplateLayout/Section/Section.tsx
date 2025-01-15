@@ -339,7 +339,7 @@ const ProfileImageSection = {
   },
 };
 
-const Section: React.FC<any> = ({ element }) => {
+const Section: React.FC<any> = ({ element,configration }) => {
   const customElement: any = {
     ...element,
     section: {
@@ -351,6 +351,9 @@ const Section: React.FC<any> = ({ element }) => {
               style: {
                 ...CustomSection.lableProperties.style,
                 color: element.labelsColor,
+                // color: configration.globalColorStyle
+                //   ? configration.globalColorStyle
+                //   : element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
                 textAlign: element.SectionTextAlignMent,
@@ -382,7 +385,10 @@ const Section: React.FC<any> = ({ element }) => {
               ...ContactSection.lableProperties,
               style: {
                 ...ContactSection.lableProperties.style,
-                color: element.labelsColor,
+                // color: element.labelsColor,
+                color: configration.globalColorStyle
+                ? configration.globalColorStyle
+                : element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
                 textAlign: element.SectionTextAlignMent,
@@ -436,7 +442,10 @@ const Section: React.FC<any> = ({ element }) => {
               ...Summary.lableProperties,
               style: {
                 ...Summary.lableProperties.style,
-                color: element.labelsColor,
+                color: configration.globalColorStyle
+                ? configration.globalColorStyle
+                : element.labelsColor,
+                // color: element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
                 textAlign: "left",
@@ -664,6 +673,7 @@ const Section: React.FC<any> = ({ element }) => {
     },
   };
 
+  console.log(customElement.section?.lableProperties?.style,configration)
   return (
     <div>
       <div className="w-full" style={customElement.section.style}>

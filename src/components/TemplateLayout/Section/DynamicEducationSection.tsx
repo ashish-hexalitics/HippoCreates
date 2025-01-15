@@ -46,7 +46,6 @@ function DynamicEducationSection({ customElement, element }: any) {
             }}
           >
             {customElement.section.listProperties.educations &&
-              customElement.section.showInstituteName === "yes" &&
               customElement.section.listProperties.educations.map(
                 (education: any, key: string) => {
                   const val = element?.educationTemplateString;
@@ -60,21 +59,22 @@ function DynamicEducationSection({ customElement, element }: any) {
                       style={customElement.section.listProperties.style}
                     >
                       {formattedString && formattedString}
-                      {!formattedString && (
-                        <>
-                          <span>{education.institution}</span>
-                          {customElement?.section?.showCourseName === "yes" && (
-                            <span>{education.degree}&nbsp;</span>
-                          )}
-                          {customElement?.section
-                            .showEducationStartOrEndDate === "yes" && (
-                            <>
-                              (<span>{formatDate(education.startDate)}</span>&nbsp;-&nbsp;
-                              <span>{formatDate(education.endDate)}</span>)
-                            </>
-                          )}
-                        </>
-                      )}
+                      {!formattedString &&
+                        customElement.showInstituteName === "yes" && (
+                          <>
+                            <span>{education.institution}</span>
+                            {customElement?.section?.showInstituteName ===
+                              "yes" && <span>{education.degree}&nbsp;</span>}
+                            {customElement?.section
+                              .showEducationStartOrEndDate === "yes" && (
+                              <>
+                                (<span>{formatDate(education.startDate)}</span>
+                                &nbsp;-&nbsp;
+                                <span>{formatDate(education.endDate)}</span>)
+                              </>
+                            )}
+                          </>
+                        )}
                     </li>
                   );
                 }

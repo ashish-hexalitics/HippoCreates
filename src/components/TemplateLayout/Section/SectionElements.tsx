@@ -1,4 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { updateGlobalColorStyle } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+
+const colors = {
+  primary: "bg-blue-500",
+  primaryHover: "bg-blue-600",
+  secondary: "bg-yellow-500",
+  secondaryHover: "bg-yellow-600",
+  textPrimary: "text-gray-600",
+  textSecondary: "text-gray-100",
+};
 
 const section = {
   showSection: true,
@@ -92,28 +104,85 @@ const sectionOptions: {
 
 const SectionElement: React.FC<any> = ({
   addSection,
+  roleName,
 }: {
   addSection?: (el: { label: string; tag: string }) => void;
+  roleName: string | null;
 }) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const configration = useAppSelector(
+    (state) => state.resumeDetailSlice.configration
+  );
+
+  const handleChangeTemplate = () => {
+    localStorage.removeItem("categoryId");
+    localStorage.removeItem("templateId");
+    navigate("/choose-resume");
+  };
+
+  const handleChangeColor = (color:string) => {
+    dispatch(
+      updateGlobalColorStyle(
+        configration.globalColorStyle === color ? "" : color
+      )
+    )
+  };
+
   return (
     <div className="w-full">
-      <div className="space-y-2">
+      <div className="grid gap-4 py-4">
         {sectionOptions.map((section: { label: string; tag: string }, key) => (
           <div
             key={key}
-            className="group relative flex border-2 border-blue-500 mt-2 overflow-hidden hover:border-yellow-500"
+            className={`group relative flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 ${colors.primaryHover}`}
           >
             <div
-              className="py-2 px-4 text-gray-600 bg-gray-100 cursor-pointer rounded-md"
-              onClick={() => {
-                addSection && addSection(section);
-              }}
+              className={`py-3 px-5 w-full text-center cursor-pointer ${colors.primary} ${colors.textSecondary} rounded-t-lg hover:${colors.secondary} hover:${colors.textPrimary} transition-all duration-200`}
+              // onClick={() => {
+              //   addSection && addSection(section);
+              // }}
             >
               {section.label}
             </div>
-            {/* <div className="absolute inset-0 bg-yellow-200 opacity-35 w-full h-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></div> */}
+            <div
+              onClick={() => {
+                addSection && addSection(section);
+              }}
+              className="absolute inset-0 bg-blue-200 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+            ></div>
           </div>
         ))}
+         <div className="flex flex-col mb-2">
+          <p className="font-bold text-gray-700">Use Global Color:</p>
+          <div className="flex space-x-3 mt-2">
+            {[
+              "blue",
+              "green",
+              "red",
+              "yellow",
+              "purple",
+              "orange",
+              "pink",
+              "gray",
+            ].map((color) => (
+              <button
+                key={color}
+                className={`w-6 h-6 rounded-full border-2 ${
+                  configration.globalColorStyle === color
+                    ? "border-black"
+                    : "border-transparent"
+                }`}
+                style={{ backgroundColor: color }}
+                onClick={()=>handleChangeColor(color)}
+              />
+            ))}
+          </div>
+        </div>
+        <h2>*global logic will here</h2>
+        {roleName && roleName === "" && (
+          <button onClick={handleChangeTemplate}>change Template</button>
+        )}
       </div>
     </div>
   );

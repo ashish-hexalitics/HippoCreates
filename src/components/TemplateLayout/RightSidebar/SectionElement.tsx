@@ -10,6 +10,7 @@ import { getPaddingOptions } from "../../../utills/UtillsFunc";
 import IconifySearch from "../TopMenu/IconifySearch";
 import { useGenerateSumaryWithAiMutation } from "../../../store/slices/ai/aiApi";
 import { useUpdateUserResumeInfoMutation } from "../../../store/slices/resumeDetailsSlice/apiSlice";
+import { useAppSelector } from "../../../store/hooks";
 
 const {
   TbBorderBottomPlus,
@@ -56,7 +57,12 @@ function SectionElement({
 
   const [aiSuggetions, setAiSuggetions] = useState<{ text: string }[]>([]);
 
-  const [generateSumaryWithAi, {isLoading: isAILoading }] = useGenerateSumaryWithAiMutation();
+  const [generateSumaryWithAi, { isLoading: isAILoading }] =
+    useGenerateSumaryWithAiMutation();
+
+  const configration = useAppSelector(
+    (state) => state.resumeDetailSlice.configration
+  );
 
   const options = getPaddingOptions(paddingPix);
   // const dispatch = useAppDispatch();
@@ -97,6 +103,8 @@ function SectionElement({
       summary: text,
     });
   };
+
+  console.log(configration)
 
   return (
     <>
@@ -703,9 +711,9 @@ function SectionElement({
             Employment :
           </span>
           <select
-            onChange={(e) =>
-              handleInputChange("employmentTemplate", e.target.value)
-            }
+            onChange={(e) => {
+              handleInputChange("employmentTemplate", e.target.value);
+            }}
             value={element.employmentTemplate}
           >
             <option value="default">Use Default</option>
@@ -785,29 +793,10 @@ function SectionElement({
               </select>
             )}
           </div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
-            Employment History
-          </h3>
-          <label className="block mb-2">
-            <span className="text-sm text-gray-600">Job Title:</span>
-            <input
-              type="text"
-              placeholder="Your Job Title"
-              className="mt-1 block w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
-            />
-          </label>
-          <label className="block">
-            <span className="text-sm text-gray-600">Company Name:</span>
-            <input
-              type="text"
-              placeholder="Your Company"
-              className="mt-1 block w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
-            />
-          </label>
         </div>
       )}
       {element.sectionType === sectionType.summary && (
-        <div className="w-full p-4 bg-white rounded-lg shadow-md">
+        <div className="w-full">
           {/* Heading */}
           <h3 className="text-xl font-bold text-gray-800 mb-4">
             Professional Summary
@@ -833,7 +822,7 @@ function SectionElement({
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-300"
               onClick={generatePrompt}
             >
-              {isAILoading? "saving...":" Generate Suggestions"}
+              {isAILoading ? "saving..." : " Generate Suggestions"}
             </button>
             <button
               className={`${

@@ -21,11 +21,15 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   openThirdPartyUpload,
   roleName = null,
   addSection,
-  handleCopyStyle
+  handleCopyStyle,
 }) => {
   const handleInputChange = (
     field: keyof TemplateStyle,
-    value: string | number | boolean | { label: string; name: string; showField: boolean }[]
+    value:
+      | string
+      | number
+      | boolean
+      | { label: string; name: string; showField: boolean }[]
   ) => {
     onChange({ [field]: value });
   };
@@ -33,7 +37,7 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   const renderSections = () => {
     return (
       <div className="p-2 flex flex-col mb-2">
-        <SelectSectionElement addSection={addSection} />
+        <SelectSectionElement addSection={addSection} roleName={roleName} />
       </div>
     );
   };

@@ -43,6 +43,12 @@ export interface Element {
   data?: any;
 }
 
+interface Iconfigration {
+  zoomLevel: number;
+  isPortrait: boolean;
+  globalColorStyle: string;
+};
+
 export interface IRNDElement {
   isPortrait: React.ComponentState;
   elements: Element[];
@@ -60,5 +66,5 @@ export interface IRNDElement {
   selectedElement?: Element;
   roleName: string | null | "admin" | "utilizer";
   addSection?: (el: { name: string; value: string }) => void;
-  // copyLabelStyle?: string|number;
+  configration:Iconfigration
 }

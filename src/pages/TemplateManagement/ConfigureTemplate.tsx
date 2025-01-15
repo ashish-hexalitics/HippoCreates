@@ -419,6 +419,7 @@ function ConfigureTemplate() {
             setElements={setElements}
             selectedElement={selectedElement}
             roleName={roleName}
+            configration={configration}
           />
         </div>
         {/* Zoom Slider */}

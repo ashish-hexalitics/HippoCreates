@@ -27,6 +27,7 @@ function RndElement({
   guideLines,
   selectedElement,
   roleName,
+  configration
 }: IRNDElement) {
   const [contextMenu, setContextMenu] = useState<{
     visible: boolean;
@@ -90,7 +91,6 @@ function RndElement({
     setHeight((prevHeight) => Math.max(50, prevHeight + e.movementY));
   };
 
-  // console.log(height)
   return (
     <div
       id="template-container"
@@ -195,6 +195,7 @@ function RndElement({
                   handleContentChange={handleContentChange}
                   element={el}
                   elements={elements}
+                  configration={configration}
                 />
               )}
             </div>
