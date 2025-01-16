@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { updateGlobalColorStyle } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
+import {
+  updateGlobalColorStyle,
+  updateTemplateColorSwitch,
+} from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 const colors = {
@@ -121,69 +124,75 @@ const SectionElement: React.FC<any> = ({
     navigate("/choose-resume");
   };
 
-  const handleChangeColor = (color:string) => {
+  const handleChangeColor = (color: string) => {
     dispatch(
       updateGlobalColorStyle(
         configration.globalColorStyle === color ? "" : color
       )
-    )
+    );
   };
 
   return (
-    <div className="w-full">
-      <div className="grid gap-4 py-4">
-        {sectionOptions.map((section: { label: string; tag: string }, key) => (
+    <div className="grid gap-4 w-full ">
+      {sectionOptions.map((section: { label: string; tag: string }, key) => (
+        <div
+          key={key}
+          className={`group relative flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 ${colors.primaryHover}`}
+        >
           <div
-            key={key}
-            className={`group relative flex flex-col items-center justify-center border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 ${colors.primaryHover}`}
+            className={`py-3  w-full text-center cursor-pointer ${colors.primary} ${colors.textSecondary} rounded-lg hover:${colors.secondary} hover:${colors.textPrimary} transition-all duration-200`}
           >
-            <div
-              className={`py-3 px-5 w-full text-center cursor-pointer ${colors.primary} ${colors.textSecondary} rounded-t-lg hover:${colors.secondary} hover:${colors.textPrimary} transition-all duration-200`}
-              // onClick={() => {
-              //   addSection && addSection(section);
-              // }}
-            >
-              {section.label}
-            </div>
-            <div
-              onClick={() => {
-                addSection && addSection(section);
-              }}
-              className="absolute inset-0 bg-blue-200 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-            ></div>
+            {section.label}
           </div>
-        ))}
-         <div className="flex flex-col mb-2">
-          <p className="font-bold text-gray-700">Use Global Color:</p>
-          <div className="flex space-x-3 mt-2">
-            {[
-              "blue",
-              "green",
-              "red",
-              "yellow",
-              "purple",
-              "orange",
-              "pink",
-              "gray",
-            ].map((color) => (
-              <button
-                key={color}
-                className={`w-6 h-6 rounded-full border-2 ${
-                  configration.globalColorStyle === color
-                    ? "border-black"
-                    : "border-transparent"
-                }`}
-                style={{ backgroundColor: color }}
-                onClick={()=>handleChangeColor(color)}
-              />
-            ))}
-          </div>
+          <div
+            onClick={() => {
+              addSection && addSection(section);
+            }}
+            className="absolute inset-0 cursor-pointer bg-blue-200 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+          ></div>
         </div>
-        <h2>*global logic will here</h2>
-        {roleName && roleName === "" && (
-          <button onClick={handleChangeTemplate}>change Template</button>
-        )}
+      ))}
+      <div className="flex flex-col mb-2 space-y-4">
+        <p className="font-bold text-gray-700">Use Global Color:</p>
+        <div className="flex  space-x-2 mt-2">
+          {[
+            "blue",
+            "green",
+            "red",
+            "yellow",
+            "purple",
+            "orange",
+            "pink",
+            "gray",
+          ].map((color) => (
+            <button
+              key={color}
+              className={`w-6 h-6 rounded-full border-2 ${
+                configration.globalColorStyle === color
+                  ? "border-black"
+                  : "border-transparent"
+              }`}
+              style={{ backgroundColor: color }}
+              onClick={() => handleChangeColor(color)}
+            />
+          ))}
+        </div>
+        <select
+          name="templateColorSwitch"
+          className="block w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+          value={configration.templateColorSwitch}
+          onChange={(e) => {
+            dispatch(updateTemplateColorSwitch(e.target.value));
+          }}
+        >
+          <option value="previous">Switch to previous</option>
+          <option value="global">Switch to global color</option>
+        </select>
       </div>
+      <h2>*global logic will here</h2>
+      {roleName && roleName === "" && (
+        <button onClick={handleChangeTemplate}>Change Template</button>
+      )}
     </div>
   );
 };

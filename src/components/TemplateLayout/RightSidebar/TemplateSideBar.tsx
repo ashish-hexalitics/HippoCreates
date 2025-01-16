@@ -35,81 +35,84 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   };
 
   const renderSections = () => {
-    return (
-      <div className="p-2 flex flex-col mb-2">
-        <SelectSectionElement addSection={addSection} roleName={roleName} />
-      </div>
-    );
+    return <SelectSectionElement addSection={addSection} roleName={roleName} />;
   };
 
-  if (!element) return renderSections();
+  const sections = !element && renderSections();
 
   return (
     <div
       style={{ width: "300px", height: "100%" }}
-      className="flex flex-col bg-white p-4 shadow-lg overflow-y-scroll"
+      className="flex flex-col bg-stone-50 p-4 shadow-lg overflow-y-scroll border-l-2"
     >
-      {element.content.startsWith("data:image/") ||
-        (element.content.startsWith("https://images.pexels.com") && (
-          <ImageElement
-            element={element}
-            handleInputChange={handleInputChange}
-          />
-        ))}
-      {element.content.startsWith("Text") && (
-        <TextElement
-          element={element}
-          handleInputChange={handleInputChange}
-          addElement={addElement}
-          roleName={roleName}
-        />
-      )}
-      {roleName == "admin" && (
+      {!element ? (
+        sections
+      ) : (
         <>
-          {element.content.startsWith("rectangle") && (
-            <RectangleElement
+          {element.content.startsWith("data:image/") ||
+            (element.content.startsWith("https://images.pexels.com") && (
+              <ImageElement
+                element={element}
+                handleInputChange={handleInputChange}
+              />
+            ))}
+          {element.content.startsWith("Text") && (
+            <TextElement
               element={element}
               handleInputChange={handleInputChange}
-            />
-          )}
-          {element.content.startsWith("circle") && (
-            <CircleElement
-              element={element}
-              handleInputChange={handleInputChange}
-            />
-          )}
-          {element.content.startsWith("line") && (
-            <LineElement
-              element={element}
-              handleInputChange={handleInputChange}
-            />
-          )}
-          {element.content.startsWith("iconify~") && openThirdPartyUpload && (
-            <IconElement
-              element={element}
-              handleInputChange={handleInputChange}
-              openThirdPartyUpload={openThirdPartyUpload}
-            />
-          )}
-          {element.content.startsWith("Section") && (
-            <SectionElement
-              element={element}
-              handleInputChange={handleInputChange}
-              handleCopyStyle={handleCopyStyle}
+              addElement={addElement}
               roleName={roleName}
             />
           )}
-        </>
-      )}
-      {roleName == "utilizer" && (
-        <>
-          {element.content.startsWith("Section") && (
-            <SectionElement
-              element={element}
-              handleInputChange={handleInputChange}
-              handleCopyStyle={handleCopyStyle}
-              roleName={"utilizer"}
-            />
+          {roleName == "admin" && (
+            <>
+              {element.content.startsWith("rectangle") && (
+                <RectangleElement
+                  element={element}
+                  handleInputChange={handleInputChange}
+                />
+              )}
+              {element.content.startsWith("circle") && (
+                <CircleElement
+                  element={element}
+                  handleInputChange={handleInputChange}
+                />
+              )}
+              {element.content.startsWith("line") && (
+                <LineElement
+                  element={element}
+                  handleInputChange={handleInputChange}
+                />
+              )}
+              {element.content.startsWith("iconify~") &&
+                openThirdPartyUpload && (
+                  <IconElement
+                    element={element}
+                    handleInputChange={handleInputChange}
+                    openThirdPartyUpload={openThirdPartyUpload}
+                  />
+                )}
+              {element.content.startsWith("Section") && (
+                <SectionElement
+                  element={element}
+                  handleInputChange={handleInputChange}
+                  handleCopyStyle={handleCopyStyle}
+                  roleName={roleName}
+                />
+              )}
+            </>
+          )}
+          {roleName == "utilizer" && (
+            <>
+              {element.content.startsWith("Section") && (
+                <SectionElement
+                  element={element}
+                  handleInputChange={handleInputChange}
+                  handleCopyStyle={handleCopyStyle}
+                  roleName={"utilizer"}
+                />
+              )}
+            </>
           )}
         </>
       )}

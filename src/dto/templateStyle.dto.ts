@@ -39,6 +39,7 @@ export interface TemplateStyle {
   employmentTemplate?: string | "default" | "template";
   employmentTemplateString?: string;
   personalDetailFields?: { label: string; name: string; showField: boolean }[];
+  templateColorSwitch?: string | 'previous' | 'global';
   x: number;
   y: number;
   content: string;

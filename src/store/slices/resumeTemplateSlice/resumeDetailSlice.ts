@@ -6,6 +6,7 @@ interface IState {
     zoomLevel: number;
     isPortrait: boolean;
     globalColorStyle: string;
+    templateColorSwitch?: string | "previous" | "global";
   };
   newElement: Element;
 }
@@ -15,6 +16,7 @@ const initialState: IState = {
     zoomLevel: 1,
     isPortrait: true,
     globalColorStyle: "",
+    templateColorSwitch: "previous",
   },
   newElement: {
     id: Date.now(),
@@ -61,10 +63,33 @@ export const resumeTemplateSlice = createSlice({
         },
       };
     },
+    updateTemplateColorSwitch: (state: IState, action: PayloadAction<any>) => {
+      return {
+        ...state,
+        configration: {
+          ...state.configration,
+          templateColorSwitch: action.payload,
+        },
+      };
+    },
+    updateConfigration: (state: IState, action: PayloadAction<any>) => {
+      return {
+        ...state,
+        configration: {
+          ...state.configration,
+          ...action.payload,
+        },
+      };
+    },
   },
 });
 
-export const { zoomInAndOut, updateIsPortraitValue, updateGlobalColorStyle } =
-  resumeTemplateSlice.actions;
+export const {
+  zoomInAndOut,
+  updateIsPortraitValue,
+  updateGlobalColorStyle,
+  updateTemplateColorSwitch,
+  updateConfigration
+} = resumeTemplateSlice.actions;
 
 export default resumeTemplateSlice.reducer;

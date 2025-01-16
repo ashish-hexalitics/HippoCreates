@@ -17,6 +17,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { updateLayout } from "../../store/slices/adminLayoutSlice/adminLayoutSlice";
 import {
+  updateConfigration,
   updateIsPortraitValue,
   zoomInAndOut,
 } from "../../store/slices/resumeTemplateSlice/resumeDetailSlice";
@@ -74,8 +75,17 @@ function ConfigureTemplate() {
   useEffect(() => {
     if (params?.templateId && data && data?.template) {
       dispatch(getTemplateSlice(data?.template));
+      dispatch(updateConfigration(data?.template.configration));
       setElements(data?.template?.layer);
     }
+    return () => {
+      dispatch(
+        updateConfigration({
+          templateColorSwitch: "previous",
+          globalColorStyle: "",
+        })
+      );
+    };
   }, [data?.template]);
 
   useEffect(() => {
@@ -116,22 +126,27 @@ function ConfigureTemplate() {
     setSelectedElementId(newElement.id);
   };
 
-  const addSection = (el: any) => {
-    const newElement = {
-      id: Date.now(),
-      x: 0,
-      y: 0,
-      width: "100%",
-      height: 50,
-      content: "Section",
-      color: "#000000",
-      fontSize: 16,
-      fontWeight: "normal",
-      padding: 0,
-      ...el,
-    };
-    setElements([...elements, newElement]);
-    setSelectedElementId(newElement.id);
+  const addSection = (el: TemplateStyle | any) => {
+    if (elements.find((elem) => elem.sectionType === el.sectionType)) {
+      alert("Section already exists");
+      return;
+    } else {
+      const newElement = {
+        id: Date.now(),
+        x: 0,
+        y: 0,
+        width: "100%",
+        height: 50,
+        content: "Section",
+        color: "#000000",
+        fontSize: 16,
+        fontWeight: "normal",
+        padding: 0,
+        ...el,
+      };
+      setElements([...elements, newElement]);
+      setSelectedElementId(newElement.id);
+    }
   };
 
   const updateElement = (id: number, data: Partial<Element>) => {
@@ -176,6 +191,7 @@ function ConfigureTemplate() {
         size: size,
         layer: elements,
         categoryId: params.categoryId,
+        configration: configration,
       };
 
       if (roleName === "admin") {
