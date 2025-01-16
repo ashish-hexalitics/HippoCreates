@@ -55,15 +55,15 @@ export interface IRNDElement {
   zoomLevel: number;
   handleDrag?: (x: number, y: number) => void;
   handleDragStop?: (id: number, x: number, y: number) => void;
-  setSelectedElementId?: React.ComponentState;
+  // setSelectedElementId?: React.ComponentState;
   handleResizeStop?: (id: number, x: number, y: number) => void;
   handleContentChange?: (
     e: React.FormEvent<HTMLDivElement>,
     id: number
   ) => void;
   guideLines?: React.ComponentState;
-  setElements?: React.ComponentState;
-  selectedElement?: Element;
+  // setElements?: React.ComponentState;
+  // selectedElement?: Element;
   roleName: string | null | "admin" | "utilizer";
   addSection?: (el: { name: string; value: string }) => void;
   configration:Iconfigration

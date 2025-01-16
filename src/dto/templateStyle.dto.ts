@@ -65,7 +65,7 @@ export interface TemplateStyle {
 }
 
 export interface TemplateSideBarProps {
-  element: TemplateStyle | undefined;
+  // element: TemplateStyle | undefined;
   onChange: (data: Partial<TemplateStyle>) => void;
   addElement?: (el: { name: string; value: string }) => void;
   openThirdPartyUpload?: (value: string) => void;
@@ -75,7 +75,7 @@ export interface TemplateSideBarProps {
     tag: string;
     sectionType: string;
   }) => void;
-  handleCopyStyle?: (applyOn: string) => void;
+  // handleCopyStyle?: (applyOn: string) => void;
 }
 
 export interface ITopBar {

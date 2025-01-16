@@ -10,6 +10,11 @@ import RightClickedHandle from "./ElementHandlers/RightClickedHandle";
 import ResizeHandler from "./ElementHandlers/ResizeHandler";
 import { IRNDElement } from "../../dto/element.dto";
 import GuideLines from "./GuideLines";
+import {
+  updateElmentLayer,
+  updateSelectedElementId,
+} from "../../store/slices/resumeTemplateSlice/resumeDetailSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 const a4Landscape = { width: pixelsToCm(1123), height: pixelsToCm(794) };
@@ -18,16 +23,13 @@ function RndElement({
   isPortrait,
   zoomLevel,
   elements,
-  setElements,
   handleDrag,
   handleDragStop,
-  setSelectedElementId,
   handleResizeStop,
   handleContentChange,
   guideLines,
-  selectedElement,
   roleName,
-  configration
+  configration,
 }: IRNDElement) {
   const [contextMenu, setContextMenu] = useState<{
     visible: boolean;
@@ -37,6 +39,11 @@ function RndElement({
   }>({ visible: false, x: 0, y: 0, elementId: null });
   const [selectedElementIds, setSelectedElementIds] = useState<number[]>([]);
   // const [isResizing, setIsResizing] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const { selectedElement } = useAppSelector(
+    (state) => state.resumeDetailSlice
+  );
 
   const [height, setHeight] = useState<number>(
     (isPortrait ? a4Portrait.height : a4Landscape.height) * zoomLevel
@@ -73,18 +80,19 @@ function RndElement({
       setSelectedElementIds([id]);
     }
 
-    setSelectedElementId && setSelectedElementId(id);
+    dispatch(updateSelectedElementId(id));
   };
 
   const moveGroup = (dx: number, dy: number) => {
-    setElements &&
-      setElements((prevElements: { id: number; x: number; y: number }[]) =>
-        prevElements.map((el: { id: number; x: number; y: number }) =>
+    dispatch(
+      updateElmentLayer(
+        elements.map((el: { id: number; x: number; y: number }) =>
           selectedElementIds.includes(el.id)
             ? { ...el, x: el.x + dx, y: el.y + dy }
             : el
         )
-      );
+      )
+    );
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -107,7 +115,7 @@ function RndElement({
       }}
       onClick={(e) => {
         e.stopPropagation();
-        setSelectedElementId && setSelectedElementId(null);
+        dispatch(updateSelectedElementId(null));
         closeContextMenu();
       }}
       onMouseDown={handleMouseDown}
@@ -129,7 +137,7 @@ function RndElement({
             onDragStop={(e, d) => {
               console.log(e.target);
               handleDragStop && handleDragStop(el.id, d.x, d.y);
-              setSelectedElementId && setSelectedElementId(el.id);
+              dispatch(updateSelectedElementId(el.id));
             }}
             onResize={(e, direction, ref, delta, position) => {
               console.log(e, direction, ref, delta, position);
@@ -192,9 +200,9 @@ function RndElement({
 
               {el.content === "Section" && (
                 <Section
-                  handleContentChange={handleContentChange}
+                  // handleContentChange={handleContentChange}
                   element={el}
-                  elements={elements}
+                  // elements={elements}
                   configration={configration}
                 />
               )}
@@ -207,7 +215,7 @@ function RndElement({
         contextMenu={contextMenu}
         setContextMenu={setContextMenu}
         elements={elements}
-        setElements={setElements}
+        // setElements={setElements}
       />
       {guideLines && <GuideLines guideLines={guideLines} />}
     </div>

@@ -13,16 +13,19 @@ import CircleElement from "./CircleElement";
 import IconElement from "./IconElement";
 import SelectSectionElement from "../Section/SectionElements";
 import SectionElement from "./SectionElement";
+import { useAppSelector } from "../../../store/hooks";
 
 const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
-  element,
   onChange,
   addElement,
   openThirdPartyUpload,
   roleName = null,
   addSection,
-  handleCopyStyle,
 }) => {
+  const { selectedElement } = useAppSelector(
+    (state) => state.resumeDetailSlice
+  );
+
   const handleInputChange = (
     field: keyof TemplateStyle,
     value:
@@ -38,27 +41,27 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
     return <SelectSectionElement addSection={addSection} roleName={roleName} />;
   };
 
-  const sections = !element && renderSections();
+  const sections = !selectedElement && renderSections();
 
   return (
     <div
       style={{ width: "300px", height: "100%" }}
       className="flex flex-col bg-stone-50 p-4 shadow-lg overflow-y-scroll border-l-2"
     >
-      {!element ? (
+      {!selectedElement ? (
         sections
       ) : (
         <>
-          {element.content.startsWith("data:image/") ||
-            (element.content.startsWith("https://images.pexels.com") && (
+          {selectedElement.content.startsWith("data:image/") ||
+            (selectedElement.content.startsWith("https://images.pexels.com") && (
               <ImageElement
-                element={element}
+                element={selectedElement}
                 handleInputChange={handleInputChange}
               />
             ))}
-          {element.content.startsWith("Text") && (
+          {selectedElement.content.startsWith("Text") && (
             <TextElement
-              element={element}
+              element={selectedElement}
               handleInputChange={handleInputChange}
               addElement={addElement}
               roleName={roleName}
@@ -66,37 +69,36 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
           )}
           {roleName == "admin" && (
             <>
-              {element.content.startsWith("rectangle") && (
+              {selectedElement.content.startsWith("rectangle") && (
                 <RectangleElement
-                  element={element}
+                  element={selectedElement}
                   handleInputChange={handleInputChange}
                 />
               )}
-              {element.content.startsWith("circle") && (
+              {selectedElement.content.startsWith("circle") && (
                 <CircleElement
-                  element={element}
+                  element={selectedElement}
                   handleInputChange={handleInputChange}
                 />
               )}
-              {element.content.startsWith("line") && (
+              {selectedElement.content.startsWith("line") && (
                 <LineElement
-                  element={element}
+                  element={selectedElement}
                   handleInputChange={handleInputChange}
                 />
               )}
-              {element.content.startsWith("iconify~") &&
+              {selectedElement.content.startsWith("iconify~") &&
                 openThirdPartyUpload && (
                   <IconElement
-                    element={element}
+                    element={selectedElement}
                     handleInputChange={handleInputChange}
                     openThirdPartyUpload={openThirdPartyUpload}
                   />
                 )}
-              {element.content.startsWith("Section") && (
+              {selectedElement.content.startsWith("Section") && (
                 <SectionElement
-                  element={element}
+                  element={selectedElement}
                   handleInputChange={handleInputChange}
-                  handleCopyStyle={handleCopyStyle}
                   roleName={roleName}
                 />
               )}
@@ -104,11 +106,10 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
           )}
           {roleName == "utilizer" && (
             <>
-              {element.content.startsWith("Section") && (
+              {selectedElement.content.startsWith("Section") && (
                 <SectionElement
-                  element={element}
+                  element={selectedElement}
                   handleInputChange={handleInputChange}
-                  handleCopyStyle={handleCopyStyle}
                   roleName={"utilizer"}
                 />
               )}

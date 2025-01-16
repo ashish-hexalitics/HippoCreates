@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Element } from "../../../dto/element.dto";
 import { icons } from "../../../Icons/constant";
+import { useAppDispatch } from "../../../store/hooks";
+import { updateElmentLayer } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 
 const {
   LuBringToFront,
@@ -20,16 +22,17 @@ interface RightClickedHandleProps {
   };
   setContextMenu: React.Dispatch<React.SetStateAction<{ visible: boolean; x: number; y: number; elementId: number | null }>>;
   elements: Element[];
-  setElements: React.Dispatch<React.SetStateAction<Element[]>>;
+  // setElements: React.Dispatch<React.SetStateAction<Element[]>>;
 }
 
 function RightClickedHandle({
   contextMenu,
   setContextMenu,
   elements,
-  setElements,
+  // setElements,
 }: RightClickedHandleProps) {
   const [cutElement, setCutElement] = useState<Element | null>(null);
+  const dispatch = useAppDispatch();
 
   const bringToFront = () => {
     if (contextMenu.elementId !== null) {
@@ -37,7 +40,7 @@ function RightClickedHandle({
       const newElements = [...elements];
       const [element] = newElements.splice(index, 1);
       newElements.push(element);
-      setElements(newElements);
+      dispatch(updateElmentLayer(newElements));
     }
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
@@ -48,7 +51,7 @@ function RightClickedHandle({
       const newElements = [...elements];
       const [element] = newElements.splice(index, 1);
       newElements.unshift(element);
-      setElements(newElements);
+      dispatch(updateElmentLayer(newElements));
     }
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };
@@ -59,7 +62,7 @@ function RightClickedHandle({
       if (index !== -1) {
         const [element] = elements.splice(index, 1);
         setCutElement(element);
-        setElements([...elements]);
+        dispatch(updateElmentLayer([...elements]))
       }
     }
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
@@ -68,7 +71,7 @@ function RightClickedHandle({
   const pasteElementHandler = () => {
     if (cutElement) {
       // For demonstration, adding the cut element back to the end of the list
-      setElements([...elements, cutElement]);
+      dispatch(updateElmentLayer([...elements, cutElement]))
       setCutElement(null);
     }
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
@@ -80,7 +83,8 @@ function RightClickedHandle({
       if (index !== -1) {
         const element = elements[index];
         const newElement = { ...element, id: Date.now() }; // Generate a new unique ID
-        setElements([...elements, newElement]);
+        dispatch(updateElmentLayer([...elements, newElement]))
+
       }
     }
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
@@ -89,7 +93,8 @@ function RightClickedHandle({
   const deleteElementHandler = () => {
     if (contextMenu.elementId !== null) {
       const newElements = elements.filter((el) => el.id !== contextMenu.elementId);
-      setElements(newElements);
+      dispatch(updateElmentLayer(newElements))
+
     }
     setContextMenu({ visible: false, x: 0, y: 0, elementId: null });
   };

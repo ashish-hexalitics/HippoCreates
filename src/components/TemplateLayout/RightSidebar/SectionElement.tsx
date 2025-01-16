@@ -10,7 +10,8 @@ import { getPaddingOptions } from "../../../utills/UtillsFunc";
 import IconifySearch from "../TopMenu/IconifySearch";
 import { useGenerateSumaryWithAiMutation } from "../../../store/slices/ai/aiApi";
 import { useUpdateUserResumeInfoMutation } from "../../../store/slices/resumeDetailsSlice/apiSlice";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { updateAllElmentLayerExpactThisId } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 
 const {
   TbBorderBottomPlus,
@@ -26,7 +27,7 @@ const {
 function SectionElement({
   element,
   handleInputChange,
-  handleCopyStyle,
+  // handleCopyStyle,
   roleName,
 }: {
   element: TemplateStyle;
@@ -38,9 +39,14 @@ function SectionElement({
       | boolean
       | { label: string; name: string; showField: boolean }[]
   ) => void;
-  handleCopyStyle?: (applyOn: string) => void;
+  // handleCopyStyle?: (applyOn: string) => void;
   roleName: string | null;
 }) {
+  const dispatch = useAppDispatch();
+  const { selectedElementId, selectedElement } = useAppSelector(
+    (state) => state.resumeDetailSlice
+  );
+
   const [paddingPix, setPaddingPix] = useState<any>(element.paddingPx);
   const [fields, setFields] = useState<
     { label: string; name: string; showField: boolean }[]
@@ -59,10 +65,6 @@ function SectionElement({
 
   const [generateSumaryWithAi, { isLoading: isAILoading }] =
     useGenerateSumaryWithAiMutation();
-
-  const configration = useAppSelector(
-    (state) => state.resumeDetailSlice.configration
-  );
 
   const options = getPaddingOptions(paddingPix);
   // const dispatch = useAppDispatch();
@@ -104,7 +106,14 @@ function SectionElement({
     });
   };
 
-  console.log(configration)
+  const handleCopyStyle = (data: any) => {
+    dispatch(
+      updateAllElmentLayerExpactThisId({
+        id: selectedElementId,
+        data: data,
+      })
+    );
+  };
 
   return (
     <>
@@ -115,7 +124,16 @@ function SectionElement({
           </span>
           <button
             className="text-sm"
-            onClick={() => handleCopyStyle && handleCopyStyle("label")}
+            // onClick={() => handleCopyStyle && handleCopyStyle("label")}
+            onClick={() =>
+              handleCopyStyle({
+                labelsColor: selectedElement.labelsColor,
+                labelsFontSize: selectedElement.labelsFontSize,
+                labelsFontWeight: selectedElement.labelsFontWeight,
+                SectionLabelUnderline: selectedElement.SectionLabelUnderline,
+                showDot: selectedElement.showDot,
+              })
+            }
           >
             Apply On All Section
           </button>
@@ -128,7 +146,7 @@ function SectionElement({
                 type="color"
                 name="labelsColor"
                 className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
-                value={element.labelsColor}
+                value={element?.labelsColor}
                 onChange={(e) =>
                   handleInputChange("labelsColor", e.target.value)
                 }
@@ -243,7 +261,12 @@ function SectionElement({
             <button
               className="text-sm"
               onClick={() =>
-                handleCopyStyle && handleCopyStyle("SectionBackground")
+                handleCopyStyle({
+                  SectionBgColor: selectedElement.SectionBgColor,
+                  paddingPosition: selectedElement.paddingPosition,
+                  paddingPx: selectedElement.paddingPx,
+                  textAlign: selectedElement.textAlign,
+                })
               }
             >
               Apply On All Section
@@ -332,7 +355,11 @@ function SectionElement({
               <button
                 className="text-sm"
                 onClick={() =>
-                  handleCopyStyle && handleCopyStyle("SectionBorder")
+                  handleCopyStyle({
+                    SectionBorder: selectedElement.SectionBorder,
+                    SectionBorderColor: selectedElement.SectionBorderColor,
+                    SectionBorderWidth: selectedElement.SectionBorderWidth,
+                  })
                 }
               >
                 Apply On All Section
@@ -459,7 +486,16 @@ function SectionElement({
             </span>
             <button
               className="text-sm"
-              onClick={() => handleCopyStyle && handleCopyStyle("SectionList")}
+              onClick={() =>
+                handleCopyStyle({
+                  listItemsColor: selectedElement.listItemsColor,
+                  listItemsFontSize: selectedElement.listItemsFontSize,
+                  listItemsFontWeight: selectedElement.listItemsFontWeight,
+                  listItemType: selectedElement.listItemType,
+                  listItemTextDecoration:
+                    selectedElement.listItemTextDecoration,
+                })
+              }
             >
               Apply On All Section
             </button>

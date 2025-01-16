@@ -17,7 +17,10 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { updateLayout } from "../../store/slices/adminLayoutSlice/adminLayoutSlice";
 import {
+  updateSelectedElementId,
   updateConfigration,
+  updateElmentLayer,
+  updateElmentLayerById,
   updateIsPortraitValue,
   zoomInAndOut,
 } from "../../store/slices/resumeTemplateSlice/resumeDetailSlice";
@@ -26,8 +29,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
 import TemplatePreView from "../../components/TemplateLayout/TemplatePreView";
-import { TemplateStyle } from "../../dto/templateStyle.dto";
-
 function ConfigureTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
@@ -37,12 +38,13 @@ function ConfigureTemplate() {
   const configration = useAppSelector(
     (state) => state.resumeDetailSlice.configration
   );
-  const { template } = useAppSelector((state: RootState) => state.userSlice);
-  const [elements, setElements] = useState<Element[]>([]);
-
-  const [selectedElementId, setSelectedElementId] = useState<number | null>(
-    null
+  const elements = useAppSelector((state) => state.resumeDetailSlice.elements);
+  const { selectedElementId } = useAppSelector(
+    (state) => state.resumeDetailSlice
   );
+
+  const { template } = useAppSelector((state: RootState) => state.userSlice);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [guideLines, setGuideLines] = useState<{
     x: number | null;
@@ -76,7 +78,7 @@ function ConfigureTemplate() {
     if (params?.templateId && data && data?.template) {
       dispatch(getTemplateSlice(data?.template));
       dispatch(updateConfigration(data?.template.configration));
-      setElements(data?.template?.layer);
+      dispatch(updateElmentLayer(data?.template?.layer));
     }
     return () => {
       dispatch(
@@ -104,11 +106,7 @@ function ConfigureTemplate() {
     };
   }, []);
 
-  const addElement = (el: {
-    name: string;
-    value: string;
-    textVarient?: string;
-  }) => {
+  const addElement = (el: any) => {
     const newElement = {
       id: Date.now(),
       x: 0,
@@ -122,12 +120,12 @@ function ConfigureTemplate() {
       padding: 0,
       ...el,
     };
-    setElements([...elements, newElement]);
-    setSelectedElementId(newElement.id);
+    dispatch(updateElmentLayer([...elements, newElement]));
+    dispatch(updateSelectedElementId(newElement.id));
   };
 
-  const addSection = (el: TemplateStyle | any) => {
-    if (elements.find((elem) => elem.sectionType === el.sectionType)) {
+  const addSection = (el: any) => {
+    if (elements.find((elem: Element) => elem.sectionType === el.sectionType)) {
       alert("Section already exists");
       return;
     } else {
@@ -144,13 +142,9 @@ function ConfigureTemplate() {
         padding: 0,
         ...el,
       };
-      setElements([...elements, newElement]);
-      setSelectedElementId(newElement.id);
+      dispatch(updateElmentLayer([...elements, newElement]));
+      dispatch(updateSelectedElementId(newElement.id));
     }
-  };
-
-  const updateElement = (id: number, data: Partial<Element>) => {
-    setElements(elements.map((el) => (el.id === id ? { ...el, ...data } : el)));
   };
 
   const handleDrag = (x: number, y: number) => {
@@ -160,7 +154,7 @@ function ConfigureTemplate() {
       y: null,
     };
 
-    elements.forEach((el) => {
+    elements.forEach((el: Element) => {
       if (Math.abs(el.x - x) < threshold) {
         newGuideLines.x = el.x;
       }
@@ -173,12 +167,12 @@ function ConfigureTemplate() {
   };
 
   const handleDragStop = (id: number, x: number, y: number) => {
-    updateElement(id, { x, y });
+    dispatch(updateElmentLayerById({ id, data: { x, y } }));
     setGuideLines({ x: null, y: null });
   };
 
   const handleResizeStop = (id: number, width: number, height: number) => {
-    updateElement(id, { width, height });
+    dispatch(updateElmentLayerById({ id, data: { width, height } }));
   };
 
   const handleSaveTemplate = async (size: string) => {
@@ -278,7 +272,12 @@ function ConfigureTemplate() {
     id: number
   ) => {
     const newContent = (e.target as HTMLDivElement).innerText;
-    updateElement(id, { content: "Text", value: newContent });
+    dispatch(
+      updateElmentLayerById({
+        id,
+        data: { content: "Text", value: newContent },
+      })
+    );
   };
 
   const handleUpload = (file: File) => {
@@ -296,8 +295,8 @@ function ConfigureTemplate() {
         fontWeight: "normal",
         padding: 0,
       };
-      setElements([...elements, newElement]);
-      setSelectedElementId(newElement.id);
+      dispatch(updateElmentLayer([...elements, newElement]));
+      dispatch(updateSelectedElementId(newElement.id));
     };
     reader.readAsDataURL(file);
   };
@@ -315,8 +314,8 @@ function ConfigureTemplate() {
       fontWeight: "normal",
       padding: 0,
     };
-    setElements([...elements, newElement]);
-    setSelectedElementId(newElement.id);
+    dispatch(updateElmentLayer([...elements, newElement]));
+    dispatch(updateSelectedElementId(newElement.id));
   };
 
   const addShape = (shape: string) => {
@@ -332,56 +331,8 @@ function ConfigureTemplate() {
       fontWeight: "normal",
       padding: 0,
     };
-    setElements([...elements, newElement]);
-    setSelectedElementId(newElement.id);
-  };
-
-  // const handleAction = () => {};
-  const selectedElement: TemplateStyle | undefined | any =
-    elements && Array.isArray(elements)
-      ? elements.find((el) => el.id === selectedElementId)
-      : undefined;
-
-  const handleCopyStyle = (applyOn: string) => {
-    setElements(
-      elements.map((el: Element) =>
-        el.id === selectedElementId
-          ? { ...el }
-          : {
-              ...el,
-              ...(selectedElement &&
-                applyOn === "label" && {
-                  labelsColor: selectedElement.labelsColor,
-                  labelsFontSize: selectedElement.labelsFontSize,
-                  labelsFontWeight: selectedElement.labelsFontWeight,
-                  SectionLabelUnderline: selectedElement.SectionLabelUnderline,
-                  showDot: selectedElement.showDot,
-                }),
-              ...(selectedElement &&
-                applyOn === "SectionBackground" && {
-                  SectionBgColor: selectedElement.SectionBgColor,
-                  paddingPosition: selectedElement.paddingPosition,
-                  paddingPx: selectedElement.paddingPx,
-                  textAlign: selectedElement.textAlign,
-                }),
-              ...(selectedElement &&
-                applyOn === "SectionBorder" && {
-                  SectionBorder: selectedElement.SectionBorder,
-                  SectionBorderColor: selectedElement.SectionBorderColor,
-                  SectionBorderWidth: selectedElement.SectionBorderWidth,
-                }),
-              ...(selectedElement &&
-                applyOn === "SectionList" && {
-                  listItemsColor: selectedElement.listItemsColor,
-                  listItemsFontSize: selectedElement.listItemsFontSize,
-                  listItemsFontWeight: selectedElement.listItemsFontWeight,
-                  listItemType: selectedElement.listItemType,
-                  listItemTextDecoration:
-                    selectedElement.listItemTextDecoration,
-                }),
-            }
-      )
-    );
+    dispatch(updateElmentLayer([...elements, newElement]));
+    dispatch(updateSelectedElementId(newElement.id));
   };
 
   return (
@@ -428,12 +379,9 @@ function ConfigureTemplate() {
             elements={elements}
             handleDrag={handleDrag}
             handleDragStop={handleDragStop}
-            setSelectedElementId={setSelectedElementId}
             handleResizeStop={handleResizeStop}
             handleContentChange={handleContentChange}
             guideLines={guideLines}
-            setElements={setElements}
-            selectedElement={selectedElement}
             roleName={roleName}
             configration={configration}
           />
@@ -456,15 +404,17 @@ function ConfigureTemplate() {
       </div>
       {layout.showTemplateRightSidebar && (
         <TemplateSideBar
-          element={selectedElement}
+          // element={selectedElement}
           addElement={addElement}
-          onChange={(data) =>
-            selectedElementId && updateElement(selectedElementId, data)
-          }
+          onChange={(data) => {
+            selectedElementId &&
+              dispatch(
+                updateElmentLayerById({ id: selectedElementId, data: data })
+              );
+          }}
           openThirdPartyUpload={openThirdPartyUpload}
           roleName={roleName}
           addSection={addSection}
-          handleCopyStyle={handleCopyStyle}
         />
       )}
       <PDFSizeModal
