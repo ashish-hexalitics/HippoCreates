@@ -3,6 +3,7 @@ import DynamicEducationSection from "./DynamicEducationSection";
 import DynamicEmployementSection from "./DynamicEmployementSection";
 import { sectionType } from "../../../constant/sectionType";
 import Icons from "../Icons/Icon";
+import { useAppSelector } from "../../../store/hooks";
 
 const Summary = {
   showSection: true,
@@ -252,6 +253,7 @@ const ContactSection = {
     },
   },
 };
+
 const CustomSection = {
   showSection: true,
   sectionType: "CustomSection",
@@ -339,7 +341,9 @@ const ProfileImageSection = {
   },
 };
 
-const Section: React.FC<any> = ({ element,configration }) => {
+const Section: React.FC<any> = ({ element }) => {
+  const { configration } = useAppSelector((state) => state.resumeDetailSlice);
+
   const customElement: any = {
     ...element,
     section: {
@@ -350,9 +354,10 @@ const Section: React.FC<any> = ({ element,configration }) => {
               ...CustomSection.lableProperties,
               style: {
                 ...CustomSection.lableProperties.style,
-                color: configration.templateColorSwitch==='global'
-                  ? configration.globalColorStyle
-                  : element.labelsColor,
+                color:
+                  configration.templateColorSwitch === "global"
+                    ? configration.globalColorStyle
+                    : element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
                 textAlign: element.SectionTextAlignMent,
@@ -384,9 +389,10 @@ const Section: React.FC<any> = ({ element,configration }) => {
               ...ContactSection.lableProperties,
               style: {
                 ...ContactSection.lableProperties.style,
-                color: configration.templateColorSwitch==='global'
-                ? configration.globalColorStyle
-                : element.labelsColor,
+                color:
+                  configration.templateColorSwitch === "global"
+                    ? configration.globalColorStyle
+                    : element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
                 textAlign: element.SectionTextAlignMent,
@@ -440,9 +446,10 @@ const Section: React.FC<any> = ({ element,configration }) => {
               ...Summary.lableProperties,
               style: {
                 ...Summary.lableProperties.style,
-                color: configration.templateColorSwitch==='global'
-                ? configration.globalColorStyle
-                : element.labelsColor,
+                color:
+                  configration.templateColorSwitch === "global"
+                    ? configration.globalColorStyle
+                    : element.labelsColor,
                 fontSize: `${element.labelsFontSize}px`,
                 fontWeight: element.labelsFontWeight,
                 textAlign: "left",
@@ -493,9 +500,10 @@ const Section: React.FC<any> = ({ element,configration }) => {
               ...Education.lableProperties,
               style: {
                 ...Education.style,
-                color: configration.templateColorSwitch==='global'
-                ? configration.globalColorStyle
-                : element.labelsColor,
+                color:
+                  configration.templateColorSwitch === "global"
+                    ? configration.globalColorStyle
+                    : element.labelsColor,
                 textAlign: element.SectionTextAlignMent,
                 fontWeight: element.labelsFontWeight,
                 fontSize: `${element.labelsFontSize}px`,
@@ -545,9 +553,10 @@ const Section: React.FC<any> = ({ element,configration }) => {
               ...Employment.lableProperties,
               style: {
                 ...Employment.style,
-                color: configration.templateColorSwitch==='global'
-                ? configration.globalColorStyle
-                : element.labelsColor,
+                color:
+                  configration.templateColorSwitch === "global"
+                    ? configration.globalColorStyle
+                    : element.labelsColor,
                 textAlign: "left",
                 fontWeight: element.labelsFontWeight,
                 fontSize: `${element.labelsFontSize}px`,
@@ -594,9 +603,10 @@ const Section: React.FC<any> = ({ element,configration }) => {
               ...Skills.lableProperties,
               style: {
                 ...Skills.style,
-                color: configration.templateColorSwitch==='global'
-                ? configration.globalColorStyle
-                : element.labelsColor,
+                color:
+                  configration.templateColorSwitch === "global"
+                    ? configration.globalColorStyle
+                    : element.labelsColor,
                 textAlign: element.SectionTextAlignMent,
                 fontWeight: element.labelsFontWeight,
                 fontSize: `${element.labelsFontSize}px`,
@@ -642,9 +652,10 @@ const Section: React.FC<any> = ({ element,configration }) => {
                 : ProfileImageSection.iconProperties.ProfileIcon,
               style: {
                 ...ProfileImageSection.style,
-                color: configration.templateColorSwitch==='global'
-                ? configration.globalColorStyle
-                : element.IconColor,
+                color:
+                  configration.templateColorSwitch === "global"
+                    ? configration.globalColorStyle
+                    : element.IconColor,
                 fontSize: `${element.labelsFontSize}px`,
               },
             },
@@ -678,7 +689,6 @@ const Section: React.FC<any> = ({ element,configration }) => {
     },
   };
 
-  console.log(customElement.section.style)
   return (
     <div>
       <div className="w-full" style={customElement.section.style}>

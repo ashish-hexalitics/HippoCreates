@@ -13,16 +13,15 @@ import CircleElement from "./CircleElement";
 import IconElement from "./IconElement";
 import SelectSectionElement from "../Section/SectionElements";
 import SectionElement from "./SectionElement";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { updateElmentLayerById } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 
 const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
-  onChange,
-  addElement,
   openThirdPartyUpload,
   roleName = null,
-  addSection,
 }) => {
-  const { selectedElement } = useAppSelector(
+  const dispatch = useAppDispatch();
+  const { selectedElement, selectedElementId } = useAppSelector(
     (state) => state.resumeDetailSlice
   );
 
@@ -34,11 +33,13 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
       | boolean
       | { label: string; name: string; showField: boolean }[]
   ) => {
-    onChange({ [field]: value });
+    dispatch(
+      updateElmentLayerById({ id: selectedElementId, data: { [field]: value } })
+    );
   };
 
   const renderSections = () => {
-    return <SelectSectionElement addSection={addSection} roleName={roleName} />;
+    return <SelectSectionElement roleName={roleName} />;
   };
 
   const sections = !selectedElement && renderSections();
@@ -53,7 +54,9 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
       ) : (
         <>
           {selectedElement.content.startsWith("data:image/") ||
-            (selectedElement.content.startsWith("https://images.pexels.com") && (
+            (selectedElement.content.startsWith(
+              "https://images.pexels.com"
+            ) && (
               <ImageElement
                 element={selectedElement}
                 handleInputChange={handleInputChange}
@@ -63,7 +66,6 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
             <TextElement
               element={selectedElement}
               handleInputChange={handleInputChange}
-              addElement={addElement}
               roleName={roleName}
             />
           )}

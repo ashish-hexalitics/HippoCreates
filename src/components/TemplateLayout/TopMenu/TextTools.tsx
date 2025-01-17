@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { icons } from "../../../Icons/constant";
+import { addNewElementLayer } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
+import { useAppDispatch } from "../../../store/hooks";
 
 const { CgFormatText } = icons;
 
@@ -14,19 +16,17 @@ const textOptions = [
   { label: "Link", tag: "a" },
 ];
 
-function TextTools({
-  addElement,
-}: {
-  addElement: (el: {
-    name: string;
-    value: string;
-    textVarient: string;
-  }) => void;
-}) {
+function TextTools() {
   const [showDropdown, setShowDropdown] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleSelect = (tag: string) => {
-    addElement({ name: "", value: "Text", textVarient: tag });
+    dispatch(
+      addNewElementLayer({
+        elem: { name: "", value: "Text", textVarient: tag },
+        content: "Text",
+      })
+    );
     setShowDropdown(false);
   };
 

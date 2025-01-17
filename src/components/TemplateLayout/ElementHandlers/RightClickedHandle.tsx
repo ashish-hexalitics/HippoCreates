@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Element } from "../../../dto/element.dto";
 import { icons } from "../../../Icons/constant";
-import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { updateElmentLayer } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 
 const {
@@ -21,22 +21,22 @@ interface RightClickedHandleProps {
     elementId: number | null;
   };
   setContextMenu: React.Dispatch<React.SetStateAction<{ visible: boolean; x: number; y: number; elementId: number | null }>>;
-  elements: Element[];
-  // setElements: React.Dispatch<React.SetStateAction<Element[]>>;
 }
 
 function RightClickedHandle({
   contextMenu,
   setContextMenu,
-  elements,
-  // setElements,
 }: RightClickedHandleProps) {
   const [cutElement, setCutElement] = useState<Element | null>(null);
   const dispatch = useAppDispatch();
 
+    const { elements } = useAppSelector(
+      (state) => state.resumeDetailSlice
+    );
+
   const bringToFront = () => {
     if (contextMenu.elementId !== null) {
-      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
+      const index = elements.findIndex((el:Element) => el.id === contextMenu.elementId);
       const newElements = [...elements];
       const [element] = newElements.splice(index, 1);
       newElements.push(element);
@@ -47,7 +47,7 @@ function RightClickedHandle({
 
   const sendToBack = () => {
     if (contextMenu.elementId !== null) {
-      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
+      const index = elements.findIndex((el:Element) => el.id === contextMenu.elementId);
       const newElements = [...elements];
       const [element] = newElements.splice(index, 1);
       newElements.unshift(element);
@@ -58,7 +58,7 @@ function RightClickedHandle({
 
   const cutElementHandler = () => {
     if (contextMenu.elementId !== null) {
-      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
+      const index = elements.findIndex((el:Element) => el.id === contextMenu.elementId);
       if (index !== -1) {
         const [element] = elements.splice(index, 1);
         setCutElement(element);
@@ -70,7 +70,6 @@ function RightClickedHandle({
 
   const pasteElementHandler = () => {
     if (cutElement) {
-      // For demonstration, adding the cut element back to the end of the list
       dispatch(updateElmentLayer([...elements, cutElement]))
       setCutElement(null);
     }
@@ -79,7 +78,7 @@ function RightClickedHandle({
 
   const duplicateElementHandler = () => {
     if (contextMenu.elementId !== null) {
-      const index = elements.findIndex((el) => el.id === contextMenu.elementId);
+      const index = elements.findIndex((el:Element) => el.id === contextMenu.elementId);
       if (index !== -1) {
         const element = elements[index];
         const newElement = { ...element, id: Date.now() }; // Generate a new unique ID
@@ -92,7 +91,7 @@ function RightClickedHandle({
 
   const deleteElementHandler = () => {
     if (contextMenu.elementId !== null) {
-      const newElements = elements.filter((el) => el.id !== contextMenu.elementId);
+      const newElements = elements.filter((el:Element) => el.id !== contextMenu.elementId);
       dispatch(updateElmentLayer(newElements))
 
     }

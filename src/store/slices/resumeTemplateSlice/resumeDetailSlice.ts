@@ -128,6 +128,34 @@ export const resumeTemplateSlice = createSlice({
         elements: updatedStateElements,
       };
     },
+    addNewElementLayer: (state: IState, action: PayloadAction<any>) => {
+      const { elem, content } = action.payload;
+      const newElement = {
+        id: Date.now(),
+        x: 0,
+        y: 0,
+        content: content,
+        color: "#000000",
+        fontSize: 16,
+        fontWeight: "normal",
+        padding: 0,
+        ...(content === "Section" && {
+          width: "100%",
+          height: 50,
+        }),
+        ...(content === "Text" && { width: 100, height: 50 }),
+        ...(content === "circle" && { width: 100, height: 100 }),
+        ...(content === "rectangle" && { width: 200, height: 100 }),
+        ...(content === "line" && { width: 200, height: 100 }),
+        ...elem,
+      };
+      return {
+        ...state,
+        elements: [...state.elements, newElement],
+        selectedElementId: newElement.id,
+        selectedElement: newElement,
+      };
+    },
   },
 });
 
@@ -141,6 +169,7 @@ export const {
   updateElmentLayer,
   updateElmentLayerById,
   updateAllElmentLayerExpactThisId,
+  addNewElementLayer,
 } = resumeTemplateSlice.actions;
 
 export default resumeTemplateSlice.reducer;

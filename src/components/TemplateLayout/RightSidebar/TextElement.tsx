@@ -25,11 +25,12 @@ const defaultSamples: { name: string; value: string }[] = [
 ];
 
 import { TemplateStyle } from "../../../dto/templateStyle.dto";
+import { useAppDispatch } from "../../../store/hooks";
+import { addNewElementLayer } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 
 function TextElement({
   element,
   handleInputChange,
-  addElement,
   roleName,
 }: {
   handleInputChange: (
@@ -38,11 +39,21 @@ function TextElement({
   ) => void;
   element: TemplateStyle;
   roleName: string | null;
-  addElement?: (el: { name: string; value: string }) => void;
 }) {
   const [activeTab, setActiveTab] = useState(
     roleName === "utilizer" ? "editText" : "text"
   );
+
+  const dispatch = useAppDispatch();
+
+  const handleSelect = (data: { name: string; value: string }) => {
+    dispatch(
+      addNewElementLayer({
+        elem: data,
+        content: "Text",
+      })
+    );
+  };
 
   const renderTextCustomization = () => (
     <>
@@ -148,7 +159,7 @@ function TextElement({
                 </label>
                 <IoAddCircleOutline
                   className="absolute -right-2 text-[#3f9997] text-md"
-                  onClick={() => addElement && addElement(defaultSample)}
+                  onClick={() => handleSelect(defaultSample)}
                 />
               </div>
             );

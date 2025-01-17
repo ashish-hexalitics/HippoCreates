@@ -8,7 +8,7 @@ import Icons from "./Icons/Icon";
 import Section from "./Section/Section";
 import RightClickedHandle from "./ElementHandlers/RightClickedHandle";
 import ResizeHandler from "./ElementHandlers/ResizeHandler";
-import { IRNDElement } from "../../dto/element.dto";
+import { IRNDElement, Element } from "../../dto/element.dto";
 import GuideLines from "./GuideLines";
 import {
   updateElmentLayer,
@@ -20,16 +20,11 @@ const a4Portrait = { width: pixelsToCm(794), height: pixelsToCm(1123) };
 const a4Landscape = { width: pixelsToCm(1123), height: pixelsToCm(794) };
 
 function RndElement({
-  isPortrait,
-  zoomLevel,
-  elements,
   handleDrag,
   handleDragStop,
   handleResizeStop,
-  handleContentChange,
   guideLines,
   roleName,
-  configration,
 }: IRNDElement) {
   const [contextMenu, setContextMenu] = useState<{
     visible: boolean;
@@ -41,9 +36,11 @@ function RndElement({
   // const [isResizing, setIsResizing] = useState(false);
   const dispatch = useAppDispatch();
 
-  const { selectedElement } = useAppSelector(
-    (state) => state.resumeDetailSlice
-  );
+  const {
+    configration: { isPortrait ,zoomLevel},
+    selectedElement,
+    elements,
+  } = useAppSelector((state) => state.resumeDetailSlice);
 
   const [height, setHeight] = useState<number>(
     (isPortrait ? a4Portrait.height : a4Landscape.height) * zoomLevel
@@ -51,7 +48,7 @@ function RndElement({
 
   const handleContextMenu = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
-    const clickedElement = elements.find((el) => el.id === id);
+    const clickedElement = elements.find((el: Element) => el.id === id);
     const elementX = clickedElement?.x || 0;
     const elementY = clickedElement?.y || 0;
 
@@ -101,123 +98,126 @@ function RndElement({
 
   return (
     <div
-      id="template-container"
-      className="border border-gray-300 bg-white relative overflow-x-hidden"
+      className="py-10 relative overflow-y-scroll"
       style={{
-        width: `${
-          (isPortrait ? a4Portrait.width : a4Landscape.width) * zoomLevel
-        }px`,
-        height: `${height}px`,
-        resize: "vertical",
-        margin: "auto",
-        transformOrigin: "top left",
-        transform: `transalate(-50%,-50%) scale(${zoomLevel})`,
+        backgroundImage: "radial-gradient(#3d3d3d 1px, transparent 0)",
+        backgroundSize: "20px 20px",
+        backgroundPosition: "-19px -19px",
+        height: "calc(100% - 120px)",
+        perspective: "3000px",
       }}
-      onClick={(e) => {
-        e.stopPropagation();
-        dispatch(updateSelectedElementId(null));
-        closeContextMenu();
-      }}
-      onMouseDown={handleMouseDown}
     >
-      {elements.map((el) => {
-        const isSelected = selectedElementIds.includes(el.id);
-        return (
-          <Rnd
-            key={el.id}
-            size={{ width: el.width, height: el.height }}
-            position={{ x: el.x, y: el.y }}
-            onDrag={(e, d) => {
-              console.log(e);
-              handleDrag && handleDrag(d.x, d.y);
-              if (isSelected && selectedElementIds.length > 1) {
-                moveGroup(d.deltaX, d.deltaY);
-              }
-            }}
-            onDragStop={(e, d) => {
-              console.log(e.target);
-              handleDragStop && handleDragStop(el.id, d.x, d.y);
-              dispatch(updateSelectedElementId(el.id));
-            }}
-            onResize={(e, direction, ref, delta, position) => {
-              console.log(e, direction, ref, delta, position);
-              handleResizeStop &&
-                handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
-            }}
-            onResizeStop={(e, direction, ref, delta, position) => {
-              console.log(e, direction, ref, delta, position);
-              handleResizeStop &&
-                handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
-            }}
-            onContextMenu={(e: any) => handleContextMenu(e, el.id)}
-            onClick={(e: any) => handleElementClick(e, el.id)}
-            bounds="parent"
-            disableDragging={roleName === "utilizer"}
-          >
-            <div
-              className={`cursor-pointer relative resizeable-element ${
-                isSelected ? "selected" : ""
-              }`}
-              style={{
-                fontSize: `${el.fontSize}px`,
-                fontWeight: el.fontWeight,
-                padding: `${el.padding}px`,
-                transform: `scale(${zoomLevel})`,
-                position: "relative",
+      <div
+        id="template-container"
+        className="border border-gray-300 bg-white relative overflow-x-hidden"
+        style={{
+          width: `${
+            (isPortrait ? a4Portrait.width : a4Landscape.width) * zoomLevel
+          }px`,
+          height: `${height}px`,
+          resize: "vertical",
+          margin: "auto",
+          transformOrigin: "top left",
+          transform: `transalate(-50%,-50%) scale(${zoomLevel})`,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(updateSelectedElementId(null));
+          closeContextMenu();
+        }}
+        onMouseDown={handleMouseDown}
+      >
+        {elements.map((el: Element) => {
+          const isSelected = selectedElementIds.includes(el.id);
+          return (
+            <Rnd
+              key={el.id}
+              size={{ width: el.width, height: el.height }}
+              position={{ x: el.x, y: el.y }}
+              onDrag={(e, d) => {
+                console.log(e);
+                handleDrag && handleDrag(d.x, d.y);
+                if (isSelected && selectedElementIds.length > 1) {
+                  moveGroup(d.deltaX, d.deltaY);
+                }
               }}
+              onDragStop={(e, d) => {
+                console.log(e.target);
+                handleDragStop && handleDragStop(el.id, d.x, d.y);
+                dispatch(updateSelectedElementId(el.id));
+              }}
+              onResize={(e, direction, ref, delta, position) => {
+                console.log(e, direction, ref, delta, position);
+                handleResizeStop &&
+                  handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
+              }}
+              onResizeStop={(e, direction, ref, delta, position) => {
+                console.log(e, direction, ref, delta, position);
+                handleResizeStop &&
+                  handleResizeStop(el.id, ref.offsetWidth, ref.offsetHeight);
+              }}
+              onContextMenu={(e: any) => handleContextMenu(e, el.id)}
+              onClick={(e: any) => handleElementClick(e, el.id)}
+              bounds="parent"
+              disableDragging={roleName === "utilizer"}
             >
-              {selectedElement &&
-                el.content === selectedElement.content &&
-                el.id === selectedElement.id && (
-                  <ResizeHandler content={el.content} />
+              <div
+                className={`cursor-pointer relative resizeable-element ${
+                  isSelected ? "selected" : ""
+                }`}
+                style={{
+                  fontSize: `${el.fontSize}px`,
+                  fontWeight: el.fontWeight,
+                  padding: `${el.padding}px`,
+                  transform: `scale(${zoomLevel})`,
+                  position: "relative",
+                }}
+              >
+                {selectedElement &&
+                  el.content === selectedElement.content &&
+                  el.id === selectedElement.id && (
+                    <ResizeHandler content={el.content} />
+                  )}
+
+                {el.content === "rectangle" ||
+                el.content === "circle" ||
+                el.content === "line" ? (
+                  <Shaps shap={el.content} element={el} zoomLevel={zoomLevel} />
+                ) : null}
+
+                {el.content == "Text" &&
+                  !el.content.startsWith("data:image/") &&
+                  !el.content.startsWith("https://images.pexels.com") &&
+                  !el.content.startsWith("iconify~") && (
+                    <Texts
+                      text={el.content}
+                      element={el}
+                      zoomLevel={zoomLevel}
+                      roleName={roleName ? roleName : ""}
+                    />
+                  )}
+                {el.content.startsWith("data:image/") ||
+                el.content.startsWith("https://images.pexels.com") ? (
+                  <Images element={el} />
+                ) : null}
+                {el.content.startsWith("iconify~") ? (
+                  <Icons element={el} />
+                ) : null}
+
+                {el.content === "Section" && (
+                  <Section element={el} />
                 )}
+              </div>
+            </Rnd>
+          );
+        })}
 
-              {el.content === "rectangle" ||
-              el.content === "circle" ||
-              el.content === "line" ? (
-                <Shaps shap={el.content} element={el} zoomLevel={zoomLevel} />
-              ) : null}
-
-              {el.content == "Text" &&
-                !el.content.startsWith("data:image/") &&
-                !el.content.startsWith("https://images.pexels.com") &&
-                !el.content.startsWith("iconify~") && (
-                  <Texts
-                    text={el.content}
-                    element={el}
-                    zoomLevel={zoomLevel}
-                    handleContentChange={handleContentChange}
-                    roleName={roleName ? roleName : ""}
-                  />
-                )}
-              {el.content.startsWith("data:image/") ||
-              el.content.startsWith("https://images.pexels.com") ? (
-                <Images element={el} />
-              ) : null}
-              {el.content.startsWith("iconify~") ? (
-                <Icons element={el} />
-              ) : null}
-
-              {el.content === "Section" && (
-                <Section
-                  // handleContentChange={handleContentChange}
-                  element={el}
-                  // elements={elements}
-                  configration={configration}
-                />
-              )}
-            </div>
-          </Rnd>
-        );
-      })}
-
-      <RightClickedHandle
-        contextMenu={contextMenu}
-        setContextMenu={setContextMenu}
-        elements={elements}
-        // setElements={setElements}
-      />
-      {guideLines && <GuideLines guideLines={guideLines} />}
+        <RightClickedHandle
+          contextMenu={contextMenu}
+          setContextMenu={setContextMenu}
+        />
+        {guideLines && <GuideLines guideLines={guideLines} />}
+      </div>
     </div>
   );
 }

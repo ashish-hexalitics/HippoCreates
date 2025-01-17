@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  addNewElementLayer,
   updateGlobalColorStyle,
   updateTemplateColorSwitch,
 } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
@@ -105,17 +106,13 @@ const sectionOptions: {
   },
 ];
 
-const SectionElement: React.FC<any> = ({
-  addSection,
-  roleName,
-}: {
-  addSection?: (el: { label: string; tag: string }) => void;
+const SectionElement: React.FC<{
   roleName: string | null;
-}) => {
+}> = ({ roleName }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const configration = useAppSelector(
-    (state) => state.resumeDetailSlice.configration
+  const { configration, elements } = useAppSelector(
+    (state) => state.resumeDetailSlice
   );
 
   const handleChangeTemplate = () => {
@@ -132,6 +129,20 @@ const SectionElement: React.FC<any> = ({
     );
   };
 
+  const addSection = (el: any) => {
+    if (elements.find((elem: any) => elem.sectionType === el.sectionType)) {
+      alert("Section already exists");
+      return;
+    } else {
+      dispatch(
+        addNewElementLayer({
+          elem: el,
+          content: "Section",
+        })
+      );
+    }
+  };
+
   return (
     <div className="grid gap-4 w-full ">
       {sectionOptions.map((section: { label: string; tag: string }, key) => (
@@ -146,7 +157,7 @@ const SectionElement: React.FC<any> = ({
           </div>
           <div
             onClick={() => {
-              addSection && addSection(section);
+              addSection(section);
             }}
             className="absolute inset-0 cursor-pointer bg-blue-200 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
           ></div>

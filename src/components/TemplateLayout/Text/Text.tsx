@@ -1,22 +1,30 @@
 import React from "react";
 import { Element, Textvarient } from "../../../dto/element.dto";
 import TextElement from "./TextElement";
+import { updateElmentLayerById } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
+import { useAppDispatch } from "../../../store/hooks";
 interface TextProps {
   element: Element;
   zoomLevel: number;
   text: string;
   roleName?: string;
-  handleContentChange?: (
+}
+function Text({ element, zoomLevel, roleName = "admin" }: TextProps) {
+  const dispatch = useAppDispatch();
+
+  const handleContentChange = (
     e: React.FormEvent<HTMLDivElement>,
     id: number
-  ) => void;
-}
-function Text({
-  element,
-  zoomLevel,
-  handleContentChange,
-  roleName = "admin",
-}: TextProps) {
+  ) => {
+    const newContent = (e.target as HTMLDivElement).innerText;
+    dispatch(
+      updateElmentLayerById({
+        id,
+        data: { content: "Text", value: newContent },
+      })
+    );
+  };
+
   return (
     <>
       {element.name ? (
@@ -28,15 +36,13 @@ function Text({
               element.textVarient === Textvarient.Link ? "blue" : element.color,
           }}
         >
-          {roleName==='admin' && <span>{element.name} : </span>}
+          {roleName === "admin" && <span>{element.name} : </span>}
           <div
             contentEditable={
               !element.content.startsWith("data:image/") &&
               !element.content.startsWith("https://images.pexels.com")
             }
-            onBlur={(e) =>
-              handleContentChange && handleContentChange(e, element.id)
-            }
+            onBlur={(e) => handleContentChange(e, element.id)}
             style={{
               transform: `scale(${zoomLevel})`,
             }}

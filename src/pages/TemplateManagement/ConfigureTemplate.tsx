@@ -21,28 +21,23 @@ import {
   updateConfigration,
   updateElmentLayer,
   updateElmentLayerById,
-  updateIsPortraitValue,
-  zoomInAndOut,
 } from "../../store/slices/resumeTemplateSlice/resumeDetailSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { Element } from "../../dto/element.dto";
 import type { RootState } from "../../store";
 import TemplatePreView from "../../components/TemplateLayout/TemplatePreView";
+import ZoomSlider from "../../components/TemplateLayout/ZoomSlider";
 function ConfigureTemplate() {
   const params = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const roleName: string | null = localStorage.getItem("role");
+  
   const layout = useAppSelector((state) => state.adminLayoutSlice.layout);
-  const configration = useAppSelector(
-    (state) => state.resumeDetailSlice.configration
-  );
-  const elements = useAppSelector((state) => state.resumeDetailSlice.elements);
-  const { selectedElementId } = useAppSelector(
+  const { configration, elements } = useAppSelector(
     (state) => state.resumeDetailSlice
   );
-
   const { template } = useAppSelector((state: RootState) => state.userSlice);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,7 +50,6 @@ function ConfigureTemplate() {
   });
 
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
-
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const { data } = useGetTemplateQuery(params?.templateId, {
@@ -105,47 +99,6 @@ function ConfigureTemplate() {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, []);
-
-  const addElement = (el: any) => {
-    const newElement = {
-      id: Date.now(),
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 50,
-      content: "Text",
-      color: "#000000",
-      fontSize: 16,
-      fontWeight: "normal",
-      padding: 0,
-      ...el,
-    };
-    dispatch(updateElmentLayer([...elements, newElement]));
-    dispatch(updateSelectedElementId(newElement.id));
-  };
-
-  const addSection = (el: any) => {
-    if (elements.find((elem: Element) => elem.sectionType === el.sectionType)) {
-      alert("Section already exists");
-      return;
-    } else {
-      const newElement = {
-        id: Date.now(),
-        x: 0,
-        y: 0,
-        width: "100%",
-        height: 50,
-        content: "Section",
-        color: "#000000",
-        fontSize: 16,
-        fontWeight: "normal",
-        padding: 0,
-        ...el,
-      };
-      dispatch(updateElmentLayer([...elements, newElement]));
-      dispatch(updateSelectedElementId(newElement.id));
-    }
-  };
 
   const handleDrag = (x: number, y: number) => {
     const threshold = 5;
@@ -247,60 +200,6 @@ function ConfigureTemplate() {
     }
   };
 
-  const toggleOrientation = () => {
-    dispatch(updateIsPortraitValue(!configration.isPortrait));
-  };
-
-  const zoomIn = () => {
-    dispatch(zoomInAndOut(configration.zoomLevel + 0.1));
-  };
-
-  const zoomOut = () => {
-    dispatch(zoomInAndOut(configration.zoomLevel - 0.1));
-  };
-
-  const resetZoom = () => {
-    dispatch(zoomInAndOut(1));
-  };
-
-  const handleZoomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(zoomInAndOut(parseFloat(e.target.value)));
-  };
-
-  const handleContentChange = (
-    e: React.FormEvent<HTMLDivElement>,
-    id: number
-  ) => {
-    const newContent = (e.target as HTMLDivElement).innerText;
-    dispatch(
-      updateElmentLayerById({
-        id,
-        data: { content: "Text", value: newContent },
-      })
-    );
-  };
-
-  const handleUpload = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const newElement = {
-        id: Date.now(),
-        x: 0,
-        y: 0,
-        width: 100,
-        height: 100,
-        content: e.target?.result as string,
-        color: "#000000",
-        fontSize: 16,
-        fontWeight: "normal",
-        padding: 0,
-      };
-      dispatch(updateElmentLayer([...elements, newElement]));
-      dispatch(updateSelectedElementId(newElement.id));
-    };
-    reader.readAsDataURL(file);
-  };
-
   const openThirdPartyUpload = (imageSrc: string) => {
     const newElement = {
       id: Date.now(),
@@ -309,23 +208,6 @@ function ConfigureTemplate() {
       width: 100,
       height: 100,
       content: imageSrc as string,
-      color: "#000000",
-      fontSize: 16,
-      fontWeight: "normal",
-      padding: 0,
-    };
-    dispatch(updateElmentLayer([...elements, newElement]));
-    dispatch(updateSelectedElementId(newElement.id));
-  };
-
-  const addShape = (shape: string) => {
-    const newElement = {
-      id: Date.now(),
-      x: 0,
-      y: 0,
-      width: shape === "circle" ? 100 : 200,
-      height: shape === "circle" ? 100 : 50,
-      content: shape,
       color: "#000000",
       fontSize: 16,
       fontWeight: "normal",
@@ -346,75 +228,28 @@ function ConfigureTemplate() {
         }}
         className="relative"
       >
-        <div style={{ height: "60px" }}>
-          <TopBar
-            isPortrait={configration.isPortrait}
-            toggleOrientation={toggleOrientation}
-            zoomLevel={configration.zoomLevel}
-            resetZoom={resetZoom}
-            zoomIn={zoomIn}
-            zoomOut={zoomOut}
-            addElement={addElement}
-            setIsModalOpen={setIsModalOpen}
-            onUpload={handleUpload}
-            addShape={addShape}
-            setIsViewModalOpen={setIsViewModalOpen}
-            openThirdPartyUpload={openThirdPartyUpload}
-            roleName={roleName}
-          />
-        </div>
-        <div
-          className="py-10 relative overflow-y-scroll"
-          style={{
-            backgroundImage: "radial-gradient(#3d3d3d 1px, transparent 0)",
-            backgroundSize: "20px 20px",
-            backgroundPosition: "-19px -19px",
-            height: "calc(100% - 120px)",
-            perspective: "3000px",
-          }}
-        >
-          <RndElement
-            isPortrait={configration.isPortrait}
-            zoomLevel={configration.zoomLevel}
-            elements={elements}
-            handleDrag={handleDrag}
-            handleDragStop={handleDragStop}
-            handleResizeStop={handleResizeStop}
-            handleContentChange={handleContentChange}
-            guideLines={guideLines}
-            roleName={roleName}
-            configration={configration}
-          />
-        </div>
+        {/* Top Section */}
+        <TopBar
+          setIsModalOpen={setIsModalOpen}
+          setIsViewModalOpen={setIsViewModalOpen}
+          openThirdPartyUpload={openThirdPartyUpload}
+          roleName={roleName}
+        />
+        {/* RND Element Layer */}
+        <RndElement
+          handleDrag={handleDrag}
+          handleDragStop={handleDragStop}
+          handleResizeStop={handleResizeStop}
+          guideLines={guideLines}
+          roleName={roleName}
+        />
         {/* Zoom Slider */}
-        <div
-          style={{ height: "60px" }}
-          className="absolute bottom-0 left-0 w-full p-4 bg-gray-200 flex justify-center"
-        >
-          <input
-            type="range"
-            min="0.1"
-            max="2"
-            step="0.1"
-            value={configration.zoomLevel}
-            onChange={handleZoomChange}
-            className="w-3/4"
-          />
-        </div>
+        <ZoomSlider />
       </div>
       {layout.showTemplateRightSidebar && (
         <TemplateSideBar
-          // element={selectedElement}
-          addElement={addElement}
-          onChange={(data) => {
-            selectedElementId &&
-              dispatch(
-                updateElmentLayerById({ id: selectedElementId, data: data })
-              );
-          }}
           openThirdPartyUpload={openThirdPartyUpload}
           roleName={roleName}
-          addSection={addSection}
         />
       )}
       <PDFSizeModal

@@ -15,7 +15,6 @@ const TextElement = ({
   zoomLevel,
   handleContentChange,
 }: TextProps) => {
-  // const Tag = typeof element.textVarient==="string" &&  element.textVarient.toLowerCase() as keyof JSX.IntrinsicElements;
   const Tag = (element.textVarient && element.textVarient.toLowerCase()) as keyof JSX.IntrinsicElements;
 
 

@@ -66,30 +66,15 @@ export interface TemplateStyle {
 
 export interface TemplateSideBarProps {
   // element: TemplateStyle | undefined;
-  onChange: (data: Partial<TemplateStyle>) => void;
-  addElement?: (el: { name: string; value: string }) => void;
+  // onChange: (data: Partial<TemplateStyle>) => void;
   openThirdPartyUpload?: (value: string) => void;
   roleName: string | null;
-  addSection?: (el: {
-    label: string;
-    tag: string;
-    sectionType: string;
-  }) => void;
   // handleCopyStyle?: (applyOn: string) => void;
 }
 
 export interface ITopBar {
-  addElement?: (el: { name: string; value: string }) => void;
   openThirdPartyUpload?: (imageSrc: string) => void;
-  toggleOrientation: () => void;
-  zoomIn: () => void;
-  zoomOut: () => void;
-  resetZoom: () => void;
-  zoomLevel: number;
   setIsModalOpen: React.ComponentState;
-  isPortrait: React.ComponentState;
-  onUpload?: (file: File) => void;
-  addShape?: (shape: string) => void;
   setIsViewModalOpen: React.ComponentState;
   roleName: string | null;
 }
