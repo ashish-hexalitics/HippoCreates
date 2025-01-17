@@ -156,6 +156,25 @@ export const resumeTemplateSlice = createSlice({
         selectedElement: newElement,
       };
     },
+    fillDataTOInElmentLayer: (state: IState, action: PayloadAction<any>) => {
+      const layer = action.payload.layer;
+      const userResume = action.payload.userResume;
+      const userJson = { ...userResume.data.user, ...userResume.data.userInfo };
+      const getNestedProperty = (obj: any, path: string) => {
+        return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+      };
+      const modifiedTemplateData = layer.map((layer: Element) => {
+        return {
+          ...layer,
+          value: layer?.name ? userJson[layer?.name] : userJson.value,
+          data: layer.key ? getNestedProperty(userResume, layer.key) : null,
+        };
+      });
+      return {
+        ...state,
+        elements: modifiedTemplateData,
+      };
+    },
   },
 });
 
@@ -170,6 +189,7 @@ export const {
   updateElmentLayerById,
   updateAllElmentLayerExpactThisId,
   addNewElementLayer,
+  fillDataTOInElmentLayer,
 } = resumeTemplateSlice.actions;
 
 export default resumeTemplateSlice.reducer;

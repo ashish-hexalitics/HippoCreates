@@ -12,6 +12,7 @@ import { useGenerateSumaryWithAiMutation } from "../../../store/slices/ai/aiApi"
 import { useUpdateUserResumeInfoMutation } from "../../../store/slices/resumeDetailsSlice/apiSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { updateAllElmentLayerExpactThisId } from "../../../store/slices/resumeTemplateSlice/resumeDetailSlice";
+import InputComponent from "../Inputes/index";
 
 const {
   TbBorderBottomPlus,
@@ -124,7 +125,6 @@ function SectionElement({
           </span>
           <button
             className="text-sm"
-            // onClick={() => handleCopyStyle && handleCopyStyle("label")}
             onClick={() =>
               handleCopyStyle({
                 labelsColor: selectedElement.labelsColor,
@@ -138,24 +138,25 @@ function SectionElement({
             Apply On All Section
           </button>
           <div className="w-full grid grid-cols-1 space-y-2 bg-gray-100 rounded-md p-2 mt-2">
-            <label className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
-              <span className="text-sm font-semibold text-gray-700">
-                Color:
-              </span>
-              <input
-                type="color"
-                name="labelsColor"
-                className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
-                value={element?.labelsColor}
-                onChange={(e) =>
-                  handleInputChange("labelsColor", e.target.value)
-                }
-              />
-            </label>
-            <label className="flex items-center space-x-3">
-              <span className="text-sm font-semibold text-gray-700">
+            <InputComponent
+              label="Color"
+              type="color"
+              name="labelsColor"
+              value={element?.labelsColor || "#000000"}
+              onChange={(e) => handleInputChange("labelsColor", e.target.value)}
+            />
+            {/* <InputComponent
+              label="Color"
+              type="number"
+              name="labelsFontSize"
+              value={element?.labelsColor || "#000000"}
+              onChange={(e) =>
+                handleInputChange("labelsFontSize", e.target.value)
+              }            /> */}
+            <div className="flex items-center space-x-3">
+              <label className="text-sm font-semibold text-gray-700">
                 Font Size:
-              </span>
+              </label>
               <input
                 type="number"
                 name="labelsFontSize"
@@ -168,11 +169,11 @@ function SectionElement({
                   handleInputChange("labelsFontSize", e.target.value)
                 }
               />
-            </label>
-            <label className="flex items-center space-x-3">
-              <span className="text-sm font-semibold text-gray-700">
+            </div>
+            <div className="flex items-center space-x-3">
+              <label className="text-sm font-semibold text-gray-700">
                 Font Weight:
-              </span>
+              </label>
               <select
                 name="labelsFontWeight"
                 className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
@@ -181,16 +182,16 @@ function SectionElement({
                   handleInputChange("labelsFontWeight", e.target.value)
                 }
               >
-                <option value="normal">Normal</option>
-                <option value="thin">Medium</option>
-                <option value="bolder">Bolder</option>
+                <option value="normal">Reguler</option>
                 <option value="lighter">Lighter</option>
+                <option value="500">Medium</option>
+                <option value="bolder">Bolder</option>
               </select>
-            </label>
-            <label className="flex items-center space-x-2">
-              <span className="text-sm font-semibold text-gray-700">
+            </div>
+            <div className="flex items-center space-x-2">
+              <label className="text-sm font-semibold text-gray-700">
                 Text Styles :
-              </span>
+              </label>
               {[
                 {
                   label: "Underline",
@@ -217,11 +218,11 @@ function SectionElement({
                   </button>
                 </>
               ))}
-            </label>
-            <label className="flex items-center space-x-2">
-              <span className="text-sm font-semibold text-gray-700">
+            </div>
+            <div className="flex items-center space-x-2">
+              <label className="text-sm font-semibold text-gray-700">
                 Text Styles :
-              </span>
+              </label>
               {[
                 {
                   label: "Dot",
@@ -252,7 +253,7 @@ function SectionElement({
                   </>
                 )
               )}
-            </label>
+            </div>
           </div>
           <div className="w-full py-2">
             <span className="text-sm font-semibold text-gray-700 me-2">
@@ -272,10 +273,10 @@ function SectionElement({
               Apply On All Section
             </button>
             <div className="bg-gray-100 rounded-md p-2 space-y-2 mt-2">
-              <label className="flex items-center space-x-3">
-                <span className="text-sm font-semibold text-gray-700">
+              <div className="flex items-center space-x-3">
+                <label className="text-sm font-semibold text-gray-700">
                   Background Color :
-                </span>
+                </label>
                 <input
                   type="color"
                   value={element.SectionBgColor}
@@ -285,11 +286,11 @@ function SectionElement({
                   name="SectionBgColor"
                   className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
                 />
-              </label>
-              <label className="flex items-center space-x-3">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="text-sm font-semibold text-gray-700">
                   Spaceing:
-                </span>
+                </label>
                 <select
                   name="paddingPosition"
                   className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
@@ -328,11 +329,11 @@ function SectionElement({
                   name="paddingPx"
                   className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
                 />
-              </label>
-              <label className="flex items-center space-x-3">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex items-center space-x-3">
+                <label className="text-sm font-semibold text-gray-700">
                   Text Alignment:
-                </span>
+                </label>
                 <select
                   name="textAlign"
                   className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
@@ -344,7 +345,7 @@ function SectionElement({
                   <option value="center">Center</option>
                   <option value="right">Right</option>
                 </select>
-              </label>
+              </div>
             </div>
           </div>
           <div>
@@ -445,10 +446,10 @@ function SectionElement({
                   ))}
                 </div>
                 <div className="space-y-2">
-                  <label className="flex items-center space-x-3">
-                    <span className="text-sm font-semibold text-gray-700">
+                  <div className="flex items-center space-x-3">
+                    <label className="text-sm font-semibold text-gray-700">
                       Color:
-                    </span>
+                    </label>
                     <input
                       type="color"
                       onChange={(e) =>
@@ -458,11 +459,11 @@ function SectionElement({
                       name="SectionBorderColor"
                       className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
                     />
-                  </label>
-                  <label className="flex items-center space-x-3">
-                    <span className="text-sm font-semibold text-gray-700">
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <label className="text-sm font-semibold text-gray-700">
                       Strock:
-                    </span>
+                    </label>
                     <input
                       type="number"
                       min={0}
@@ -475,7 +476,7 @@ function SectionElement({
                       name="SectionBorderWidth"
                       className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
                     />
-                  </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -500,10 +501,10 @@ function SectionElement({
               Apply On All Section
             </button>
             <div className="grid grid-cols-1 space-y-2 bg-gray-100 rounded-md p-2 mt-2">
-              <label className="flex items-center justify-between space-x-2">
-                <span className="text-sm font-semibold text-gray-700">
+              <div className="flex items-center justify-between space-x-2">
+                <label className="text-sm font-semibold text-gray-700">
                   Color:
-                </span>
+                </label>
                 <input
                   type="color"
                   onChange={(e) =>
@@ -514,11 +515,11 @@ function SectionElement({
                   name="listItemsColor"
                   className="w-10 h-10 border-none rounded-full cursor-pointer shadow-inner"
                 />
-              </label>
-              <label className="flex items-center justify-between space-x-2">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex items-center justify-between space-x-2">
+                <label className="text-sm font-semibold text-gray-700">
                   Font Size:
-                </span>
+                </label>
                 <input
                   type="number"
                   name="listItemsFontSize"
@@ -531,11 +532,11 @@ function SectionElement({
                     handleInputChange("listItemsFontSize", e.target.value)
                   }
                 />
-              </label>
-              <label className="flex items-center justify-between space-x-2">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex items-center justify-between space-x-2">
+                <label className="text-sm font-semibold text-gray-700">
                   Font Weight:
-                </span>
+                </label>
                 <select
                   name="listItemsFontWeight"
                   className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
@@ -549,11 +550,11 @@ function SectionElement({
                   <option value="bolder">Bolder</option>
                   <option value="lighter">Lighter</option>
                 </select>
-              </label>
-              <label className="flex items-center justify-between space-x-2">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex items-center justify-between space-x-2">
+                <label className="text-sm font-semibold text-gray-700">
                   List Type :
-                </span>
+                </label>
                 <select
                   name="listItemType"
                   className="block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
@@ -574,11 +575,11 @@ function SectionElement({
                   <option value="lower-alpha">Lower Alpha</option>
                   <option value="upper-alpha">Upper Alpha</option>
                 </select>
-              </label>
-              <label className="flex items-center space-x-2">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="text-sm font-semibold text-gray-700">
                   Text Styles :
-                </span>
+                </label>
                 {[
                   {
                     label: "Underline",
@@ -605,7 +606,7 @@ function SectionElement({
                     </button>
                   </>
                 ))}
-              </label>
+              </div>
             </div>
           </div>
         </div>
@@ -617,10 +618,10 @@ function SectionElement({
           </span>
           <div className="w-full grid grid-cols-1  bg-gray-100 rounded-md p-2">
             {fields.map((field, index) => (
-              <label key={index} className="flex mb-2 items-center">
-                <span className="text-sm text-gray-600 me-2 capitalize">
+              <div key={index} className="flex mb-2 items-center">
+                <label className="text-sm text-gray-600 me-2 capitalize">
                   Show {field.label}:
-                </span>
+                </label>
                 <input
                   type="checkbox"
                   checked={
@@ -631,12 +632,12 @@ function SectionElement({
                   onChange={() => handleCheckboxChange(index)}
                   className="mt-1 block border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-200"
                 />
-              </label>
+              </div>
             ))}
-            <label className="flex mb-2 items-center">
-              <span className="text-sm text-gray-600 me-2 capitalize">
+            <div className="flex mb-2 items-center">
+              <label className="text-sm text-gray-600 me-2 capitalize">
                 Align Row:
-              </span>
+              </label>
               <select
                 onChange={(e) =>
                   handleInputChange("alignPersonalDetailGrid", e.target.value)
@@ -647,7 +648,7 @@ function SectionElement({
                 <option value="2">2</option>
                 <option value="3">3</option>
               </select>
-            </label>
+            </div>
           </div>
         </div>
       )}
@@ -668,10 +669,10 @@ function SectionElement({
           <div className="w-full grid grid-cols-1  bg-gray-100 rounded-md p-2">
             {element.educationTemplate === "default" ? (
               <>
-                <label className="flex mb-2">
-                  <span className="text-sm text-gray-600 me-2">
+                <div className="flex mb-2">
+                  <label className="text-sm text-gray-600 me-2">
                     Show Institute Name :
-                  </span>
+                  </label>
                   <input
                     type="checkbox"
                     value={element.showInstituteName}
@@ -684,11 +685,11 @@ function SectionElement({
                       )
                     }
                   />
-                </label>
-                <label className="flex mb-2">
-                  <span className="text-sm text-gray-600 me-2">
+                </div>
+                <div className="flex mb-2">
+                  <label className="text-sm text-gray-600 me-2">
                     Show Course Name:
-                  </span>
+                  </label>
                   <input
                     type="checkbox"
                     value={element.showCourseName}
@@ -701,11 +702,11 @@ function SectionElement({
                       )
                     }
                   />
-                </label>
-                <label className="flex mb-2">
-                  <span className="text-sm text-gray-600 me-2">
+                </div>
+                <div className="flex mb-2">
+                  <label className="text-sm text-gray-600 me-2">
                     Show Start And Ending Date:
-                  </span>
+                  </label>
                   <input
                     type="checkbox"
                     checked={element.showEducationStartOrEndDate == "yes"}
@@ -720,7 +721,7 @@ function SectionElement({
                       )
                     }
                   />
-                </label>
+                </div>
               </>
             ) : (
               <select
@@ -758,10 +759,10 @@ function SectionElement({
           <div className="w-full grid grid-cols-1  bg-gray-100 rounded-md p-2">
             {element.employmentTemplate === "default" ? (
               <>
-                <label className="flex mb-2">
-                  <span className="text-sm text-gray-600 me-2">
+                <div className="flex mb-2">
+                  <label className="text-sm text-gray-600 me-2">
                     Show Comany Name :
-                  </span>
+                  </label>
                   <input
                     type="checkbox"
                     value={element.showOrganizationName}
@@ -774,11 +775,11 @@ function SectionElement({
                       )
                     }
                   />
-                </label>
-                <label className="flex mb-2">
-                  <span className="text-sm text-gray-600 me-2">
+                </div>
+                <div className="flex mb-2">
+                  <label className="text-sm text-gray-600 me-2">
                     Show Your Role in Company:
-                  </span>
+                  </label>
                   <input
                     type="checkbox"
                     value={element.showRoleInCompany}
@@ -791,11 +792,11 @@ function SectionElement({
                       )
                     }
                   />
-                </label>
-                <label className="flex mb-2">
-                  <span className="text-sm text-gray-600 me-2">
+                </div>
+                <div className="flex mb-2">
+                  <label className="text-sm text-gray-600 me-2">
                     Show Start And Ending Date:
-                  </span>
+                  </label>
                   <input
                     type="checkbox"
                     checked={element.showCompanyStartOrEndDate == "yes"}
@@ -810,7 +811,7 @@ function SectionElement({
                       )
                     }
                   />
-                </label>
+                </div>
               </>
             ) : (
               <select
@@ -1012,10 +1013,10 @@ function SectionElement({
           )}
           {roleName === "utilizer" && (
             <div className="w-full grid grid-cols-1 space-y-2 bg-gray-100 rounded-md p-2 mt-2">
-              <label className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
-                <span className="text-sm font-semibold text-gray-700">
+              <div className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
+                <label className="text-sm font-semibold text-gray-700">
                   Color:
-                </span>
+                </label>
                 <input
                   type="color"
                   name="IconColor"
@@ -1025,11 +1026,11 @@ function SectionElement({
                     handleInputChange("IconColor", e.target.value)
                   }
                 />
-              </label>
-              <label className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
+                <label className="text-sm font-semibold text-gray-700">
                   Background Color:
-                </span>
+                </label>
                 <input
                   type="color"
                   name="SectionBgColor"
@@ -1039,11 +1040,11 @@ function SectionElement({
                     handleInputChange("SectionBgColor", e.target.value)
                   }
                 />
-              </label>
-              <label className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
-                <span className="text-sm font-semibold text-gray-700">
+              </div>
+              <div className="flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0">
+                <label className="text-sm font-semibold text-gray-700">
                   Upload Image:
-                </span>
+                </label>
                 <input
                   type="file"
                   name="imageUrl"
@@ -1052,7 +1053,7 @@ function SectionElement({
                     handleInputChange("imageUrl", e.target.value)
                   }
                 />
-              </label>
+              </div>
               <img src={element.data.image} />
             </div>
           )}

@@ -4,10 +4,9 @@ import { useAppSelector } from "../../../store/hooks";
 
 interface CircleProps {
   element: Element;
-  zoomLevel: number;
 }
 
-function Circle({ element, zoomLevel }: CircleProps) {
+function Circle({ element }: CircleProps) {
   const configration = useAppSelector(
     (state) => state.resumeDetailSlice.configration
   );
@@ -25,7 +24,6 @@ function Circle({ element, zoomLevel }: CircleProps) {
         borderColor: element.borderColor || "transparent",
         borderStyle: "solid",
         boxShadow: element.boxShadow,
-        transform: `scale(${zoomLevel})`,
       }}
     ></div>
   );

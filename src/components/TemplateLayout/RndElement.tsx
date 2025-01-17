@@ -33,18 +33,17 @@ function RndElement({
     elementId: number | null;
   }>({ visible: false, x: 0, y: 0, elementId: null });
   const [selectedElementIds, setSelectedElementIds] = useState<number[]>([]);
-  // const [isResizing, setIsResizing] = useState(false);
   const dispatch = useAppDispatch();
 
   const {
-    configration: { isPortrait ,zoomLevel},
+    configration: { isPortrait, zoomLevel },
     selectedElement,
     elements,
   } = useAppSelector((state) => state.resumeDetailSlice);
 
   const [height, setHeight] = useState<number>(
     (isPortrait ? a4Portrait.height : a4Landscape.height) * zoomLevel
-  ); // Initial height
+  );
 
   const handleContextMenu = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
@@ -182,7 +181,7 @@ function RndElement({
                 {el.content === "rectangle" ||
                 el.content === "circle" ||
                 el.content === "line" ? (
-                  <Shaps shap={el.content} element={el} zoomLevel={zoomLevel} />
+                  <Shaps shap={el.content} element={el}  />
                 ) : null}
 
                 {el.content == "Text" &&
@@ -192,7 +191,6 @@ function RndElement({
                     <Texts
                       text={el.content}
                       element={el}
-                      zoomLevel={zoomLevel}
                       roleName={roleName ? roleName : ""}
                     />
                   )}
@@ -204,9 +202,7 @@ function RndElement({
                   <Icons element={el} />
                 ) : null}
 
-                {el.content === "Section" && (
-                  <Section element={el} />
-                )}
+                {el.content === "Section" && <Section element={el} />}
               </div>
             </Rnd>
           );

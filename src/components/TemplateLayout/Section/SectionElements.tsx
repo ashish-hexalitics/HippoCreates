@@ -201,8 +201,13 @@ const SectionElement: React.FC<{
         </select>
       </div>
       <h2>*global logic will here</h2>
-      {roleName && roleName === "" && (
-        <button onClick={handleChangeTemplate}>Change Template</button>
+      {roleName && roleName !== "admin" && (
+        <button
+          onClick={handleChangeTemplate}
+          className="py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
+        >
+          Change Template
+        </button>
       )}
     </div>
   );

@@ -3,7 +3,6 @@ import { Element, Textvarient } from "../../../dto/element.dto";
 
 interface TextProps {
   element: Element;
-  zoomLevel: number;
   handleContentChange?: (
     e: React.FormEvent<HTMLDivElement>,
     id: number
@@ -12,7 +11,6 @@ interface TextProps {
 
 const TextElement = ({
   element,
-  zoomLevel,
   handleContentChange,
 }: TextProps) => {
   const Tag = (element.textVarient && element.textVarient.toLowerCase()) as keyof JSX.IntrinsicElements;
@@ -26,7 +24,6 @@ const TextElement = ({
       }
       onBlur={(e:any) => handleContentChange && handleContentChange(e, element.id)}
       style={{
-        transform: `scale(${zoomLevel})`,
         textDecoration:
           element.textVarient === Textvarient.Link ? "underline" : "none",
         color: element.color,

@@ -5,11 +5,11 @@ import { updateElmentLayerById } from "../../../store/slices/resumeTemplateSlice
 import { useAppDispatch } from "../../../store/hooks";
 interface TextProps {
   element: Element;
-  zoomLevel: number;
+  // zoomLevel: number;
   text: string;
   roleName?: string;
 }
-function Text({ element, zoomLevel, roleName = "admin" }: TextProps) {
+function Text({ element, roleName = "admin" }: TextProps) {
   const dispatch = useAppDispatch();
 
   const handleContentChange = (
@@ -31,7 +31,7 @@ function Text({ element, zoomLevel, roleName = "admin" }: TextProps) {
         <div
           className="flex flex-wrap"
           style={{
-            transform: `scale(${zoomLevel})`,
+            // transform: `scale(${zoomLevel})`,
             color:
               element.textVarient === Textvarient.Link ? "blue" : element.color,
           }}
@@ -43,9 +43,9 @@ function Text({ element, zoomLevel, roleName = "admin" }: TextProps) {
               !element.content.startsWith("https://images.pexels.com")
             }
             onBlur={(e) => handleContentChange(e, element.id)}
-            style={{
-              transform: `scale(${zoomLevel})`,
-            }}
+            // style={{
+            //   transform: `scale(${zoomLevel})`,
+            // }}
             dangerouslySetInnerHTML={{
               __html: `${element.value}` || "",
             }}
@@ -54,7 +54,7 @@ function Text({ element, zoomLevel, roleName = "admin" }: TextProps) {
       ) : (
         <TextElement
           element={element}
-          zoomLevel={zoomLevel}
+          // zoomLevel={zoomLevel}
           handleContentChange={handleContentChange}
         />
       )}

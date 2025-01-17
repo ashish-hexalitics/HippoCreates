@@ -47,7 +47,7 @@ const TemplateSideBar: React.FC<TemplateSideBarProps> = ({
   return (
     <div
       style={{ width: "300px", height: "100%" }}
-      className="flex flex-col bg-stone-50 p-4 shadow-lg overflow-y-scroll border-l-2"
+      className="flex flex-col bg-stone-50 p-4 shadow-lg overflow-y-scroll border-l-2 fixed right-0"
     >
       {!selectedElement ? (
         sections

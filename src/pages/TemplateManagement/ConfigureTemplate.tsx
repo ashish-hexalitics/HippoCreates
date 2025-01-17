@@ -33,7 +33,7 @@ function ConfigureTemplate() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const roleName: string | null = localStorage.getItem("role");
-  
+
   const layout = useAppSelector((state) => state.adminLayoutSlice.layout);
   const { configration, elements } = useAppSelector(
     (state) => state.resumeDetailSlice
@@ -226,7 +226,7 @@ function ConfigureTemplate() {
             : "100%",
           height: "100%",
         }}
-        className="relative"
+        className="fixed"
       >
         {/* Top Section */}
         <TopBar

@@ -13,12 +13,6 @@ interface IfilterStyles {
   Vibrant: string;
 }
 
-// interface IshadowStyles {
-//   None: string;
-//   Soft: string;
-//   Regular: string;
-//   Retro: string;
-// }
 export const filterStyles: IfilterStyles | any = {
   None: "none",
   Noir: "grayscale(100%)",

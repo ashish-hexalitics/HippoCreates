@@ -4,10 +4,9 @@ import { useAppSelector } from "../../../store/hooks";
 
 interface RectangleProps {
   element: Element;
-  zoomLevel: number;
 }
 
-function Rectangle({ element, zoomLevel }: RectangleProps) {
+function Rectangle({ element }: RectangleProps) {
   const configration = useAppSelector(
     (state) => state.resumeDetailSlice.configration
   );
@@ -27,7 +26,6 @@ function Rectangle({ element, zoomLevel }: RectangleProps) {
             ? `${element.borderWidth}px solid ${element.borderColor}`
             : "none",
         boxShadow: element.boxShadow,
-        transform: `scale(${zoomLevel})`,
       }}
     ></div>
   );
